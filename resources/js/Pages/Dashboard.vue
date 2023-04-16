@@ -34,7 +34,8 @@ export default {
     methods: {
         async getUserName() {
             const response = await axios.get('/api/user');
-            this.userName = response.data.name;
+            console.log(response.data.user.username);
+            this.userName = response.data.user.username;
         },
     },
 };
