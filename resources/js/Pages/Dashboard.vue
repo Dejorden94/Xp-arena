@@ -1,6 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { usePage } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
+
+const user = usePage().props.auth.user;
 </script>
 
 <template>
@@ -8,7 +11,7 @@ import { Head } from '@inertiajs/vue3';
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ userName }}</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ user.username }}</h2>
         </template>
 
         <div class="py-12">
@@ -20,23 +23,3 @@ import { Head } from '@inertiajs/vue3';
         </div>
     </AuthenticatedLayout>
 </template>
-
-<script>
-export default {
-    data() {
-        return {
-            userName: '',
-        };
-    },
-    mounted() {
-        this.getUserName();
-    },
-    methods: {
-        async getUserName() {
-            const response = await axios.get('/api/user');
-            console.log(response.data.user.username);
-            this.userName = response.data.user.username;
-        },
-    },
-};
-</script>
