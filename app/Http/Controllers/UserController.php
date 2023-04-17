@@ -9,20 +9,6 @@ use App\Models\User;
 class UserController extends Controller
 {
     /**
-     * Get the authenticated User
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getUser()
-    {
-        $user = Auth::user();
-
-        return response()->json([
-            'user' => $user
-        ]);
-    }
-
-    /**
      * Get a specific User by ID
      *
      * @param int $id
