@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Auth;
 class GameController extends Controller
 {
     public function index()
-{
-    $games = Game::all();
-    return response()->json($games);
-}
+    {
+        $games = Game::where('user_id', Auth::id())->get();
+        return response()->json($games);
+    }
 
     public function store(Request $request)
     {
