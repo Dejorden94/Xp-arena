@@ -23,5 +23,42 @@ const user = usePage().props.auth.user;
                 </div>
             </div>
         </div>
+        <article>
+            <h2>Maak een nieuwe game aan</h2>
+            <form @submit.prevent="createGame">
+                <div>
+                    <label for="name">Naam Game:</label>
+                    <input type="text" id="name" v-model="name" required>
+                </div>
+                <button type="submit">Aanmaken</button>
+            </form>
+        </article>
     </AuthenticatedLayout>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            name: ''
+        }
+    },
+    methods: {
+        createGame() {
+            axios.post('/games', {
+                name: this.name,
+                players: this.players,
+            })
+                .then(response => {
+                    // Game is aangemaakt, navigeer naar de pagina van de nieuwe game
+                    this.$router.push(`/games/${response.data.id}`);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+    }
+}
+</script>
+
+

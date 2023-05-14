@@ -23,12 +23,19 @@ const form = useForm({
 
 
 const onSubmit = () => {
+    const data = new FormData();
+    data.append('name', form.name);
+    data.append('email', form.email);
+    data.append('profile_picture', form.profile_picture);
+
     form.patch(route('profile.update'), {
         onSuccess: () => {
             form.reset();
         },
+        data,
     });
 };
+
 
 const onFileChange = (event) => {
     const file = event.target.files[0];
