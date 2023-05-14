@@ -47,11 +47,11 @@ export default {
         createGame() {
             axios.post('/games', {
                 name: this.name,
-                players: this.players,
             })
                 .then(response => {
                     // Game is aangemaakt, navigeer naar de pagina van de nieuwe game
-                    this.$router.push(`/games/${response.data.id}`);
+                    // this.$router.push(`/games/${response.data.id}`);
+                    console.log(response);
                 })
                 .catch(error => {
                     console.log(error);
