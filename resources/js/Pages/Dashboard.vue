@@ -88,16 +88,27 @@ export default {
             }
         },
         loadGameDetails(gameId) {
-            this.gameData = null; // Reset gameData naar null voordat je nieuwe gegevens ophaalt
+            this.gameData = {}; // Reset gameData naar null voordat je nieuwe gegevens ophaalt
             axios.get(`/api/games/${gameId}`)
                 .then(response => {
                     this.gameData = response.data;
+                    this.fetchTasks(gameId); // Haal de taken op voor de geselecteerde game
                     this.gameDetailsVisible = true;
                 })
                 .catch(error => {
                     console.error(error);
                 });
         },
+        fetchTasks(gameId) {
+            axios.get(`/api/games/${gameId}/tasks`)
+                .then(response => {
+                    this.gameData.tasks = response.data.tasks;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+
         hideGameDetails() {
             this.gameDetailsVisible = false;
         }
