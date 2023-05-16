@@ -23,4 +23,15 @@ class GameController extends Controller
 
         return response()->json(['id' => $game->id]);
     }
+    public function show($id)
+{
+    $game = Game::find($id);
+
+    if (!$game) {
+        return response()->json(['message' => 'Game not found'], 404);
+    }
+
+    return response()->json($game);
+}
+
 }

@@ -3,6 +3,18 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { usePage } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
 
+import GameDetails from '@/Components/GameDetails.vue';
+
+const routes = [
+    // ... andere routes
+    {
+        path: '/games/:game',
+        name: 'game-details',
+        component: GameDetails,
+    },
+];
+
+
 </script>
 
 <template>
@@ -36,7 +48,7 @@ import { Head } from '@inertiajs/vue3';
             <h2>Je games</h2>
             <ul>
                 <li v-for="game in games" :key="game.id">
-                    {{ game.name }}
+                    <router-link :to="`/games/${game.id}`">{{ game.name }}</router-link>
                 </li>
             </ul>
         </article>
@@ -63,8 +75,6 @@ export default {
                 user_id: this.user.id
             })
                 .then(response => {
-                    // Game is aangemaakt, navigeer naar de pagina van de nieuwe game
-                    // this.$router.push(`/games/${response.data.id}`);
                     this.name = ''; // Leeg het invoerveld voor de naam van de game
                     this.refreshGames(); // Laad de lijst met games opnieuw
                 })
@@ -80,7 +90,6 @@ export default {
                 console.log(error);
             }
         }
-
     }
 }
 </script>

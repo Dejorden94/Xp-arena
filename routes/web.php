@@ -31,6 +31,9 @@ Route::get('/', function () {
 
 Route::get('/games', [GameController::class, 'index']);
 Route::post('/games', [GameController::class, 'store']);
+Route::get('/games/{game}', [GameController::class, 'show'])
+    ->name('game.details');
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -42,5 +45,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/users/{user}/games', [GameController::class, 'index']);
 });
+
 
 require __DIR__.'/auth.php';
