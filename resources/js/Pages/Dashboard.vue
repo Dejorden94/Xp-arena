@@ -5,17 +5,8 @@ import { Head } from '@inertiajs/vue3';
 
 import GameDetails from '@/Components/GameDetails.vue';
 
-const routes = [
-    // ... andere routes
-    {
-        path: '/games/:game',
-        name: 'game-details',
-        component: GameDetails,
-    },
-];
-
-
 </script>
+
 
 <template>
     <Head title="Dashboard" />
@@ -47,21 +38,26 @@ const routes = [
         <article>
             <h2>Je games</h2>
             <ul>
-                <li v-for="game in games" :key="game.id">
-                    <router-link :to="`/games/${game.id}`">{{ game.name }}</router-link>
+                <li v-for="game in games" :key="game.id" v-on:click="loadGameDetails(game.id)">
+                    {{ game.name }}
                 </li>
             </ul>
+            <GameDetails v-if="gameData" :gameData="gameData" />
         </article>
     </AuthenticatedLayout>
 </template>
 
 <script>
 export default {
+    components: {
+        GameDetails
+    },
     data() {
         return {
             name: '',
             games: [],
-            user: {}
+            user: {},
+            gameData: null
         }
     },
     created() {
@@ -89,6 +85,16 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+        loadGameDetails(gameId) {
+            axios.get(`/api/games/${gameId}`)
+                .then(response => {
+                    console.log(response.data);
+                    this.gameData = response.data;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         }
     }
 }

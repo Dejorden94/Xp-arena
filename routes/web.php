@@ -31,8 +31,6 @@ Route::get('/', function () {
 
 Route::get('/games', [GameController::class, 'index']);
 Route::post('/games', [GameController::class, 'store']);
-Route::get('/games/{game}', [GameController::class, 'show'])
-    ->name('game.details');
 
 
 Route::get('/dashboard', function () {

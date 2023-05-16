@@ -1,13 +1,17 @@
 <template>
     <article>
-        <h2>{{ game.name }}</h2>
+        <h1>{{ gameData.name }}</h1>
         <!-- Toon andere gamegegevens hier -->
     </article>
 </template>
   
 <script>
 export default {
-    props: ['game'],
+    props: {
+        gameData: {
+            type: Object,
+            required: true
+        }
+    }
 };
 </script>
-  
