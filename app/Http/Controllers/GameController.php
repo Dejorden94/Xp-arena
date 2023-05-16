@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Game;
+use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
@@ -34,4 +35,20 @@ class GameController extends Controller
 
         return response()->json($game);
     }
+
+    public function storeTask(Request $request, $gameId)
+{
+    $game = Game::findOrFail($gameId);
+
+    $task = new Task;
+    $task->name = $request->input('name');
+    $task->description = $request->input('description');
+
+    $game->tasks()->save($task);
+
+    return response()->json([
+        'message' => 'Task created successfully',
+        'task' => $task
+    ]);
+}
 }

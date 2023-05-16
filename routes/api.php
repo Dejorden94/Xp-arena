@@ -24,3 +24,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/user/{id}', [UserController::class, 'getUserById']);
 
 Route::get('/games/{gameId}', [GameController::class, 'show']);
+
+Route::post('/games/{gameId}/tasks', [GameController::class, 'storeTask']);

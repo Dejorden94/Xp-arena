@@ -4,7 +4,19 @@
         <section>
             <h1>{{ gameData.name }}</h1>
         </section>
-        <!-- Toon andere gamegegevens hier -->
+
+        <form @submit.prevent="addTask">
+            <input v-model="newTaskName" type="text" placeholder="Titel" required>
+            <textarea v-model="newTaskDescription" placeholder="Beschrijving" required></textarea>
+            <button type="submit">Toevoegen</button>
+        </form>
+
+        <ul>
+            <li v-for="task in game.tasks" :key="task.id">
+                {{ task.name }} - {{ task.description }}
+            </li>
+        </ul>
+
     </article>
 </template>
   
@@ -16,9 +28,44 @@ export default {
             required: true
         }
     },
+    data() {
+        return {
+            newTaskName: '',
+            newTaskDescription: '',
+            game: {
+                tasks: []
+            }
+        };
+    },
     methods: {
         hideGameDetails() {
             this.$emit('hide');
+        },
+        addTask() {
+            axios.post(`/api/games/${this.gameData.id}/tasks`, {
+                name: this.newTaskName,
+                description: this.newTaskDescription
+            })
+                .then(response => {
+                    this.game.tasks.push(response.data.task);
+                    this.newTaskName = '';
+                    this.newTaskDescription = '';
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+        fetchTasks() {
+            axios.get(`/api/games/${this.gameData.id}/tasks`)
+                .then(response => {
+                    this.gameData.tasks = response.data.tasks;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+        created() {
+            this.fetchTasks();
         }
     }
 };
@@ -29,6 +76,10 @@ article {
     width: 100vw;
     display: flex;
     justify-content: center;
+}
 
+form {
+    display: flex;
+    flex-direction: column;
 }
 </style>
