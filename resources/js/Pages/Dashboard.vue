@@ -88,15 +88,15 @@ export default {
             }
         },
         loadGameDetails(gameId) {
-            this.gameData = {};
+            this.gameData = null; // Reset gameData naar null voordat je nieuwe gegevens ophaalt
             axios.get(`/api/games/${gameId}`)
                 .then(response => {
                     this.gameData = response.data;
+                    this.gameDetailsVisible = true;
                 })
                 .catch(error => {
                     console.error(error);
                 });
-            this.gameDetailsVisible = true;
         },
         hideGameDetails() {
             this.gameDetailsVisible = false;

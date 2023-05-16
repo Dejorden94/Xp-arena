@@ -25,4 +25,4 @@ Route::get('/user/{id}', [UserController::class, 'getUserById']);
 
 Route::get('/games/{gameId}', [GameController::class, 'show']);
 
-Route::post('/games/{gameId}/tasks', [GameController::class, 'storeTask']);
+Route::match(['get', 'post'], '/games/{gameId}/tasks', [GameController::class, 'handleTasks']);

@@ -12,7 +12,7 @@
         </form>
 
         <ul>
-            <li v-for="task in game.tasks" :key="task.id">
+            <li v-for="task in gameData.tasks" :key="task.id">
                 {{ task.name }} - {{ task.description }}
             </li>
         </ul>
@@ -31,10 +31,7 @@ export default {
     data() {
         return {
             newTaskName: '',
-            newTaskDescription: '',
-            game: {
-                tasks: []
-            }
+            newTaskDescription: ''
         };
     },
     methods: {
@@ -47,7 +44,7 @@ export default {
                 description: this.newTaskDescription
             })
                 .then(response => {
-                    this.game.tasks.push(response.data.task);
+                    this.gameData.tasks.push(response.data.task);
                     this.newTaskName = '';
                     this.newTaskDescription = '';
                 })
@@ -56,17 +53,19 @@ export default {
                 });
         },
         fetchTasks() {
-            axios.get(`/api/games/${this.gameData.id}/tasks`)
-                .then(response => {
-                    this.gameData.tasks = response.data.tasks;
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        },
-        created() {
-            this.fetchTasks();
+            if (this.gameData.id) {
+                axios.get(`/api/games/${this.gameData.id}/tasks`)
+                    .then(response => {
+                        this.gameData.tasks = response.data.tasks;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
         }
+    },
+    created() {
+        this.fetchTasks();
     }
 };
 </script>

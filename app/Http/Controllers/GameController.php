@@ -36,19 +36,36 @@ class GameController extends Controller
         return response()->json($game);
     }
 
-    public function storeTask(Request $request, $gameId)
-{
-    $game = Game::findOrFail($gameId);
-
-    $task = new Task;
-    $task->name = $request->input('name');
-    $task->description = $request->input('description');
-
-    $game->tasks()->save($task);
-
-    return response()->json([
-        'message' => 'Task created successfully',
-        'task' => $task
-    ]);
-}
+    public function handleTasks(Request $request, $gameId)
+    {
+        $game = Game::findOrFail($gameId);
+    
+        if ($request->isMethod('get')) {
+            // Logica voor GET-verzoek (gegevens ophalen)
+            $tasks = $game->tasks;
+            
+            return response()->json([
+                'message' => 'Tasks retrieved successfully',
+                'tasks' => $tasks
+            ]);
+        } elseif ($request->isMethod('post')) {
+            // Logica voor POST-verzoek (gegevens opslaan)
+            $task = new Task;
+            $task->name = $request->input('name');
+            $task->description = $request->input('description');
+    
+            $game->tasks()->save($task);
+    
+            return response()->json([
+                'message' => 'Task created successfully',
+                'task' => $task
+            ]);
+        } else {
+            // Ongeldige HTTP-methode
+            return response()->json([
+                'message' => 'Invalid HTTP method'
+            ], 405); // 405 staat voor Method Not Allowed
+        }
+    }
+    
 }
