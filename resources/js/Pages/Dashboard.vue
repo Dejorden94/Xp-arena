@@ -54,7 +54,7 @@ export default {
     },
     created() {
         this.user = this.$page.props.auth.user;
-        this.getGames(this.user.id);
+        this.refreshGames(this.user.id);
     },
     methods: {
         createGame() {
@@ -65,21 +65,22 @@ export default {
                 .then(response => {
                     // Game is aangemaakt, navigeer naar de pagina van de nieuwe game
                     // this.$router.push(`/games/${response.data.id}`);
-                    console.log(response);
+                    this.name = ''; // Leeg het invoerveld voor de naam van de game
+                    this.refreshGames(); // Laad de lijst met games opnieuw
                 })
                 .catch(error => {
                     console.log(error);
                 });
         },
-        getGames(userId) {
-            axios.get(`/users/${userId}/games`)
-                .then(response => {
-                    this.games = response.data;
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+        async refreshGames() {
+            try {
+                const response = await axios.get(`/users/${this.user.id}/games`);
+                this.games = response.data;
+            } catch (error) {
+                console.log(error);
+            }
         }
+
     }
 }
 </script>
