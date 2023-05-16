@@ -16,7 +16,7 @@ import GameDetails from '@/Components/GameDetails.vue';
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ user.username }}</h2>
         </template>
 
-        <div class="py-12">
+        <article class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">Welkom! {{ user.username }}</div>
@@ -24,7 +24,8 @@ import GameDetails from '@/Components/GameDetails.vue';
                     <div class="p-6 text-gray-900">Level: {{ user.level }}</div>
                 </div>
             </div>
-        </div>
+        </article>
+        <GameDetails v-if="gameDetailsVisible" :gameData="gameData" @hide="hideGameDetails" />
         <article>
             <h2>Maak een nieuwe game aan</h2>
             <form @submit.prevent="createGame">
@@ -38,11 +39,10 @@ import GameDetails from '@/Components/GameDetails.vue';
         <article>
             <h2>Je games</h2>
             <ul>
-                <li v-for="game in games" :key="game.id" v-on:click="loadGameDetails(game.id)">
+                <li v-on:click="loadGameDetails(game.id)" v-for="game in games" :key="game.id">
                     {{ game.name }}
                 </li>
             </ul>
-            <GameDetails v-if="gameData" :gameData="gameData" />
         </article>
     </AuthenticatedLayout>
 </template>
@@ -57,7 +57,8 @@ export default {
             name: '',
             games: [],
             user: {},
-            gameData: null
+            gameData: null,
+            gameDetailsVisible: false
         }
     },
     created() {
@@ -87,14 +88,18 @@ export default {
             }
         },
         loadGameDetails(gameId) {
+            this.gameData = {};
             axios.get(`/api/games/${gameId}`)
                 .then(response => {
-                    console.log(response.data);
                     this.gameData = response.data;
                 })
                 .catch(error => {
                     console.error(error);
                 });
+            this.gameDetailsVisible = true;
+        },
+        hideGameDetails() {
+            this.gameDetailsVisible = false;
         }
     }
 }
