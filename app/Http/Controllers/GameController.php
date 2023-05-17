@@ -67,5 +67,18 @@ class GameController extends Controller
             ], 405); // 405 staat voor Method Not Allowed
         }
     }
+    public function deleteTask($gameId, $taskId)
+{
+    $game = Game::findOrFail($gameId);
+
+    $task = $game->tasks()->findOrFail($taskId);
+
+    $task->delete();
+
+    return response()->json([
+        'message' => 'Task deleted successfully'
+    ]);
+}
+
     
 }

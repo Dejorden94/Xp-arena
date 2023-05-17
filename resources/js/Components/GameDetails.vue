@@ -14,6 +14,7 @@
         <ul>
             <li v-for="task in gameData.tasks" :key="task.id">
                 {{ task.name }} - {{ task.description }}
+                <button @click="deleteTask(task.id)">Verwijderen</button>
             </li>
         </ul>
 
@@ -62,6 +63,19 @@ export default {
                         console.error(error);
                     });
             }
+        },
+        deleteTask(taskId) {
+            axios.delete(`/api/games/${this.gameData.id}/tasks/${taskId}`)
+                .then(response => {
+                    // Verwijder de taak uit de array
+                    const index = this.gameData.tasks.findIndex(task => task.id === taskId);
+                    if (index !== -1) {
+                        this.gameData.tasks.splice(index, 1);
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         }
     },
     created() {

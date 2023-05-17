@@ -26,3 +26,5 @@ Route::get('/user/{id}', [UserController::class, 'getUserById']);
 Route::get('/games/{gameId}', [GameController::class, 'show']);
 
 Route::match(['get', 'post'], '/games/{gameId}/tasks', [GameController::class, 'handleTasks']);
+
+Route::delete('/games/{gameId}/tasks/{taskId}', [GameController::class, 'deleteTask']);
