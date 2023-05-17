@@ -10,14 +10,6 @@
             <textarea v-model="newTaskDescription" placeholder="Beschrijving" required></textarea>
             <button type="submit">Toevoegen</button>
         </form>
-
-        <ul>
-            <li v-for="task in gameData.tasks" :key="task.id">
-                {{ task.name }} - {{ task.description }}
-                <button @click="deleteTask(task.id)">Verwijderen</button>
-            </li>
-        </ul>
-
     </article>
 </template>
   
@@ -28,12 +20,6 @@ export default {
             type: Object,
             required: true
         }
-    },
-    data() {
-        return {
-            newTaskName: '',
-            newTaskDescription: ''
-        };
     },
     methods: {
         hideGameDetails() {

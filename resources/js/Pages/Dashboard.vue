@@ -4,6 +4,7 @@ import { usePage } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
 
 import GameDetails from '@/Components/GameDetails.vue';
+import GameTasks from '@/Components/GameTasks.vue';
 
 </script>
 
@@ -26,6 +27,7 @@ import GameDetails from '@/Components/GameDetails.vue';
             </div>
         </article>
         <GameDetails v-if="gameDetailsVisible" :gameData="gameData" @hide="hideGameDetails" />
+
         <article>
             <h2>Maak een nieuwe game aan</h2>
             <form @submit.prevent="createGame">
@@ -44,13 +46,16 @@ import GameDetails from '@/Components/GameDetails.vue';
                 </li>
             </ul>
         </article>
+
+        <GameTasks v-if="gameData" :tasks="gameData.tasks" :gameId="gameData.id" />
     </AuthenticatedLayout>
 </template>
 
 <script>
 export default {
     components: {
-        GameDetails
+        GameDetails,
+        GameTasks
     },
     data() {
         return {
@@ -108,7 +113,6 @@ export default {
                     console.error(error);
                 });
         },
-
         hideGameDetails() {
             this.gameDetailsVisible = false;
         }
