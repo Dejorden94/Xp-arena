@@ -3,6 +3,7 @@
         <button @click="hideGameDetails">Verberg</button>
         <section>
             <h1>{{ gameData.name }}</h1>
+            <h2>{{ gameData.pin_code }}</h2>
         </section>
 
         <form @submit.prevent="addTask">
@@ -75,7 +76,10 @@ article {
     width: 100vw;
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
+
+
 
 form {
     display: flex;
