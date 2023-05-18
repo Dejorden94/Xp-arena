@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('user_id'); 
+            $table->string('pin_code')->unique(); // Voeg de pin_code kolom toe en maak deze uniek
             $table->timestamps(); // voeg timestamps toe aan de tabel
         });
     }

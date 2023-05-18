@@ -20,9 +20,22 @@ class GameController extends Controller
         $game = new Game;
         $game->name = $request->input('name');
         $game->user_id = Auth::id();
+        
+        // Genereren van een unieke pincode
+        $game->pin_code = $this->generateUniquePinCode();
+
         $game->save();
 
         return response()->json(['id' => $game->id]);
+    }
+
+    private function generateUniquePinCode()
+    {
+        do {
+            $pinCode = mt_rand(1000, 9999);
+        } while (Game::where('pin_code', $pinCode)->exists());
+
+        return $pinCode;
     }
     public function show($gameId)
     {
