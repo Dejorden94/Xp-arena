@@ -48,4 +48,4 @@ Acknowledgements
 XP Arena was developed using the Laravel PHP framework and Vue.js JavaScript framework. We would like to thank the Laravel and Vue.js communities for their excellent tools and resources.
 Contact
 
-If you have any questions or need assistance, feel free to contact the XP Arena team at team@xp-arena.com.
+If you have any questions or need assistance, feel free to contact me at dejordenm@gmail.com.
