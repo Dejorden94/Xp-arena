@@ -26,6 +26,16 @@ import GameTasks from '@/Components/GameTasks.vue';
                 </div>
             </div>
         </article>
+
+        <article>
+            <h2>Followed Games</h2>
+            <ul>
+                <li v-for="game in followedGames" :key="game.id">
+                    {{ game.name }}
+                </li>
+            </ul>
+        </article>
+
         <GameDetails v-if="gameDetailsVisible" :gameData="gameData" @hide="hideGameDetails" />
 
         <article>
@@ -83,6 +93,9 @@ export default {
         this.user = this.$page.props.auth.user;
         this.refreshGames(this.user.id);
     },
+    mounted() {
+        this.fetchFollowedGames();
+    },
     methods: {
         createGame() {
             axios.post('/games', {
@@ -135,6 +148,15 @@ export default {
             })
                 .then(response => {
                     this.pincode = ''; // Leeg het invoerveld voor de pincode
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+        fetchFollowedGames() {
+            axios.get('/dashboard/games')
+                .then(response => {
+                    this.followedGames = response.data.games;
                 })
                 .catch(error => {
                     console.log(error);

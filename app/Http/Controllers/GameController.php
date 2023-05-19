@@ -82,10 +82,17 @@ class GameController extends Controller
         return response()->json(['message' => 'Game followed successfully']);
     }
 
+    public function followedGames()
+    {
+        $userId = Auth::id();
 
+        // Haal alle games op die de gebruiker volgt
+        $games = Game::whereHas('followers', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->get();
 
-
-
+        return response()->json(['games' => $games]);
+    }
 
     public function show($gameId)
     {
