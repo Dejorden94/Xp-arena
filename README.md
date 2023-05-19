@@ -1,66 +1,51 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Xp Arena - Readme
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<p>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+XP Arena is a Laravel-Vue application that allows users to create and share games. The primary purpose of the app is to motivate and engage users in completing tasks by rewarding them with experience points (XP). Users who follow these games can complete the assigned tasks and earn experience points, enabling them to level up. This gamification approach aims to make mundane or intimidating tasks more exciting and rewarding.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+XP Arena offers the following features:
 
-## Learning Laravel
+    User Registration and Authentication: Users can create accounts and log in to access the application's functionalities.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+    Game Creation: Users can create their own games by defining a set of tasks or challenges. Each game will have a unique name and description.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    Task Management: Game creators can add tasks to their games. Tasks can be defined with a title, description, and XP reward. They can also be marked as completed by the game creator.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    Game Following: Users can choose to follow games created by other users. By following a game, users can view the tasks associated with it and mark them as completed.
 
-## Laravel Sponsors
+    XP and Leveling System: Users earn experience points (XP) by completing tasks within the games they follow. Accumulating a certain amount of XP will allow users to level up. Leveling up provides a sense of achievement and progression within the app.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Installation
 
-### Premium Partners
+To run XP Arena locally, please follow these steps:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+    Clone the repository: git clone https://github.com/Dejorden94/Xp-arena.git
+    Navigate to the project directory: cd xp-arena
+    Install the dependencies: composer install (for Laravel) and npm install (for Vue)
+    Rename the .env.example file to .env and update the necessary configuration settings, such as the database connection details.
+    Generate an application key: php artisan key:generate
+    Run the database migrations: php artisan migrate
+    Compile the frontend assets: npm run dev (for development) or npm run production (for production)
+    Start the development server: php artisan serve
+    Access the application in your browser at http://localhost:8000
 
-## Contributing
+Please note that these instructions assume you have PHP, Composer, and Node.js installed on your machine.
+Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Contributions to XP Arena are welcome! If you encounter any issues or have suggestions for improvements, please open an issue on the GitHub repository.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+XP Arena is open-source software licensed under the MIT license.
+Acknowledgements
+
+XP Arena was developed using the Laravel PHP framework and Vue.js JavaScript framework. We would like to thank the Laravel and Vue.js communities for their excellent tools and resources.
+Contact
+
+If you have any questions or need assistance, feel free to contact the XP Arena team at team@xp-arena.com.
