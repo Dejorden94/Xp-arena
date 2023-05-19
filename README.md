@@ -1,7 +1,7 @@
 # Xp Arena - Readme
 
 <p align="center">
-  <img src="storage/app/public/logo/LogoXpArena.png" alt="Xp Arena Logo">
+  <img src="LogoXpArena.png" alt="Xp Arena Logo">
 </p>
 
 <p align="center">
