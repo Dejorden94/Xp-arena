@@ -10,10 +10,6 @@
   </a>
 </p>
 
-...
-
-
-
 XP Arena is a Laravel-Vue application that allows users to create and share games. The primary purpose of the app is to motivate and engage users in completing tasks by rewarding them with experience points (XP). Users who follow these games can complete the assigned tasks and earn experience points, enabling them to level up. This gamification approach aims to make mundane or intimidating tasks more exciting and rewarding.
 
 ## Features
