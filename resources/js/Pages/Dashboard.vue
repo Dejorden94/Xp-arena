@@ -39,6 +39,16 @@ import GameTasks from '@/Components/GameTasks.vue';
             </form>
         </article>
         <article>
+            <h2>Voer een game pincode in</h2>
+            <form @submit.prevent="submitPincode">
+                <div>
+                    <label for="pincode">Pincode:</label>
+                    <input type="text" id="pincode" v-model="pincode" required>
+                </div>
+                <button type="submit">Verzenden</button>
+            </form>
+        </article>
+        <article>
             <h2>Je games</h2>
             <ul>
                 <li v-on:click="loadGameDetails(game.id)" v-for="game in games" :key="game.id">
@@ -63,7 +73,10 @@ export default {
             games: [],
             user: {},
             gameData: null,
-            gameDetailsVisible: false
+            gameDetailsVisible: false,
+            pincode: '',
+            validPincodes: [],
+            validPincode: false
         }
     },
     created() {
@@ -115,7 +128,19 @@ export default {
         },
         hideGameDetails() {
             this.gameDetailsVisible = false;
-        }
+        },
+        submitPincode() {
+            axios.post('/games/follow', {
+                pincode: this.pincode
+            })
+                .then(response => {
+                    this.pincode = ''; // Leeg het invoerveld voor de pincode
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+
     }
 }
 </script>
