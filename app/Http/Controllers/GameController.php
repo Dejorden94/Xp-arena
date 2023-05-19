@@ -71,6 +71,11 @@ class GameController extends Controller
             return response()->json(['error' => 'User is already a follower of the game'], 400);
         }
 
+        // Controleren of de gebruiker de maker van het spel is
+        if ($game->user_id === $userId) {
+            return response()->json(['error' => 'Cannot follow your own game'], 400);
+        }
+
         // Voeg de gebruiker toe als volger van het spel
         $game->followers()->attach($userId);
 
