@@ -29,6 +29,9 @@ import GameTasks from '@/Components/GameTasks.vue';
 
         <GameDetails v-if="gameDetailsVisible" :gameData="gameData" @hide="hideGameDetails" />
 
+        <GameTasks v-if="gameDetailsVisible" :isUserOwner="gameData.isUserOwner" :tasks="gameData.tasks"
+            :gameId="gameData.id" />
+
         <article>
             <h2>Maak een nieuwe game aan</h2>
             <form @submit.prevent="createGame">
@@ -66,8 +69,6 @@ import GameTasks from '@/Components/GameTasks.vue';
                 </li>
             </ul>
         </article>
-
-        <GameTasks v-if="gameData" :isUserOwner="gameData.isUserOwner" :tasks="gameData.tasks" :gameId="gameData.id" />
     </AuthenticatedLayout>
 </template>
 

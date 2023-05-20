@@ -92,15 +92,25 @@ export default {
 <style scoped>
 article {
     width: 100vw;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-bottom: 1rem;
 }
-
-
 
 form {
     display: flex;
     flex-direction: column;
+    margin-top: 1rem;
+}
+
+input,
+textarea {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 </style>
+

@@ -46,7 +46,19 @@ export default {
 </script>
   
 <style scoped>
-/* Optionele stijlen voor de weergave van taken */
+article {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+h3 {
+    margin-top: 0;
+}
+
 ul {
     list-style: none;
     padding: 0;
@@ -54,6 +66,11 @@ ul {
 
 li {
     margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
 }
 </style>
+
   
