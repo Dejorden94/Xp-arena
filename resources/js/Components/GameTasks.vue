@@ -4,7 +4,7 @@
         <ul>
             <li v-for="task in tasks" :key="task.id">
                 {{ task.name }} - {{ task.description }}
-                <input v-if="!isUserOwner" type="checkbox" @change="checkTask(task.id)"></input>
+                <input v-if="!isUserOwner" type="checkbox" @change="checkTask(task.id)">
                 <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
             </li>
         </ul>
