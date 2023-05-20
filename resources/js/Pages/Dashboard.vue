@@ -27,11 +27,6 @@ import GameTasks from '@/Components/GameTasks.vue';
             </div>
         </article>
 
-        <GameDetails v-if="gameDetailsVisible" :gameData="gameData" @hide="hideGameDetails" />
-
-        <GameTasks v-if="gameDetailsVisible" :isUserOwner="gameData.isUserOwner" :tasks="gameData.tasks"
-            :gameId="gameData.id" />
-
         <article>
             <h2>Maak een nieuwe game aan</h2>
             <form @submit.prevent="createGame">
@@ -42,6 +37,12 @@ import GameTasks from '@/Components/GameTasks.vue';
                 <button type="submit">Aanmaken</button>
             </form>
         </article>
+
+        <GameDetails v-if="gameDetailsVisible" :gameData="gameData" @hide="hideGameDetails" />
+
+        <GameTasks v-if="gameDetailsVisible" :isUserOwner="gameData.isUserOwner" :tasks="gameData.tasks"
+            :gameId="gameData.id" />
+
         <article>
             <h2>Je games</h2>
             <ul>
@@ -171,3 +172,68 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+article,
+GameDetails,
+GameTasks {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+form {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+form>div {
+    margin-bottom: 1rem;
+}
+
+input,
+textarea {
+    padding: 0.5rem;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+ul {
+    padding-left: 1rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+}
+
+li:hover {
+    color: #007BFF;
+}
+</style>
+

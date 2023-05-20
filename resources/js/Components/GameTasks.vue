@@ -4,6 +4,7 @@
         <ul>
             <li v-for="task in tasks" :key="task.id">
                 {{ task.name }} - {{ task.description }}
+                <input v-if="!isUserOwner" type="checkbox" @change="checkTask(task.id)"></input>
                 <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
             </li>
         </ul>
@@ -41,6 +42,16 @@ export default {
                     console.error(error);
                 });
         },
+        checkTask(taskId) {
+            axios.put(`/api/games/${this.gameId}/tasks/${taskId}`, { checked: true })
+                .then(response => {
+                    const task = this.tasks.find(task => task.id === taskId);
+                    if (task) task.checked = true;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
     },
 };
 </script>
