@@ -179,7 +179,7 @@ GameDetails,
 GameTasks {
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
     margin-bottom: 2rem;
     padding: 1rem;
     border: 1px solid #ccc;
