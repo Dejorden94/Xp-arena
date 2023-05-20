@@ -1,13 +1,13 @@
 <template>
-    <div>
+    <article>
         <h3>Taken</h3>
         <ul>
             <li v-for="task in tasks" :key="task.id">
                 {{ task.name }} - {{ task.description }}
-                <button @click="deleteTask(task.id)">Verwijderen</button>
+                <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
             </li>
         </ul>
-    </div>
+    </article>
 </template>
   
 <script>
@@ -21,6 +21,10 @@ export default {
             type: Number,
             required: true,
         },
+        isUserOwner: {
+            type: Boolean,
+            default: false,
+        }
     },
     methods: {
         deleteTask(taskId) {

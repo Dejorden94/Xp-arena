@@ -67,7 +67,7 @@ import GameTasks from '@/Components/GameTasks.vue';
             </ul>
         </article>
 
-        <GameTasks v-if="gameData && gameData.tasks" :tasks="gameData.tasks" :gameId="gameData.id" />
+        <GameTasks v-if="gameData" :isUserOwner="gameData.isUserOwner" :tasks="gameData.tasks" :gameId="gameData.id" />
     </AuthenticatedLayout>
 </template>
 
