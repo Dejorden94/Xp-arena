@@ -61,13 +61,13 @@ import GameTasks from '@/Components/GameTasks.vue';
         <article>
             <h2>Followed Games</h2>
             <ul>
-                <li v-for="game in followedGames" :key="game.id">
+                <li v-for="game in followedGames" :key="game.id" @click="loadGameDetails(game.id)">
                     {{ game.name }}
                 </li>
             </ul>
         </article>
 
-        <GameTasks v-if="gameData" :tasks="gameData.tasks" :gameId="gameData.id" />
+        <GameTasks v-if="gameData && gameData.tasks" :tasks="gameData.tasks" :gameId="gameData.id" />
     </AuthenticatedLayout>
 </template>
 
@@ -120,17 +120,19 @@ export default {
             }
         },
         loadGameDetails(gameId) {
-            this.gameData = {}; // Reset gameData naar null voordat je nieuwe gegevens ophaalt
+            this.gameData = {};
             axios.get(`/api/games/${gameId}`)
                 .then(response => {
                     this.gameData = response.data;
-                    this.fetchTasks(gameId); // Haal de taken op voor de geselecteerde game
+                    this.gameData.isUserOwner = this.user.id === this.gameData.user_id;
+                    this.fetchTasks(gameId);
                     this.gameDetailsVisible = true;
                 })
                 .catch(error => {
                     console.error(error);
                 });
         },
+
         fetchTasks(gameId) {
             axios.get(`/api/games/${gameId}/tasks`)
                 .then(response => {

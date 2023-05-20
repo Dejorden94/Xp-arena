@@ -1,5 +1,5 @@
 <template>
-    <article>
+    <article v-if="gameData.isUserOwner"> <!--Compnent wanneer owner de game laad-->
         <button @click="hideGameDetails">Verberg</button>
         <section>
             <h1>{{ gameData.name }}</h1>
@@ -11,6 +11,24 @@
             <textarea v-model="newTaskDescription" placeholder="Beschrijving" required></textarea>
             <button type="submit">Toevoegen</button>
         </form>
+    </article>
+
+    <article v-if="!gameData.isUserOwner"> <!--Component wanneer NIET de owner de game laad-->
+        <button @click="hideGameDetails">Verberg</button>
+        <section>
+            <h1>{{ gameData.name }}</h1>
+            <h2>{{ gameData.description }}</h2>
+            <p>{{ gameData.owner }}</p>
+        </section>
+
+        <section v-if="gameData.tasks">
+            <h3>Tasks</h3>
+            <ul>
+                <li v-for="task in gameData.tasks" :key="task.id">
+                    {{ task.name }}
+                </li>
+            </ul>
+        </section>
     </article>
 </template>
   
