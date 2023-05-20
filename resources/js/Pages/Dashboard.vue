@@ -27,15 +27,6 @@ import GameTasks from '@/Components/GameTasks.vue';
             </div>
         </article>
 
-        <article>
-            <h2>Followed Games</h2>
-            <ul>
-                <li v-for="game in followedGames" :key="game.id">
-                    {{ game.name }}
-                </li>
-            </ul>
-        </article>
-
         <GameDetails v-if="gameDetailsVisible" :gameData="gameData" @hide="hideGameDetails" />
 
         <article>
@@ -49,6 +40,15 @@ import GameTasks from '@/Components/GameTasks.vue';
             </form>
         </article>
         <article>
+            <h2>Je games</h2>
+            <ul>
+                <li v-on:click="loadGameDetails(game.id)" v-for="game in games" :key="game.id">
+                    {{ game.name }}
+                </li>
+            </ul>
+        </article>
+
+        <article>
             <h2>Voer een game pincode in</h2>
             <form @submit.prevent="submitPincode">
                 <div>
@@ -59,9 +59,9 @@ import GameTasks from '@/Components/GameTasks.vue';
             </form>
         </article>
         <article>
-            <h2>Je games</h2>
+            <h2>Followed Games</h2>
             <ul>
-                <li v-on:click="loadGameDetails(game.id)" v-for="game in games" :key="game.id">
+                <li v-for="game in followedGames" :key="game.id">
                     {{ game.name }}
                 </li>
             </ul>
@@ -86,7 +86,8 @@ export default {
             gameDetailsVisible: false,
             pincode: '',
             validPincodes: [],
-            validPincode: false
+            validPincode: false,
+            followedGames: []
         }
     },
     created() {
@@ -147,7 +148,8 @@ export default {
                 pincode: this.pincode
             })
                 .then(response => {
-                    this.pincode = ''; // Leeg het invoerveld voor de pincode
+                    this.pincode = '';
+                    this.fetchFollowedGames(); // Leeg het invoerveld voor de pincode
                 })
                 .catch(error => {
                     console.log(error);
