@@ -185,7 +185,11 @@ GameTasks {
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f9f9f9;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
 }
+
 
 h2 {
     color: #333;
