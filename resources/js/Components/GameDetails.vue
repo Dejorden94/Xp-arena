@@ -9,6 +9,7 @@
         <form @submit.prevent="addTask">
             <input v-model="newTaskName" type="text" placeholder="Titel" required>
             <textarea v-model="newTaskDescription" placeholder="Beschrijving" required></textarea>
+            <input v-model="newTaskExperience" type="number" placeholder="Experience" required>
             <button type="submit">Toevoegen</button>
         </form>
     </article>
@@ -47,12 +48,14 @@ export default {
         addTask() {
             axios.post(`/api/games/${this.gameData.id}/tasks`, {
                 name: this.newTaskName,
-                description: this.newTaskDescription
+                description: this.newTaskDescription,
+                experience: this.newTaskExperience
             })
                 .then(response => {
                     this.gameData.tasks.push(response.data.task);
                     this.newTaskName = '';
                     this.newTaskDescription = '';
+                    this.newTaskExperience = '';
                 })
                 .catch(error => {
                     console.error(error);

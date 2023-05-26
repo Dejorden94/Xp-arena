@@ -119,10 +119,17 @@ class GameController extends Controller
                 'tasks' => $tasks
             ]);
         } elseif ($request->isMethod('post')) {
+
+            $request->validate([
+                'name' => 'required|max:255',
+                'description' => 'required',
+                'experience' => 'required|integer|min:0', // Zorg ervoor dat 'experience' een positieve geheel getal is
+            ]);
             // Logica voor POST-verzoek (gegevens opslaan)
             $task = new Task;
             $task->name = $request->input('name');
             $task->description = $request->input('description');
+            $task->experience = $request->input('experience'); // Toevoegen van de 'experience'
 
             $game->tasks()->save($task);
 
@@ -137,6 +144,7 @@ class GameController extends Controller
             ], 405); // 405 staat voor Method Not Allowed
         }
     }
+
     public function deleteTask($gameId, $taskId)
     {
         $game = Game::findOrFail($gameId);

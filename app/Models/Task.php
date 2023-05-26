@@ -9,6 +9,13 @@ class Task extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'game_id',
+        'experience',
+    ];
+
     public function game()
     {
         return $this->belongsTo(Game::class);
