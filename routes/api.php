@@ -24,6 +24,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/tasks/{taskId}/complete', [TaskController::class, 'completeTask']);
+Route::get('/tasks/unverified', [TaskController::class, 'getUnverifiedTasks']);
+Route::put('/tasks/{taskId}/verify', [TaskController::class, 'verifyTask']);
+
 
 Route::get('/user/{id}', [UserController::class, 'getUserById']);
 

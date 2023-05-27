@@ -14,6 +14,7 @@ class CompletedTask extends Model
         'user_id',
         'game_id',
         'completion_status',
+        'creator_id'
     ];
 
     public function task()
@@ -29,5 +30,9 @@ class CompletedTask extends Model
     public function game()
     {
         return $this->belongsTo(Game::class);
+    }
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'creator_id');
     }
 }

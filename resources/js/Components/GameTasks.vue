@@ -43,7 +43,7 @@ export default {
                 });
         },
         checkTask(taskId) {
-            axios.post(`/api/tasks/${task.id}/complete`)
+            axios.post(`/tasks/${taskId}/complete`)
                 .then(response => {
                     // Handle response
                 })

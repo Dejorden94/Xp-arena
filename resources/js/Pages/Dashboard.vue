@@ -5,6 +5,8 @@ import { Head } from '@inertiajs/vue3';
 
 import GameDetails from '@/Components/GameDetails.vue';
 import GameTasks from '@/Components/GameTasks.vue';
+import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
+
 
 </script>
 
@@ -52,6 +54,8 @@ import GameTasks from '@/Components/GameTasks.vue';
             </ul>
         </article>
 
+        <UnverifiedTasks v-if="unverifiedTasks.length > 0" />
+
         <article>
             <h2>Voer een game pincode in</h2>
             <form @submit.prevent="submitPincode">
@@ -77,7 +81,8 @@ import GameTasks from '@/Components/GameTasks.vue';
 export default {
     components: {
         GameDetails,
-        GameTasks
+        GameTasks,
+        UnverifiedTasks
     },
     data() {
         return {
@@ -89,12 +94,14 @@ export default {
             pincode: '',
             validPincodes: [],
             validPincode: false,
-            followedGames: []
+            followedGames: [],
+            unverifiedTasks: [],
         }
     },
     created() {
         this.user = this.$page.props.auth.user;
         this.refreshGames(this.user.id);
+        this.fetchUnverifiedTasks();
     },
     mounted() {
         this.fetchFollowedGames();
@@ -134,7 +141,6 @@ export default {
                     console.error(error);
                 });
         },
-
         fetchTasks(gameId) {
             axios.get(`/api/games/${gameId}/tasks`)
                 .then(response => {
@@ -166,6 +172,16 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
+                });
+        },
+        fetchUnverifiedTasks() {
+            axios.get('/tasks/unverified')
+                .then(response => {
+                    this.unverifiedTasks = response.data;
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
                 });
         },
 

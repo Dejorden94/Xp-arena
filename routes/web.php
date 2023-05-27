@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\TaskController;
 
 
 
@@ -31,6 +32,10 @@ Route::get('/', function () {
 
 Route::get('/games', [GameController::class, 'index']);
 Route::post('/games', [GameController::class, 'store']);
+
+Route::post('/tasks/{taskId}/complete', [TaskController::class, 'completeTask']);
+Route::get('/tasks/unverified', [TaskController::class, 'getUnverifiedTasks']);
+Route::put('/tasks/{taskId}/verify', [TaskController::class, 'verifyTask']);
 
 Route::post('/games/follow', [GameController::class, 'followGame']);
 Route::get('/dashboard/games', [GameController::class, 'followedGames'])->middleware('auth');
