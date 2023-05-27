@@ -43,13 +43,12 @@ export default {
                 });
         },
         checkTask(taskId) {
-            axios.put(`/api/games/${this.gameId}/tasks/${taskId}`, { checked: true })
+            axios.post(`/api/tasks/${task.id}/complete`)
                 .then(response => {
-                    const task = this.tasks.find(task => task.id === taskId);
-                    if (task) task.checked = true;
+                    // Handle response
                 })
                 .catch(error => {
-                    console.error(error);
+                    console.log(error);
                 });
         }
     },
