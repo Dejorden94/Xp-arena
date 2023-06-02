@@ -59,26 +59,39 @@ class TaskController extends Controller
     }
 
 
+
+
     public function verifyTask($taskId)
     {
         // Controleer of de taak bestaat
-        $task = CompletedTask::find($taskId);
+        $completedTask = CompletedTask::find($taskId);
 
-        if (!$task) {
+        if (!$completedTask) {
             return response()->json(['error' => 'Task not found'], 404);
         }
 
         // Controleer of de taak behoort tot een spel van de gebruiker
-        $game = Game::where('user_id', Auth::id())->where('id', $task->game_id)->first();
+        $game = Game::where('user_id', Auth::id())->where('id', $completedTask->game_id)->first();
 
         if (!$game) {
             return response()->json(['error' => 'Task does not belong to a game of the user'], 400);
         }
 
         // Markeer de taak als geverifieerd
-        $task->is_verified = true;
-        $task->save();
+        $completedTask->is_verified = true;
+        $completedTask->save();
 
-        return response()->json(['message' => 'Task verified']);
+        // Zoek de gebruiker die de taak heeft voltooid
+        $user = User::find($completedTask->user_id);
+
+        // Zoek de ervaringspunten van de taak
+        $task = Task::find($completedTask->task_id);
+        $experiencePoints = $task->experience;
+
+        // Verhoog de ervaringspunten van de gebruiker
+        $user->experience += $experiencePoints;
+        $user->save();
+
+        return response()->json(['message' => 'Task verified and experience points added']);
     }
 }
