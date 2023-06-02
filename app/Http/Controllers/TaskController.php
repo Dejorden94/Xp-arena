@@ -27,6 +27,14 @@ class TaskController extends Controller
             return response()->json(['error' => 'Cannot complete your own task'], 400);
         }
 
+        // Controleer of de taak al is voltooid door de gebruiker
+        $completedTask = CompletedTask::where('task_id', $taskId)->where('user_id', Auth::id())->first();
+
+        if ($completedTask) {
+            return response()->json(['error' => 'Task already completed'], 400);
+        }
+
+
         // Markeer de taak als voltooid
         $completedTask = new CompletedTask;
         $completedTask->task_id = $taskId;
@@ -93,5 +101,27 @@ class TaskController extends Controller
         $user->save();
 
         return response()->json(['message' => 'Task verified and experience points added']);
+    }
+    public function rejectTask($taskId)
+    {
+        // Controleer of de taak bestaat
+        $completedTask = CompletedTask::find($taskId);
+
+        if (!$completedTask) {
+            return response()->json(['error' => 'Task not found'], 404);
+        }
+
+        // Controleer of de taak behoort tot een spel van de gebruiker
+        $game = Game::where('user_id', Auth::id())->where('id', $completedTask->game_id)->first();
+
+        if (!$game) {
+            return response()->json(['error' => 'Task does not belong to a game of the user'], 400);
+        }
+
+        // Markeer de taak als afgewezen
+        $completedTask->is_rejected = true;
+        $completedTask->save();
+
+        return response()->json(['message' => 'Task has been rejected']);
     }
 }

@@ -5,6 +5,7 @@
             <li v-for="task in unverifiedTasks" :key="task.id">
                 {{ task.name }} - {{ task.description }} - {{ task.experience }}
                 <button @click="verifyTask(task.id)">Goedkeuren</button>
+                <button @click="rejectTask(task.id)">Reject</button> <!-- De reject knop -->
             </li>
         </ul>
     </article>
@@ -35,6 +36,25 @@ export default {
                     if (index !== -1) {
                         this.unverifiedTasks.splice(index, 1);
                     }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+        rejectTask(taskId) { // De rejectTask methode
+            axios.put('/tasks/' + taskId + '/reject')
+                .then(response => {
+                    console.log(response.data);
+                    this.fetchUnverifiedTasks(); // Verfris de lijst
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+        fetchUnverifiedTasks() {
+            axios.get('/tasks/unverified')
+                .then(response => {
+                    this.unverifiedTasks = response.data;
                 })
                 .catch(error => {
                     console.error(error);
