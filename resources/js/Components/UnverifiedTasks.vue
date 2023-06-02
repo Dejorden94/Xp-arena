@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <article class="unverified-task">
         <h2>Te controleren taken</h2>
         <ul>
             <li v-for="task in unverifiedTasks" :key="task.id">
@@ -7,7 +7,7 @@
                 <button @click="verifyTask(task.id)">Goedkeuren</button>
             </li>
         </ul>
-    </div>
+    </article>
 </template>
 
 <script>
@@ -44,3 +44,30 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.unverified-task {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.unverified-task h2 {
+    font-size: 20px;
+    color: #495057;
+}
+
+.unverified-task button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+</style>
