@@ -14,6 +14,7 @@ class CompletedTask extends Model
         'user_id',
         'game_id',
         'completion_status',
+        'is_rejected',
         'creator_id'
     ];
 

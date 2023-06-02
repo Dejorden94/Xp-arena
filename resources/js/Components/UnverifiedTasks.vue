@@ -20,7 +20,6 @@ export default {
     created() {
         axios.get('/tasks/unverified')
             .then(response => {
-                console.log(response.data);
                 this.unverifiedTasks = response.data;
             })
             .catch(error => {
