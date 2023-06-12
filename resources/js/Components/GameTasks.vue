@@ -4,13 +4,13 @@
         <ul>
             <li v-for="task in tasks" :key="task.id">
                 {{ task.name }} - {{ task.description }} - {{ task.experience }}
-                <input v-if="!isUserOwner" type="checkbox" @change="checkTask(task.id)">
+                <input v-if="!isUserOwner" type="checkbox" :disabled="task.completion_status" @change="checkTask(task)">
                 <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
             </li>
         </ul>
     </article>
 </template>
-  
+
 <script>
 export default {
     props: {
@@ -42,18 +42,33 @@ export default {
                     console.error(error);
                 });
         },
-        checkTask(taskId) {
-            axios.post(`/tasks/${taskId}/complete`)
+        checkTask(task) {
+            axios.post(`/tasks/${task.id}/complete`)
                 .then(response => {
-                    // Handle response
+                    // Markeer de taak als gecontroleerd
+                    task.completion_status = true;
+
+                    // Vind de index van de taak in de takenlijst
+                    const index = this.tasks.findIndex(t => t.id === task.id);
+
+                    // Verwijder de taak uit de takenlijst
+                    if (index !== -1) {
+                        this.tasks.splice(index, 1);
+                    }
                 })
                 .catch(error => {
                     console.log(error);
                 });
         }
+
     },
 };
 </script>
+
+<style scoped>
+/* Styling is hetzelfde als voorheen */
+</style>
+
   
 <style scoped>
 article {
