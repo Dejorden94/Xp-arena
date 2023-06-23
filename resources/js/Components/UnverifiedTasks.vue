@@ -13,6 +13,12 @@
 
 <script>
 export default {
+    props: {
+        onTaskRejected: {
+            type: Function,
+            default: () => { },
+        },
+    },
     data() {
         return {
             unverifiedTasks: [],
@@ -41,16 +47,22 @@ export default {
                     console.error(error);
                 });
         },
-        rejectTask(taskId) { // De rejectTask methode
+        rejectTask(taskId) {
             axios.put('/tasks/' + taskId + '/reject')
                 .then(response => {
-                    console.log(response.data);
-                    this.fetchUnverifiedTasks(); // Verfris de lijst
+                    // Verwijder de taak uit de lokale array
+                    this.unverifiedTasks = this.unverifiedTasks.filter(task => task.id !== taskId);
+                    // En voer ook de update uit in het Dashboard component
+                    if (this.onTaskRejected) {
+                        this.onTaskRejected();
+                    }
                 })
                 .catch(error => {
                     console.error(error);
                 });
         },
+
+
         fetchUnverifiedTasks() {
             axios.get('/tasks/unverified')
                 .then(response => {

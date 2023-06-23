@@ -118,10 +118,12 @@ class TaskController extends Controller
             return response()->json(['error' => 'Task does not belong to a game of the user'], 400);
         }
 
-        // Markeer de taak als afgewezen
-        $completedTask->is_rejected = true;
-        $completedTask->save();
+        $task = Task::findOrFail($taskId);
+        $task->is_verified = false;
+        $task->is_rejected = true;
+        $task->save();
 
-        return response()->json(['message' => 'Task has been rejected']);
+        // Stuur de bijgewerkte taak terug in de response
+        return response()->json(['task' => $task], 200);
     }
 }

@@ -40,10 +40,10 @@ import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
             </form>
         </article>
 
-        <GameDetails v-if="gameDetailsVisible" :gameData="gameData" @hide="hideGameDetails" />
-
-        <GameTasks v-if="gameDetailsVisible" :isUserOwner="gameData.isUserOwner" :tasks="gameData.tasks"
+        <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails" />
+        <GameTasks v-if="gameDetailsVisible && gameData" :isUserOwner="gameData.isUserOwner" :tasks="gameData.tasks"
             :gameId="gameData.id" />
+
 
         <article>
             <h2>Je games</h2>
@@ -129,7 +129,6 @@ export default {
             }
         },
         loadGameDetails(gameId) {
-            this.gameData = {};
             axios.get(`/api/games/${gameId}`)
                 .then(response => {
                     this.gameData = response.data;
@@ -141,6 +140,7 @@ export default {
                     console.error(error);
                 });
         },
+
         fetchTasks(gameId) {
             axios.get(`/api/games/${gameId}/tasks`)
                 .then(response => {
@@ -183,6 +183,9 @@ export default {
                 .catch(error => {
                     console.error(error);
                 });
+        },
+        refreshTasks() {
+            this.loadGameDetails(this.gameData.id);
         },
 
     }
