@@ -1,6 +1,6 @@
 <template>
     <article class="unverified-task">
-        <h2>Te controleren taken</h2>
+        <h2>Te controleren quests</h2>
         <ul>
             <li v-for="task in unverifiedTasks" :key="task.id">
                 {{ task.name }} - {{ task.description }} - {{ task.experience }}
@@ -48,7 +48,7 @@ export default {
                 });
         },
         rejectTask(taskId) {
-            axios.put('/tasks/' + taskId + '/reject')
+            axios.post('/tasks/' + taskId + '/reject')
                 .then(response => {
                     // Verwijder de taak uit de lokale array
                     this.unverifiedTasks = this.unverifiedTasks.filter(task => task.id !== taskId);
@@ -61,8 +61,16 @@ export default {
                     console.error(error);
                 });
         },
-
-
+        resubmitTask(task) {
+            axios.post(`/tasks/${task.id}/resubmit`)
+                .then(response => {
+                    // Zet de status van de taak terug naar 'unverified'
+                    task.approval_status = 'unverified';
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
         fetchUnverifiedTasks() {
             axios.get('/tasks/unverified')
                 .then(response => {

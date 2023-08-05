@@ -1,10 +1,13 @@
 <template>
     <article>
-        <h3>Taken</h3>
+        <h3>Quests</h3>
         <ul>
             <li v-for="task in tasks" :key="task.id">
                 {{ task.name }} - {{ task.description }} - {{ task.experience }}
-                <input v-if="!isUserOwner" type="checkbox" :disabled="task.completion_status" @change="checkTask(task)">
+                <input v-if="!isUserOwner && task.approval_status !== 'rejected'" type="checkbox"
+                    :disabled="task.approval_status === 'verified'" @change="checkTask(task)">
+                <button v-if="!isUserOwner && task.approval_status === 'rejected'" @click="resubmitTask(task)">Opnieuw
+                    indienen</button>
                 <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
             </li>
         </ul>
@@ -59,8 +62,17 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+        },
+        resubmitTask(task) {
+            axios.post(`/tasks/${task.id}/resubmit`)
+                .then(response => {
+                    // Zet de status van de taak terug naar 'unverified'
+                    task.approval_status = 'unverified';
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         }
-
     },
 };
 </script>

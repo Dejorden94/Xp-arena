@@ -23,7 +23,7 @@
         </section>
 
         <section v-if="gameData.tasks">
-            <h3>Tasks</h3>
+            <h3>Quests</h3>
             <ul>
                 <li v-for="task in gameData.tasks" :key="task.id">
                     {{ task.name }}

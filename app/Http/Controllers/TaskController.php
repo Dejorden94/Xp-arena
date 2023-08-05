@@ -30,10 +30,6 @@ class TaskController extends Controller
         // Controleer of de taak al is voltooid door de gebruiker
         $completedTask = CompletedTask::where('task_id', $taskId)->where('user_id', Auth::id())->first();
 
-        if ($completedTask) {
-            return response()->json(['error' => 'Task already completed'], 400);
-        }
-
 
         // Markeer de taak als voltooid
         $completedTask = new CompletedTask;
@@ -57,13 +53,43 @@ class TaskController extends Controller
             return response()->json(['message' => 'No game found for this user'], 200);
         }
 
-        // Haal de taken op die nog niet zijn geverifieerd
+        // Haal de taken op die nog niet zijn geverifieerd en niet zijn afgewezen
         $tasks = CompletedTask::where('creator_id', Auth::id())
             ->where('is_verified', false)
+            ->where('is_rejected', false)
             ->get();
 
-
         return response()->json($tasks);
+    }
+
+
+    public function resubmitTask($taskId)
+    {
+        // Controleer of de taak bestaat
+        $task = Task::find($taskId);
+
+        if (!$task) {
+            return response()->json(['error' => 'Task not found'], 404);
+        }
+
+        // Controleer of de gebruiker de volger van het spel is
+        $game = $task->game;
+
+        if (Auth::id() !== $game->follower_id) {
+            return response()->json(['error' => 'Cannot resubmit a task of a game you are not following'], 400);
+        }
+
+        // Controleer of de taak is afgewezen
+        if (!$task->is_rejected) {
+            return response()->json(['error' => 'Cannot resubmit a task that has not been rejected'], 400);
+        }
+
+        // Zet de taak terug naar 'unverified' en 'not rejected'
+        $task->is_verified = false;
+        $task->is_rejected = false;
+        $task->save();
+
+        return response()->json(['message' => 'Task resubmitted for approval']);
     }
 
 
@@ -100,30 +126,30 @@ class TaskController extends Controller
         $user->experience += $experiencePoints;
         $user->save();
 
+        // Verwijder de voltooide taak uit de database
+        $completedTask->delete();
+
         return response()->json(['message' => 'Task verified and experience points added']);
     }
+
     public function rejectTask($taskId)
     {
-        // Controleer of de taak bestaat
-        $completedTask = CompletedTask::find($taskId);
+        // Zoek de taak
+        $completedTask = CompletedTask::where('id', $taskId)
+            ->whereHas('game', function ($query) {
+                $query->where('creator_id', Auth::id());
+            })
+            ->first();
 
         if (!$completedTask) {
-            return response()->json(['error' => 'Task not found'], 404);
+            return response()->json(['error' => 'Task not found or not related to your game'], 400);
         }
 
-        // Controleer of de taak behoort tot een spel van de gebruiker
-        $game = Game::where('user_id', Auth::id())->where('id', $completedTask->game_id)->first();
+        // Markeer de taak als afgewezen
+        $completedTask->is_verified = false;
+        $completedTask->is_rejected = true;
+        $completedTask->save();
 
-        if (!$game) {
-            return response()->json(['error' => 'Task does not belong to a game of the user'], 400);
-        }
-
-        $task = Task::findOrFail($taskId);
-        $task->is_verified = false;
-        $task->is_rejected = true;
-        $task->save();
-
-        // Stuur de bijgewerkte taak terug in de response
-        return response()->json(['task' => $task], 200);
+        return response()->json(['message' => 'Task rejected']);
     }
 }
