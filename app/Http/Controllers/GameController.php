@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Game;
 use App\Models\Task;
 use App\Models\User;
+use App\Models\CompletedTask;
+
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Log;
@@ -55,32 +57,43 @@ class GameController extends Controller
             return response()->json(['error' => 'Invalid pincode'], 404);
         }
 
-        $userId = Auth::id(); //De waarde van $userIdeis null waarom?
+        $userId = Auth::id();
 
-        Log::info('User ID:', ['userId' => $userId]);
-
-        // Controleren of de gebruiker al bestaat
-        $user = User::find($userId);
-        if (!$user) {
-            return response()->json(['error' => 'User not found',], 404);
-        }
-
-        // Controleren of de gebruiker al een volger is van het spel
+        // Check if the user is already following the game
         $isFollower = $game->followers()->where('user_id', $userId)->exists();
         if ($isFollower) {
             return response()->json(['error' => 'User is already a follower of the game'], 400);
         }
 
-        // Controleren of de gebruiker de maker van het spel is
-        if ($game->user_id === $userId) {
-            return response()->json(['error' => 'Cannot follow your own game'], 400);
-        }
-
-        // Voeg de gebruiker toe als volger van het spel
+        // Add the user as a follower of the game
         $game->followers()->attach($userId);
+
+        // Get all tasks of the game
+        $tasks = $game->tasks;
+
+        // Loop through the tasks and add them to the completed_tasks table for the user
+        foreach ($tasks as $task) {
+            $completedTask = new CompletedTask;
+            $completedTask->task_id = $task->id;
+            $completedTask->user_id = $userId;
+            $completedTask->game_id = $game->id;
+            $completedTask->creator_id = $game->user_id;  // Set the creator_id
+            $completedTask->is_verified = false; // You can ignore this line if you don't need verification process
+
+            // Fill the other columns from the corresponding task
+            $completedTask->name = $task->name;
+            $completedTask->description = $task->description;
+            $completedTask->experience = $task->experience;
+            $completedTask->is_rejected = false; // You might want to set this based on your business logic
+            $completedTask->approval_status = 'unverified'; // You might want to set this based on your business logic
+
+            $completedTask->save();
+        }
 
         return response()->json(['message' => 'Game followed successfully']);
     }
+
+
 
     public function followedGames()
     {

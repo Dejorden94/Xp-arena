@@ -38,6 +38,7 @@ class TaskController extends Controller
         $completedTask->game_id = $game->id;
         $completedTask->creator_id = $game->user_id;  // stel de creator_id in
         $completedTask->is_verified = false; // Je kan deze regel negeren als je geen verificatieproces nodig hebt
+        $completedTask->completion_status = true; // Markeren als voltooid
         $completedTask->save();
 
         return response()->json(['message' => 'Task marked as complete']);
@@ -49,14 +50,14 @@ class TaskController extends Controller
         $game = Game::where('user_id', Auth::id())->first();
 
         if (!$game) {
-            // De gebruiker heeft geen spel. Retourneer een succesvolle respons in plaats van een fout.
-            return response()->json(['message' => 'No game found for this user'], 200);
+            // De gebruiker heeft geen spel. Retourneer een lege array als er geen taken zijn om te laten zien.
+            return response()->json([]);
         }
 
-        // Haal de taken op die nog niet zijn geverifieerd en niet zijn afgewezen
+        // Haal de taken op die nog niet zijn geverifieerd en behoren tot het spel van de gebruiker
         $tasks = CompletedTask::where('creator_id', Auth::id())
             ->where('is_verified', false)
-            ->where('is_rejected', false)
+            ->where('game_id', $game->id)
             ->get();
 
         return response()->json($tasks);
@@ -151,5 +152,17 @@ class TaskController extends Controller
         $completedTask->save();
 
         return response()->json(['message' => 'Task rejected']);
+    }
+
+    public function checkTaskCompleted($gameId, $taskId)
+    {
+        $userId = Auth::id();
+
+        $completedTask = CompletedTask::where('game_id', $gameId)
+            ->where('task_id', $taskId)
+            ->where('user_id', $userId)
+            ->exists();
+
+        return response()->json(['completed' => $completedTask]);
     }
 }

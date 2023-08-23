@@ -42,7 +42,7 @@ import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails" />
         <GameTasks v-if="gameDetailsVisible && gameData" :isUserOwner="gameData.isUserOwner" :tasks="gameData.tasks"
-            :gameId="gameData.id" />
+            :gameId="gameData.id" :onHide="yourHideMethod" />
 
 
         <article>
@@ -107,6 +107,9 @@ export default {
         this.fetchFollowedGames();
     },
     methods: {
+        yourHideMethod() {
+            this.gameDetailsVisible = false;
+        },
         createGame() {
             axios.post('/games', {
                 name: this.name,
@@ -153,18 +156,39 @@ export default {
         hideGameDetails() {
             this.gameDetailsVisible = false;
         },
-        submitPincode() {
-            axios.post('/games/follow', {
-                pincode: this.pincode
-            })
-                .then(response => {
-                    this.pincode = '';
-                    this.fetchFollowedGames(); // Leeg het invoerveld voor de pincode
-                })
-                .catch(error => {
-                    console.log(error);
+        async submitPincode() {
+            try {
+                const response = await axios.post('/games/follow', {
+                    pincode: this.pincode
                 });
+
+                // Voeg de taken en bijbehorende gegevens toe aan completed_tasks
+                const gameId = response.data.gameId;
+                const tasks = this.gameData.tasks;
+
+                tasks.forEach(async task => {
+                    const completedTask = {
+                        task_id: task.id,
+                        user_id: this.user.id,
+                        game_id: gameId,
+                        creator_id: task.creator_id,  // Zorg ervoor dat je de juiste creator_id instelt
+                        completion_status: false,  // Je kunt andere waarden hier instellen als nodig
+                        is_verified: false,
+                        is_rejected: false,
+                        created_at: new Date(),
+                        updated_at: new Date(),
+                    };
+
+                    await axios.post('/completed_tasks', completedTask);
+                });
+
+                this.pincode = '';
+                this.fetchFollowedGames(); // Leeg het invoerveld voor de pincode
+            } catch (error) {
+                console.log(error);
+            }
         },
+
         fetchFollowedGames() {
             axios.get('/dashboard/games')
                 .then(response => {

@@ -3,18 +3,22 @@
         <h3>Quests</h3>
         <ul>
             <li v-for="task in tasks" :key="task.id">
-                {{ task.name }} - {{ task.description }} - {{ task.experience }}
-                <input v-if="!isUserOwner && task.approval_status !== 'rejected'" type="checkbox"
-                    :disabled="task.approval_status === 'verified'" @change="checkTask(task)">
-                <button v-if="!isUserOwner && task.approval_status === 'rejected'" @click="resubmitTask(task)">Opnieuw
-                    indienen</button>
-                <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
+                <template v-if="!task.completion_status && !isTaskCompleted(task)">
+                    {{ task.name }} - {{ task.description }} - {{ task.experience }}
+                    <input v-if="!isUserOwner && task.approval_status !== 'rejected'" type="checkbox"
+                        :disabled="task.approval_status === 'verified'" @change="checkTask(task)">
+                    <button v-if="!isUserOwner && task.approval_status === 'rejected'" @click="resubmitTask(task)">Opnieuw
+                        indienen</button>
+                    <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
+                </template>
             </li>
         </ul>
     </article>
 </template>
 
 <script>
+import { ref, onMounted } from 'vue';
+
 export default {
     props: {
         tasks: {
@@ -25,11 +29,16 @@ export default {
             type: Number,
             required: true,
         },
+        completedTasks: {
+            type: Array,
+            required: true,
+        },
         isUserOwner: {
             type: Boolean,
             default: false,
         }
     },
+    emits: ['onHide'],
     methods: {
         deleteTask(taskId) {
             axios
@@ -44,6 +53,15 @@ export default {
                 .catch((error) => {
                     console.error(error);
                 });
+        },
+        async isTaskCompleted(task) {
+            try {
+                const response = await axios.get(`/api/games/${this.gameId}/tasks/${task.id}/completed`);
+                return response.data.completed;
+            } catch (error) {
+                console.log(error);
+                return false;
+            }
         },
         checkTask(task) {
             axios.post(`/tasks/${task.id}/complete`)
@@ -74,14 +92,30 @@ export default {
                 });
         }
     },
+    setup(props) {
+        const tasks = ref([]);
+
+        // Laad de taken van de game wanneer de component wordt geladen
+        const loadTasks = async () => {
+            try {
+                const response = await axios.get(`/api/games/${props.gameId}/tasks`);
+                tasks.value = response.data.tasks;
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        onMounted(() => {
+            loadTasks();
+        });
+
+        return {
+            tasks,
+        };
+    },
 };
 </script>
 
-<style scoped>
-/* Styling is hetzelfde als voorheen */
-</style>
-
-  
 <style scoped>
 article {
     border: 1px solid #ccc;
@@ -109,5 +143,3 @@ li {
     border-radius: 5px;
 }
 </style>
-
-  

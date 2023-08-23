@@ -42,6 +42,23 @@ export default {
         }
     },
     methods: {
+        async addNewTask(newTask) {
+            // Voeg de nieuwe taak toe aan de takenlijst van de game (dit kan afhankelijk zijn van je huidige logica)
+
+            // Voeg de nieuwe taak toe aan de completed_tasks-tabel voor elke volger
+            const followers = game.followers; // Haal de lijst van volgers op (dit kan afhankelijk zijn van je gegevensstructuur)
+            followers.forEach(async (follower) => {
+                await axios.post(`/tasks/completed`, {
+                    task_id: newTask.id,
+                    user_id: follower.id,
+                    game_id: game.id,
+                    // Vul andere benodigde velden in
+                });
+            });
+
+            // Informeer de volgers over de nieuwe taak (bijvoorbeeld door de pagina opnieuw te laden)
+            await this.$inertia.visit(`/dashboard/${gameId}`);
+        },
         hideGameDetails() {
             this.$emit('hide');
         },
