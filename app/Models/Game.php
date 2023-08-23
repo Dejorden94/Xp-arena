@@ -31,6 +31,11 @@ class Game extends Model
         return $this->belongsToMany(User::class, 'followers', 'game_id', 'user_id');
     }
 
+    public function followerTasks()
+    {
+        return $this->hasMany(FollowerTask::class, 'game_id');
+    }
+
     public function completedTasks()
     {
         return $this->hasMany(CompletedTask::class);

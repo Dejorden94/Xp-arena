@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Task extends Model
+class FollowerTask extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'name',
         'description',
@@ -21,13 +20,8 @@ class Task extends Model
         return $this->belongsTo(Game::class);
     }
 
-    public function completedTasks()
+    public function follower()
     {
-        return $this->hasMany(CompletedTask::class);
-    }
-
-    public function followerTasks()
-    {
-        return $this->hasMany(FollowerTask::class, 'task_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

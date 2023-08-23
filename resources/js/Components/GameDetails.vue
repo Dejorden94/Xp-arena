@@ -46,16 +46,13 @@ export default {
             this.$emit('hide');
         },
         addTask() {
-            axios.post(`/api/games/${this.gameData.id}/tasks`, {
+            axios.post(`/games/${this.gameData.id}/add-task`, { // gebruik de nieuwe route
                 name: this.newTaskName,
                 description: this.newTaskDescription,
                 experience: this.newTaskExperience
             })
                 .then(response => {
-                    this.gameData.tasks.push(response.data.task);
-                    this.newTaskName = '';
-                    this.newTaskDescription = '';
-                    this.newTaskExperience = '';
+                    // ... je huidige logica om taken toe te voegen ...
                 })
                 .catch(error => {
                     console.error(error);

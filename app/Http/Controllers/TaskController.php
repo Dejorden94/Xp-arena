@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\Game;
 use App\Models\User;
+use App\Models\FollowerTask;
 use App\Models\CompletedTask;
 use Illuminate\Support\Facades\Auth;
 
@@ -92,9 +93,6 @@ class TaskController extends Controller
         return response()->json(['message' => 'Task resubmitted for approval']);
     }
 
-
-
-
     public function verifyTask($taskId)
     {
         // Controleer of de taak bestaat
@@ -151,5 +149,33 @@ class TaskController extends Controller
         $completedTask->save();
 
         return response()->json(['message' => 'Task rejected']);
+    }
+
+    public function addTask(Request $request, $gameId)
+    {
+        $game = Game::findOrFail($gameId);
+
+        // Een nieuwe taak aanmaken voor de maker van het spel
+        $task = new Task;
+        $task->name = $request->input('name');
+        $task->description = $request->input('description');
+        $task->experience = $request->input('experience');
+        $game->tasks()->save($task); // Opslaan van taak voor de maker
+
+        // Een nieuwe taak aanmaken voor alle volgers van het spel
+        $followerTasksData = [];
+        $followers = $game->followers;
+        foreach ($followers as $follower) {
+            $followerTasksData[] = [
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+                'experience' => $request->input('experience'),
+                'follower_id' => $follower->id,
+                'task_id' => $task->id,
+            ];
+        }
+        FollowerTask::insert($followerTasksData); // Opslaan van taken voor volgers
+
+        return response()->json(['id' => $game->id]);
     }
 }
