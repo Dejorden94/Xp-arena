@@ -13,6 +13,7 @@ class FollowerTask extends Model
         'description',
         'game_id',
         'experience',
+        'game_id',
     ];
 
     public function game()

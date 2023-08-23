@@ -172,6 +172,7 @@ class TaskController extends Controller
                 'experience' => $request->input('experience'),
                 'follower_id' => $follower->id,
                 'task_id' => $task->id,
+                'game_id' => $game->id,
             ];
         }
         FollowerTask::insert($followerTasksData); // Opslaan van taken voor volgers
