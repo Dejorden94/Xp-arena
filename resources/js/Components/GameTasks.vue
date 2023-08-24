@@ -3,11 +3,10 @@
         <h3>Quests</h3>
         <ul>
             <li v-for="task in tasks" :key="task.id">
-                {{ task.name }} - {{ task.description }} - {{ task.experience }}
-                <input v-if="!isUserOwner && task.approval_status !== 'rejected'" type="checkbox"
-                    :disabled="task.approval_status === 'verified'" @change="checkTask(task)">
-                <button v-if="!isUserOwner && task.approval_status === 'rejected'" @click="resubmitTask(task)">Opnieuw
-                    indienen</button>
+                {{ task.name }} - {{ task.description }} - {{ task.experience }} - {{ task.status }}
+                <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
+                <span v-if="task.status === 'completed'" class="task-status completed">Voltooid</span>
+                <span v-else-if="task.status === 'rejected'" class="task-status rejected">Afgewezen</span>
                 <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
             </li>
         </ul>
@@ -16,6 +15,11 @@
 
 <script>
 export default {
+    data() {
+        return {
+            tasks: []
+        };
+    },
     props: {
         tasks: {
             type: Array,
@@ -49,39 +53,33 @@ export default {
                     console.error(error);
                 });
         },
-        checkTask(task) {
-            axios.post(`/tasks/${task.id}/complete`)
-                .then(response => {
-                    // Markeer de taak als gecontroleerd
-                    task.completion_status = true;
-
-                    // Vind de index van de taak in de takenlijst
-                    const index = this.tasks.findIndex(t => t.id === task.id);
-
-                    // Verwijder de taak uit de takenlijst
-                    if (index !== -1) {
-                        this.tasks.splice(index, 1);
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
-        resubmitTask(task) {
-            axios.post(`/tasks/${task.id}/resubmit`)
-                .then(response => {
-                    // Zet de status van de taak terug naar 'unverified'
-                    task.approval_status = 'unverified';
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
+        created() {
+            // Haal de taken-data op bij het maken van de component
+            this.fetchFollowedTasks(this.gameId);
+        }
     }
 };
 </script>
 
 <style scoped>
+/* Voeg stijlen toe aan de statusindicator */
+.task-status {
+    margin-left: 10px;
+    font-size: 12px;
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+
+.completed {
+    background-color: green;
+    color: white;
+}
+
+.rejected {
+    background-color: red;
+    color: white;
+}
+
 article {
     border: 1px solid #ccc;
     padding: 1rem;

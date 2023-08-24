@@ -40,8 +40,9 @@ import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
         </article>
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails" />
+
         <GameTasks v-if="gameDetailsVisible && gameData" :isUserOwner="gameData.isUserOwner" :tasks="gameData.tasks"
-            :gameId="gameData.id" :user="user" />
+            :gameId="gameData.id" :user="user" :key="gameData.id" />
 
         <article>
             <h2>Je games</h2>
@@ -99,10 +100,10 @@ export default {
     created() {
         this.user = this.$page.props.auth.user;
         this.refreshGames(this.user.id);
-        this.fetchUnverifiedTasks();
     },
     mounted() {
         this.fetchFollowedGames();
+
     },
     methods: {
         createGame() {
@@ -126,31 +127,32 @@ export default {
                 console.log(error);
             }
         },
-        loadGameDetails(gameId) {
-            axios.get(`/api/games/${gameId}`)
-                .then(response => {
+        async loadGameDetails(gameId) {
+            try {
+                const response = await axios.get(`/api/games/${gameId}`);
+                if (response.data) {
                     this.gameData = response.data;
                     this.gameData.isUserOwner = this.user.id === this.gameData.user_id;
 
-                    // Als de gebruiker de eigenaar is, haal taken op uit de tasks tabel
                     if (this.gameData.isUserOwner) {
-                        this.fetchTasks(gameId);
+                        this.fetchTasks(gameId); // Wacht op het ophalen van taken
                     } else {
-                        this.fetchFollowedTasks(gameId);
+                        this.fetchFollowedTasks(gameId); // Wacht op het ophalen van gevolgde taken
                     }
 
                     this.gameDetailsVisible = true;
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+                } else {
+                    console.error("Geen data ontvangen van de API.");
+                }
+            } catch (error) {
+                console.error(error);
+            }
         },
-
-
         fetchTasks(gameId) {
             axios.get(`/api/games/${gameId}/tasks`)
                 .then(response => {
                     this.gameData.tasks = response.data.tasks;
+                    console.log(this.gameData.tasks);
                 })
                 .catch(error => {
                     console.error(error);
@@ -187,16 +189,6 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
-                });
-        },
-        fetchUnverifiedTasks() {
-            axios.get('/tasks/unverified')
-                .then(response => {
-                    this.unverifiedTasks = response.data;
-                    console.log(response.data);
-                })
-                .catch(error => {
-                    console.error(error);
                 });
         },
         refreshTasks() {
