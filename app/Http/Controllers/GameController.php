@@ -122,6 +122,25 @@ class GameController extends Controller
         return response()->json($game);
     }
 
+    public function getFollowedGameTasks($userId, $gameId)
+    {
+        $game = Game::findOrFail($gameId);
+
+        // Controleer of de gebruiker de game volgt
+        $isFollower = $game->followers()->where('user_id', $userId)->exists();
+
+        if (!$isFollower) {
+            return response()->json(['error' => 'User is not a follower of the game'], 403);
+        }
+
+        // Haal de taken op uit de follower_tasks tabel
+        $tasks = FollowerTask::where('game_id', $gameId)
+            ->where('follower_id', $userId)
+            ->get();
+
+        return response()->json(['tasks' => $tasks]);
+    }
+
     public function handleTasks(Request $request, $gameId)
     {
         $game = Game::findOrFail($gameId);

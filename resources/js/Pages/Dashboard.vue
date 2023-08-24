@@ -7,7 +7,6 @@ import GameDetails from '@/Components/GameDetails.vue';
 import GameTasks from '@/Components/GameTasks.vue';
 import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
 
-
 </script>
 
 
@@ -42,8 +41,7 @@ import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails" />
         <GameTasks v-if="gameDetailsVisible && gameData" :isUserOwner="gameData.isUserOwner" :tasks="gameData.tasks"
-            :gameId="gameData.id" />
-
+            :gameId="gameData.id" :user="user" />
 
         <article>
             <h2>Je games</h2>
@@ -133,7 +131,14 @@ export default {
                 .then(response => {
                     this.gameData = response.data;
                     this.gameData.isUserOwner = this.user.id === this.gameData.user_id;
-                    this.fetchTasks(gameId);
+
+                    // Als de gebruiker de eigenaar is, haal taken op uit de tasks tabel
+                    if (this.gameData.isUserOwner) {
+                        this.fetchTasks(gameId);
+                    } else {
+                        this.fetchFollowedTasks(gameId);
+                    }
+
                     this.gameDetailsVisible = true;
                 })
                 .catch(error => {
@@ -141,8 +146,18 @@ export default {
                 });
         },
 
+
         fetchTasks(gameId) {
             axios.get(`/api/games/${gameId}/tasks`)
+                .then(response => {
+                    this.gameData.tasks = response.data.tasks;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+        fetchFollowedTasks(gameId) {
+            axios.get(`/users/${this.user.id}/games/${gameId}/followed-tasks`)
                 .then(response => {
                     this.gameData.tasks = response.data.tasks;
                 })

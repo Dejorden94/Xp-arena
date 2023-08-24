@@ -41,6 +41,8 @@ Route::post('/tasks/{taskId}/reject', [TaskController::class, 'rejectTask'])->mi
 
 Route::post('/games/follow', [GameController::class, 'followGame']);
 Route::get('/dashboard/games', [GameController::class, 'followedGames'])->middleware('auth');
+Route::get('/users/{userId}/games/{gameId}/followed-tasks', [GameController::class, 'getFollowedGameTasks']);
+
 
 Route::post('/games/{gameId}/add-task', [TaskController::class, 'addTask'])->middleware('auth');
 

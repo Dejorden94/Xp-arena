@@ -28,6 +28,10 @@ export default {
         isUserOwner: {
             type: Boolean,
             default: false,
+        },
+        user: {
+            type: Object,
+            required: true
         }
     },
     methods: {
@@ -72,16 +76,11 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
-        }
-    },
+        },
+    }
 };
 </script>
 
-<style scoped>
-/* Styling is hetzelfde als voorheen */
-</style>
-
-  
 <style scoped>
 article {
     border: 1px solid #ccc;
