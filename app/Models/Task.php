@@ -16,6 +16,19 @@ class Task extends Model
         'experience',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($task) {
+            // Verwijder de bijbehorende taken uit de follower_tasks tabel
+            $followerTasks = FollowerTask::where('task_id', $task->id)->get();
+            foreach ($followerTasks as $followerTask) {
+                $followerTask->delete();
+            }
+        });
+    }
+
     public function game()
     {
         return $this->belongsTo(Game::class);
