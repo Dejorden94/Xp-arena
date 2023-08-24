@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Game;
 use App\Models\Task;
 use App\Models\User;
+use App\Models\FollowerTask;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Log;
@@ -55,14 +56,14 @@ class GameController extends Controller
             return response()->json(['error' => 'Invalid pincode'], 404);
         }
 
-        $userId = Auth::id(); //De waarde van $userIdeis null waarom?
+        $userId = Auth::id();
 
         Log::info('User ID:', ['userId' => $userId]);
 
         // Controleren of de gebruiker al bestaat
         $user = User::find($userId);
         if (!$user) {
-            return response()->json(['error' => 'User not found',], 404);
+            return response()->json(['error' => 'User not found'], 404);
         }
 
         // Controleren of de gebruiker al een volger is van het spel
@@ -79,8 +80,23 @@ class GameController extends Controller
         // Voeg de gebruiker toe als volger van het spel
         $game->followers()->attach($userId);
 
+        // Voeg de taken van het spel toe aan de follower_tasks tabel
+        $tasks = $game->tasks;
+
+        foreach ($tasks as $task) {
+            FollowerTask::create([
+                'name' => $task->name,
+                'description' => $task->description,
+                'experience' => $task->experience,
+                'follower_id' => $userId,
+                'task_id' => $task->id,
+                'game_id' => $game->id,
+            ]);
+        }
+
         return response()->json(['message' => 'Game followed successfully']);
     }
+
 
     public function followedGames()
     {
