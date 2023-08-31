@@ -41,7 +41,7 @@ import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails" />
 
-        <GameTasks v-if="gameDetailsVisible && gameData" :tasks="tasks" :gameId="gameData.id" :user="user"
+        <GameTasks v-if="gameDetailsVisible && gameData" :initialTasks="tasks" :gameId="gameData.id" :user="user"
             :key="gameData.id" />
 
         <article>

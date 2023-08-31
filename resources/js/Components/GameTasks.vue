@@ -2,7 +2,7 @@
     <article>
         <h3>Quests</h3>
         <ul>
-            <li v-for="task in tasks" :key="task.id">
+            <li v-for="task in initialTasks" :key="task.id">
                 {{ task.name }} - {{ task.description }} - {{ task.experience }} - {{ task.status }}
                 <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
                 <span v-if="task.status === 'completed'" class="task-status completed">Voltooid</span>
@@ -16,7 +16,7 @@
 <script>
 export default {
     props: {
-        tasks: {
+        initialTasks: {
             type: Array,
             required: true,
         },
