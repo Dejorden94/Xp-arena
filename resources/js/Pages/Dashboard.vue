@@ -41,8 +41,8 @@ import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails" />
 
-        <GameTasks v-if="gameDetailsVisible && gameData" :isUserOwner="gameData.isUserOwner" :tasks="gameData.tasks"
-            :gameId="gameData.id" :user="user" :key="gameData.id" />
+        <GameTasks v-if="gameDetailsVisible && gameData" :tasks="tasks" :gameId="gameData.id" :user="user"
+            :key="gameData.id" />
 
         <article>
             <h2>Je games</h2>
@@ -88,6 +88,7 @@ export default {
             name: '',
             games: [],
             user: {},
+            tasks: {},
             gameData: null,
             gameDetailsVisible: false,
             pincode: '',
@@ -134,6 +135,7 @@ export default {
                     this.gameData = response.data;
                     this.gameData.isUserOwner = this.user.id === this.gameData.user_id;
 
+
                     if (this.gameData.isUserOwner) {
                         this.fetchTasks(gameId); // Wacht op het ophalen van taken
                     } else {
@@ -151,8 +153,7 @@ export default {
         fetchTasks(gameId) {
             axios.get(`/api/games/${gameId}/tasks`)
                 .then(response => {
-                    this.gameData.tasks = response.data.tasks;
-                    console.log(this.gameData.tasks);
+                    this.tasks = response.data.tasks;
                 })
                 .catch(error => {
                     console.error(error);
@@ -161,7 +162,7 @@ export default {
         fetchFollowedTasks(gameId) {
             axios.get(`/users/${this.user.id}/games/${gameId}/followed-tasks`)
                 .then(response => {
-                    this.gameData.tasks = response.data.tasks;
+                    this.tasks = response.data.tasks;
                 })
                 .catch(error => {
                     console.error(error);

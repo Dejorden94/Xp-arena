@@ -15,11 +15,6 @@
 
 <script>
 export default {
-    data() {
-        return {
-            tasks: []
-        };
-    },
     props: {
         tasks: {
             type: Array,
@@ -52,12 +47,11 @@ export default {
                 .catch((error) => {
                     console.error(error);
                 });
-        },
-        created() {
-            // Haal de taken-data op bij het maken van de component
-            this.fetchFollowedTasks(this.gameId);
         }
-    }
+    },
+    created() {
+        console.log("Value of tasks prop:", this.initialTasks);
+    },
 };
 </script>
 
