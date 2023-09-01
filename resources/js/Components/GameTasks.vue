@@ -41,9 +41,9 @@ export default {
                 .delete(`/api/games/${this.gameId}/tasks/${taskId}`)
                 .then((response) => {
                     // Verwijder de taak uit de array
-                    const index = this.tasks.findIndex((task) => task.id === taskId);
+                    const index = this.initialTasks.findIndex((task) => task.id === taskId);
                     if (index !== -1) {
-                        this.tasks.splice(index, 1);
+                        this.initialTasks.splice(index, 1);
                     }
                 })
                 .catch((error) => {
