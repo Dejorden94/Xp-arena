@@ -3,6 +3,8 @@
         <h3>Quests</h3>
         <ul>
             <li v-for="task in initialTasks" :key="task.id">
+                <input v-if="!isUserOwner" type="checkbox" v-model="task.completed"
+                    @change="toggleTaskCompletion(task.id)" />
                 {{ task.name }} - {{ task.description }} - {{ task.experience }} - {{ task.status }}
                 <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
                 <span v-if="task.status === 'completed'" class="task-status completed">Voltooid</span>
@@ -47,11 +49,23 @@ export default {
                 .catch((error) => {
                     console.error(error);
                 });
-        }
-    },
-    created() {
-        console.log("Value of tasks prop:", this.initialTasks);
-    },
+        },
+        toggleTaskCompletion(taskId) {
+            // Stuur een verzoek om de voltooiingsstatus van de taak te wijzigen
+            axios
+                .post(`/games/${this.gameId}/tasks/${taskId}/completeTask`)
+                .then((response) => {
+                    // Update de voltooide status van de taak in de lijst
+                    const task = this.initialTasks.find((t) => t.id === taskId);
+                    if (task) {
+                        task.status = 'completed'; // Je kunt de status aanpassen op basis van de serverreactie
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+    }
 };
 </script>
 

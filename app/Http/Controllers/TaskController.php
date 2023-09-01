@@ -14,35 +14,52 @@ class TaskController extends Controller
 {
     public function completeTask($taskId)
     {
-        // Controleer of de taak bestaat
+        // Zoek de taak
         $task = Task::find($taskId);
 
         if (!$task) {
             return response()->json(['error' => 'Task not found'], 404);
         }
 
-        // Controleer of de gebruiker de maker van het spel is
+        // Zoek de game waar de taak bij hoort
         $game = $task->game;
 
+        if (!$game) {
+            return response()->json(['error' => 'Game not found'], 404);
+        }
+
+        // Controleer of de huidige gebruiker de eigenaar van de game is
         if (Auth::id() === $game->user_id) {
             return response()->json(['error' => 'Cannot complete your own task'], 400);
         }
 
         // Controleer of de taak al is voltooid door de gebruiker
-        $completedTask = CompletedTask::where('task_id', $taskId)->where('user_id', Auth::id())->first();
+        $followerId = Auth::id();
 
+        $completedTask = FollowerTask::where('task_id', $taskId)
+            ->where('follower_id', $followerId)
+            ->first();
 
-        // Markeer de taak als voltooid
-        $completedTask = new CompletedTask;
-        $completedTask->task_id = $taskId;
-        $completedTask->user_id = Auth::id();
-        $completedTask->game_id = $game->id;
-        $completedTask->creator_id = $game->user_id;  // stel de creator_id in
-        $completedTask->is_verified = false; // Je kan deze regel negeren als je geen verificatieproces nodig hebt
-        $completedTask->save();
+        if ($completedTask->status !== 'completed') {
+            // Als de taak nog niet is voltooid door de huidige volger, markeer deze dan als voltooid
+            $completedTask = new FollowerTask;
+            $completedTask->task_id = $taskId;
+            $completedTask->follower_id = $followerId;
+            $completedTask->status = 'completed'; // Stel de status in op 'completed'
+            $completedTask->save();
+
+            // Update de status van de taak in de tasks-tabel naar 'completed'
+            $task->status = 'completed';
+            $task->save();
+        } else {
+            // Als de taak al is voltooid door de huidige volger, retourneer een foutmelding
+            return response()->json(['message' => 'Task already completed'], 400);
+        }
 
         return response()->json(['message' => 'Task marked as complete']);
     }
+
+
 
     public function getUnverifiedTasks()
     {
