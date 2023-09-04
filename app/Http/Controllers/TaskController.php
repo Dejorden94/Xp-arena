@@ -80,6 +80,41 @@ class TaskController extends Controller
         return response()->json($tasks);
     }
 
+    public function deleteFollowerTask($taskId)
+    {
+        try {
+            // Zoek de FollowerTask op basis van het ID
+            $followerTask = FollowerTask::findOrFail($taskId);
+
+            // Voer eventuele extra logica uit voordat je de FollowerTask verwijdert
+
+            // Verwijder de FollowerTask
+            $followerTask->delete();
+
+            return response()->json(['message' => 'FollowerTask succesvol verwijderd'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Fout bij het verwijderen van de FollowerTask'], 500);
+        }
+    }
+
+    public function updateStatus($id)
+    {
+        // Zoek de follower_task
+        $followerTask = FollowerTask::find($id);
+
+        if (!$followerTask) {
+            return response()->json(['message' => 'Follower task not found'], 404);
+        }
+
+        // Werk de status bij naar 'rejected'
+        $followerTask->status = 'rejected';
+        $followerTask->save();
+
+        // Hier kun je eventueel de ervaringspunten van de volger aanpassen.
+
+        return response()->json(['message' => 'Follower task status updated to rejected'], 200);
+    }
+
     public function addTask(Request $request, $gameId)
     {
         $game = Game::findOrFail($gameId);

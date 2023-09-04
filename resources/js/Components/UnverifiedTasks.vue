@@ -4,9 +4,12 @@
     <article>
         <h2>Te verifiëren taken</h2>
         <ul>
-            <li v-for="task in unverifiedTasks" :key="task.id" @click="verifyTask(task.id)">
+            <li v-for="(task, index) in unverifiedTasks" :key="task.id">
                 {{ task.name }}
+                <button @click="acceptTask(task.id, index)">Accepteren</button>
+                <button @click="declineTask(task.id, index)">Afwijzen</button>
             </li>
+
         </ul>
     </article>
 </template>
@@ -20,11 +23,37 @@ export default {
         },
     },
     methods: {
-        verifyTask(taskId) {
-            // Plaats hier de logica om een taak te verifiëren
-            // Dit kan een AJAX-verzoek naar de server bevatten om de taak te markeren als geverifieerd
-            // Nadat de taak is geverifieerd, kun je deze uit de lijst met ongeverifieerde taken verwijderen
-            // bijvoorbeeld door het op te filteren uit de array.
+        async acceptTask(taskId, index) {
+            try {
+                // Doe een API-aanroep om de taak te verwijderen
+                const response = await axios.delete(`/follower-tasks/${taskId}`);
+
+                if (response.status === 200) {
+                    // Taak succesvol verwijderd, bijwerken van de weergave
+                    this.unverifiedTasks.splice(index, 1);
+                    console.log(`Taak geaccepteerd en verwijderd: ${taskId}`);
+                } else {
+                    console.error('Fout bij het verwijderen van de taak');
+                }
+            } catch (error) {
+                console.error('Fout bij het verwijderen van de taak:', error);
+            }
+        },
+        async declineTask(taskId, index) {
+            try {
+                // Doe een API-aanroep om de taak af te wijzen
+                const response = await axios.put(`/follower-tasks/${taskId}`);
+
+                if (response.status === 200) {
+                    // Taak succesvol afgewezen, bijwerken van de weergave
+                    this.unverifiedTasks.splice(index, 1);
+                    console.log(`Taak afgewezen en verwijderd: ${taskId}`);
+                } else {
+                    console.error('Fout bij het afwijzen van de taak');
+                }
+            } catch (error) {
+                console.error('Fout bij het afwijzen van de taak:', error);
+            }
         },
     },
 };
@@ -52,9 +81,5 @@ ul {
 li {
     margin-bottom: 0.5rem;
     cursor: pointer;
-}
-
-li:hover {
-    color: #007BFF;
 }
 </style>

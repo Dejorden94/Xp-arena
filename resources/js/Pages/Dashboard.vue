@@ -153,7 +153,6 @@ export default {
         async fetchUnverifiedTasks() {
             try {
                 const response = await axios.get(`/unverified-tasks`);
-                console.log(response.data);
                 this.unverifiedTasks = response.data;
             } catch (error) {
                 console.error(error);

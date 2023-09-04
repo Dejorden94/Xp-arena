@@ -3,11 +3,11 @@
         <h3>Quests</h3>
         <ul>
             <li v-for="task in initialTasks" :key="task.id">
-                <input v-if="task.status === 'pending' && !isUserOwner" type="checkbox" v-model="task.completed"
-                    @change="toggleTaskCompletion(task.id)" />
+                <input v-if="task.status === 'pending' && !isUserOwner || task.status === 'rejected'" type="checkbox"
+                    v-model="task.completed" @change="toggleTaskCompletion(task.id)" />
                 {{ task.name }} - {{ task.description }} - {{ task.experience }} - {{ task.status }}
                 <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
-                <span v-if="task.status === 'completed'" class="task-status completed">Voltooid</span>
+                <span v-if="task.status === 'completed'" class="task-status reviewd">Reviewd</span>
                 <span v-else-if="task.status === 'rejected'" class="task-status rejected">Afgewezen</span>
                 <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
             </li>
@@ -82,6 +82,10 @@ export default {
 .completed {
     background-color: green;
     color: white;
+}
+
+.reviewd {
+    background-color: orange;
 }
 
 .rejected {
