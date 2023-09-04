@@ -15,6 +15,8 @@ class TaskController extends Controller
 {
     public function completeTask($taskId)
     {
+        //Zoek de huidige user
+        $user = Auth::user();
 
         // Zoek de taak
         $task = Task::find($taskId);
@@ -41,6 +43,11 @@ class TaskController extends Controller
         $completedTask = FollowerTask::where('task_id', $taskId)
             ->where('follower_id', $followerId)
             ->first();
+
+        $taskExperience = $completedTask->experience;
+
+        $user->experience += $taskExperience;
+        $user->save();
 
         if (!$completedTask) {
             // Als de taak nog niet is voltooid door de huidige volger, retourneer een foutmelding
