@@ -47,7 +47,7 @@ export default {
                 if (response.status === 200) {
                     // Taak succesvol afgewezen, bijwerken van de weergave
                     this.unverifiedTasks.splice(index, 1);
-                    console.log(`Taak afgewezen en verwijderd: ${taskId}`);
+                    console.log(`Taak afgewezen: ${taskId}`);
                 } else {
                     console.error('Fout bij het afwijzen van de taak');
                 }

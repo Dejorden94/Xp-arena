@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\Game;
+use App\Models\User;
 use App\Models\FollowerTask;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+
 
 
 class TaskController extends Controller
@@ -106,13 +108,28 @@ class TaskController extends Controller
             return response()->json(['message' => 'Follower task not found'], 404);
         }
 
+        // Haal de follower_id op uit de follower_task
+        $followerId = $followerTask->follower_id;
+
         // Werk de status bij naar 'rejected'
         $followerTask->status = 'rejected';
         $followerTask->save();
 
         // Hier kun je eventueel de ervaringspunten van de volger aanpassen.
+        $follower = User::find($followerId);
 
-        return response()->json(['message' => 'Follower task status updated to rejected'], 200);
+
+
+        if ($follower) {
+            Log::info('Value of $follower:', ['follower' => $follower]);
+            // Trek de experience points van de taak af van de follower user experience points
+            $follower->experience -= $followerTask->experience;
+            $follower->save();
+
+            return response()->json(['message' => 'Follower task status updated to rejected'], 200);
+        } else {
+            return response()->json(['message' => 'Follower not found'], 404);
+        }
     }
 
     public function addTask(Request $request, $gameId)
