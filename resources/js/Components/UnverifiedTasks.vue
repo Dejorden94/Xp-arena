@@ -1,11 +1,11 @@
+// UnverifiedTasks.vue
+
 <template>
-    <article class="unverified-task">
-        <h2>Te controleren quests</h2>
+    <article>
+        <h2>Te verifiëren taken</h2>
         <ul>
-            <li v-for="task in unverifiedTasks" :key="task.id">
-                {{ task.name }} - {{ task.description }} - {{ task.experience }}
-                <button @click="verifyTask(task.id)">Goedkeuren</button>
-                <button @click="rejectTask(task.id)">Reject</button> <!-- De reject knop -->
+            <li v-for="task in unverifiedTasks" :key="task.id" @click="verifyTask(task.id)">
+                {{ task.name }}
             </li>
         </ul>
     </article>
@@ -14,99 +14,47 @@
 <script>
 export default {
     props: {
-        onTaskRejected: {
-            type: Function,
-            default: () => { },
+        unverifiedTasks: {
+            type: Array,
+            required: true,
         },
-    },
-    data() {
-        return {
-            unverifiedTasks: [],
-        }
-    },
-    created() {
-        axios.get('/tasks/unverified')
-            .then(response => {
-                this.unverifiedTasks = response.data;
-            })
-            .catch(error => {
-                console.error(error);
-            });
     },
     methods: {
         verifyTask(taskId) {
-            axios.put(`/tasks/${taskId}/verify`)
-                .then(response => {
-                    // Verwijder de taak uit de lijst
-                    const index = this.unverifiedTasks.findIndex((task) => task.id === taskId);
-                    if (index !== -1) {
-                        this.unverifiedTasks.splice(index, 1);
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        },
-        rejectTask(taskId) {
-            axios.post('/tasks/' + taskId + '/reject')
-                .then(response => {
-                    // Verwijder de taak uit de lokale array
-                    this.unverifiedTasks = this.unverifiedTasks.filter(task => task.id !== taskId);
-                    // En voer ook de update uit in het Dashboard component
-                    if (this.onTaskRejected) {
-                        this.onTaskRejected();
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        },
-        resubmitTask(task) {
-            axios.post(`/tasks/${task.id}/resubmit`)
-                .then(response => {
-                    // Zet de status van de taak terug naar 'unverified'
-                    task.approval_status = 'unverified';
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
-        fetchUnverifiedTasks() {
-            axios.get('/tasks/unverified')
-                .then(response => {
-                    this.unverifiedTasks = response.data;
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+            // Plaats hier de logica om een taak te verifiëren
+            // Dit kan een AJAX-verzoek naar de server bevatten om de taak te markeren als geverifieerd
+            // Nadat de taak is geverifieerd, kun je deze uit de lijst met ongeverifieerde taken verwijderen
+            // bijvoorbeeld door het op te filteren uit de array.
         },
     },
 };
 </script>
 
 <style scoped>
-.unverified-task {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    padding: 20px;
-    margin-bottom: 20px;
+/* Stijlen voor het UnverifiedTasks-component */
+article {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding: 1rem;
+    margin-bottom: 2rem;
 }
 
-.unverified-task h2 {
-    font-size: 20px;
-    color: #495057;
+h2 {
+    color: #333;
+    margin-bottom: 1rem;
 }
 
-.unverified-task button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
+ul {
+    padding-left: 1rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
     cursor: pointer;
+}
+
+li:hover {
+    color: #007BFF;
 }
 </style>

@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\Game;
-use App\Models\User;
 use App\Models\FollowerTask;
-use App\Models\CompletedTask;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 
 class TaskController extends Controller
@@ -60,6 +59,25 @@ class TaskController extends Controller
 
 
         return response()->json(['message' => 'Task marked as complete']);
+    }
+
+    public function getUnverifiedTasks()
+    {
+        // Controleer of de gebruiker een spel heeft gemaakt
+        $game = Game::where('user_id', Auth::id())->first();
+
+        if (!$game) {
+            // De gebruiker heeft geen spel. Retourneer een succesvolle respons in plaats van een fout.
+            return response()->json(['message' => 'No game found for this user'], 200);
+        }
+
+        // Haal de taken op die nog niet zijn geverifieerd en niet zijn afgewezen
+        $tasks = FollowerTask::where('game_id', $game->id)
+            ->where('status', 'completed')
+            ->get();
+
+
+        return response()->json($tasks);
     }
 
     public function addTask(Request $request, $gameId)

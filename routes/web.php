@@ -34,6 +34,7 @@ Route::get('/games', [GameController::class, 'index']);
 Route::post('/games', [GameController::class, 'store']);
 
 Route::post('/tasks/{taskId}/completeTask', [TaskController::class, 'completeTask']);
+Route::get('/unverified-tasks', [TaskController::class, 'getUnverifiedTasks']);
 
 Route::post('/games/follow', [GameController::class, 'followGame']);
 Route::get('/dashboard/games', [GameController::class, 'followedGames'])->middleware('auth');

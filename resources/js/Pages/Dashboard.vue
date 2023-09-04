@@ -53,7 +53,7 @@ import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
             </ul>
         </article>
 
-        <UnverifiedTasks v-if="unverifiedTasks.length > 0" />
+        <UnverifiedTasks v-if="unverifiedTasks.length > 0" :unverifiedTasks="unverifiedTasks" />
 
         <article>
             <h2>Voer een game pincode in</h2>
@@ -101,10 +101,10 @@ export default {
     created() {
         this.user = this.$page.props.auth.user;
         this.refreshGames(this.user.id);
+        this.fetchUnverifiedTasks(); // Haal ongeverifieerde taken op bij het laden van de pagina
     },
     mounted() {
         this.fetchFollowedGames();
-
     },
     methods: {
         createGame() {
@@ -146,6 +146,15 @@ export default {
                 } else {
                     console.error("Geen data ontvangen van de API.");
                 }
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        async fetchUnverifiedTasks() {
+            try {
+                const response = await axios.get(`/unverified-tasks`);
+                console.log(response.data);
+                this.unverifiedTasks = response.data;
             } catch (error) {
                 console.error(error);
             }
