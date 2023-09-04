@@ -33,8 +33,7 @@ Route::get('/', function () {
 Route::get('/games', [GameController::class, 'index']);
 Route::post('/games', [GameController::class, 'store']);
 
-Route::post('/games/{gameId}/tasks/{taskId}/completeTask', [TaskController::class, 'completeTask']);
-Route::post('/tasks/{taskId}/complete', [TaskController::class, 'completeTask']);
+Route::post('/tasks/{taskId}/completeTask', [TaskController::class, 'completeTask']);
 Route::get('/tasks/unverified', [TaskController::class, 'getUnverifiedTasks']);
 Route::put('/tasks/{taskId}/verify', [TaskController::class, 'verifyTask']);
 

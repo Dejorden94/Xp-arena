@@ -10,10 +10,12 @@ use App\Models\FollowerTask;
 use App\Models\CompletedTask;
 use Illuminate\Support\Facades\Auth;
 
+
 class TaskController extends Controller
 {
     public function completeTask($taskId)
     {
+
         // Zoek de taak
         $task = Task::find($taskId);
 
@@ -40,24 +42,19 @@ class TaskController extends Controller
             ->where('follower_id', $followerId)
             ->first();
 
-        if ($completedTask->status !== 'completed') {
-            // Als de taak nog niet is voltooid door de huidige volger, markeer deze dan als voltooid
-            $completedTask = new FollowerTask;
-            $completedTask->task_id = $taskId;
-            $completedTask->follower_id = $followerId;
-            $completedTask->status = 'completed'; // Stel de status in op 'completed'
-            $completedTask->save();
-
-            // Update de status van de taak in de tasks-tabel naar 'completed'
-            $task->status = 'completed';
-            $task->save();
-        } else {
-            // Als de taak al is voltooid door de huidige volger, retourneer een foutmelding
-            return response()->json(['message' => 'Task already completed'], 400);
+        if (!$completedTask) {
+            // Als de taak nog niet is voltooid door de huidige volger, retourneer een foutmelding
+            return response()->json(['message' => 'Task not yet completed'], 400);
         }
+
+        // Pas de status van de bestaande taak aan naar 'completed'
+        $completedTask->status = 'completed';
+        $completedTask->save();
+
 
         return response()->json(['message' => 'Task marked as complete']);
     }
+
 
 
 

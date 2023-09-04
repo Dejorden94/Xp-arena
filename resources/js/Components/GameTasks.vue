@@ -52,8 +52,9 @@ export default {
         },
         toggleTaskCompletion(taskId) {
             // Stuur een verzoek om de voltooiingsstatus van de taak te wijzigen
+
             axios
-                .post(`/games/${this.gameId}/tasks/${taskId}/completeTask`)
+                .post(`tasks/${taskId}/completeTask`)
                 .then((response) => {
                     // Update de voltooide status van de taak in de lijst
                     const task = this.initialTasks.find((t) => t.id === taskId);
