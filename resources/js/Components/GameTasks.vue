@@ -3,7 +3,7 @@
         <h3>Quests</h3>
         <ul>
             <li v-for="task in initialTasks" :key="task.id">
-                <input v-if="!isUserOwner" type="checkbox" v-model="task.completed"
+                <input v-if="task.status === 'pending' && !isUserOwner" type="checkbox" v-model="task.completed"
                     @change="toggleTaskCompletion(task.id)" />
                 {{ task.name }} - {{ task.description }} - {{ task.experience }} - {{ task.status }}
                 <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
