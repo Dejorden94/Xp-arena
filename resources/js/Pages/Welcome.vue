@@ -58,23 +58,22 @@ defineProps({
                             <figcaption>Points</figcaption>
                         </div>
                         <div class="badge-container">
-                            <img class="badge-img" src="images/info-imgs/Gamification-badges.png"
-                                alt="Een coin met een waarde van 1.">
+                            <img class="badge-img" src="images/info-imgs/Gamification-badges.png" alt="Een rood lintje.">
                             <figcaption>Badges</figcaption>
                         </div>
                         <div class="badge-container">
                             <img class="badge-img" src="images/info-imgs/Gamification-leaderboard.png"
-                                alt="Een coin met een waarde van 1.">
+                                alt="Een afbeelding van een trofee">
                             <figcaption>LeaderBoard</figcaption>
                         </div>
                         <div class="badge-container">
                             <img class="badge-img" src="images/info-imgs/Gamification-progress.png"
-                                alt="Een coin met een waarde van 1.">
+                                alt="Een progressie klokje.">
                             <figcaption>Progress</figcaption>
                         </div>
                         <div class="badge-container">
                             <img class="badge-img" src="images/info-imgs/Gamification-avatar.png"
-                                alt="Een coin met een waarde van 1.">
+                                alt="Een avatar afbeelding van Batman.">
                             <figcaption>Avatar</figcaption>
                         </div>
                     </figure>
@@ -84,7 +83,17 @@ defineProps({
                             avatar.</p>
                     </div>
                 </section>
-                <section class="info-section"></section>
+                <section class="info-section">
+                    <figure class="easy-info">
+                        <img src="images/info-imgs/info-phone-mockup-closeup-blur.png"
+                            alt="Gebruiker houdt een telefoon vast en heeft Xp arena open staan.">
+                    </figure>
+                    <div class="text-container">
+                        <h2>Easy & free</h2>
+                        <p>Getting started is easy and free. You can use your Google account, or signup with another e-mail
+                            address.</p>
+                    </div>
+                </section>
                 <section class="start-now"></section>
             </article>
         </div>
@@ -102,6 +111,7 @@ defineProps({
 }
 
 .info-container {
+    padding: 0 2.5rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
@@ -137,6 +147,7 @@ defineProps({
 .gamification {
     display: flex;
     flex-direction: row;
+
 }
 
 .badge-container {
@@ -147,7 +158,12 @@ defineProps({
 }
 
 .badge-img {
+    margin: -1rem;
     width: 100%;
+}
+
+.easy-info {
+    height: 100%;
 }
 
 .text-container {
