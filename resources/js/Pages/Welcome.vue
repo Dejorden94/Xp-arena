@@ -49,6 +49,7 @@ defineProps({
                 </section>
                 <section class="info-section"></section>
                 <section class="info-section"></section>
+                <section class="start-now"></section>
             </article>
         </div>
     </div>
@@ -67,8 +68,10 @@ defineProps({
 .info-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     gap: 1rem;
     width: 100vw;
+    height: 100vh;
 }
 
 .info-section {
@@ -78,6 +81,11 @@ defineProps({
     justify-content: center;
     background: red;
     /*Voor testen*/
+}
+
+.start-now {
+    background: blue;
+    grid-column: 1/4;
 }
 
 .bg-dots-darker {
