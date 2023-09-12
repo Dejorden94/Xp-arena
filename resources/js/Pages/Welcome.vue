@@ -39,15 +39,15 @@ defineProps({
             </template>
 
             <article class="info-container">
-                <section class="info-sectio">
+                <section class="info-section">
                     <figure>
                         <img src="" alt="">
                     </figure>
                     <h2>Welcome to Xp arena</h2>
                     <p>A tool to gamify any process</p>
                 </section>
-                <section class="info-sectio"></section>
-                <section class="info-sectio"></section>
+                <section class="info-section"></section>
+                <section class="info-section"></section>
             </article>
         </div>
     </div>
@@ -57,6 +57,22 @@ defineProps({
 .home-container {
     height: 100vh;
     background: var(--background-darker);
+}
+
+.info-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    width: 100vw;
+}
+
+.info-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: red;
+    /*Voor testen*/
 }
 
 .bg-dots-darker {
