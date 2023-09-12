@@ -2,8 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Spartan';
+    src: url('/fonts/spartan/Spartan-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Spartan';
+    src: url('/fonts/spartan/Spartan-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Spartan';
+    src: url('/fonts/spartan/Spartan-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
 :root {
     --background-lighter: #443C52;
     --background-darker: #25202C;
     --background-super-dark: #1B1720;
+    --font-color-normal: #EEE;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Spartan', sans-serif;
+    color: var(--font-color-normal);
+    font-size: 1.4rem;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+h2 {
+    font-weight: 700;
+    font-size: 2rem;
 }
