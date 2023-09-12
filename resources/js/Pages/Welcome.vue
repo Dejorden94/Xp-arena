@@ -38,19 +38,22 @@ defineProps({
                 Register</Link>
             </template>
 
-            <article>
-
+            <article class="info-container">
+                <section class="info-sectio">
+                    <figure>
+                        <img src="" alt="">
+                    </figure>
+                    <h2>Welcome to Xp arena</h2>
+                    <p>A tool to gamify any process</p>
+                </section>
+                <section class="info-sectio"></section>
+                <section class="info-sectio"></section>
             </article>
         </div>
     </div>
 </template>
 
 <style>
-:root {
-    --background-darker: #25202C;
-}
-
-
 .home-container {
     height: 100vh;
     background: var(--background-darker);

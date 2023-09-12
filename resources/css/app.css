@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --background-lighter: #443C52;
+    --background-darker: #25202C;
+    --background-super-dark: #1B1720;
+}
