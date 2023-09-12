@@ -40,7 +40,7 @@ defineProps({
             </template>
 
             <article class="info-container">
-                <section class="info-section">
+                <section class="info-section welcome-info">
                     <figure class="smartphone-laptop-info">
                         <img src="images/info-imgs/info-laptop-smartphone.png"
                             alt="Uitleg over Xp Arena getoond op een laptop en mobiele telefoon.">
@@ -51,9 +51,38 @@ defineProps({
                     </div>
                 </section>
                 <section class="info-section">
-                    <figure>
-                        <img src="" alt="Gebruiker bezoekt Xp arena op zijn mobiele apparaat.">
+                    <figure class="gamification">
+                        <div class="badge-container">
+                            <img class="badge-img" src="images/info-imgs/Gamification-points.png"
+                                alt="Een coin met een waarde van 1.">
+                            <figcaption>Points</figcaption>
+                        </div>
+                        <div class="badge-container">
+                            <img class="badge-img" src="images/info-imgs/Gamification-badges.png"
+                                alt="Een coin met een waarde van 1.">
+                            <figcaption>Badges</figcaption>
+                        </div>
+                        <div class="badge-container">
+                            <img class="badge-img" src="images/info-imgs/Gamification-leaderboard.png"
+                                alt="Een coin met een waarde van 1.">
+                            <figcaption>LeaderBoard</figcaption>
+                        </div>
+                        <div class="badge-container">
+                            <img class="badge-img" src="images/info-imgs/Gamification-progress.png"
+                                alt="Een coin met een waarde van 1.">
+                            <figcaption>Progress</figcaption>
+                        </div>
+                        <div class="badge-container">
+                            <img class="badge-img" src="images/info-imgs/Gamification-avatar.png"
+                                alt="Een coin met een waarde van 1.">
+                            <figcaption>Avatar</figcaption>
+                        </div>
                     </figure>
+                    <div class="text-container">
+                        <h2>Gamification</h2>
+                        <p>XP arena uses game mechanics like points, badges, leaderboard, progress overview and adjustable
+                            avatar.</p>
+                    </div>
                 </section>
                 <section class="info-section"></section>
                 <section class="start-now"></section>
@@ -100,12 +129,33 @@ defineProps({
     align-items: center;
     justify-content: center;
     background: var(--background-super-dark);
-    border: .1rem solid var(--background-lighter);
-    border-radius: 2rem;
+    border: .2rem solid var(--background-lighter);
+    border-radius: 3rem;
     /*Voor testen*/
 }
 
-.text-containber {
+.gamification {
+    display: flex;
+    flex-direction: row;
+}
+
+.badge-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.badge-img {
+    width: 100%;
+}
+
+.text-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
     height: 40%;
 }
 
