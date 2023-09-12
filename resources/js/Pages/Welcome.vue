@@ -41,13 +41,20 @@ defineProps({
 
             <article class="info-container">
                 <section class="info-section">
-                    <figure>
-                        <img src="" alt="">
+                    <figure class="smartphone-laptop-info">
+                        <img src="images/info-imgs/info-laptop-smartphone.png"
+                            alt="Uitleg over Xp Arena getoond op een laptop en mobiele telefoon.">
                     </figure>
-                    <h2>Welcome to Xp arena</h2>
-                    <p>A tool to gamify any process</p>
+                    <div class="text-container">
+                        <h2>Welcome to Xp arena</h2>
+                        <p>A tool to gamify any process</p>
+                    </div>
                 </section>
-                <section class="info-section"></section>
+                <section class="info-section">
+                    <figure>
+                        <img src="" alt="Gebruiker bezoekt Xp arena op zijn mobiele apparaat.">
+                    </figure>
+                </section>
                 <section class="info-section"></section>
                 <section class="start-now"></section>
             </article>
@@ -62,7 +69,7 @@ defineProps({
 }
 
 .logo {
-    width: 15%;
+    width: 10%;
 }
 
 .info-container {
@@ -74,13 +81,32 @@ defineProps({
     height: 100vh;
 }
 
+.smartphone-laptop-info {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    background: var(--background-lighter);
+    border-radius: 2rem 2rem 0 0;
+    height: 100%;
+}
+
+.smartphone-laptop-info>img {
+    height: 90%;
+}
+
 .info-section {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: red;
+    background: var(--background-super-dark);
+    border: .1rem solid var(--background-lighter);
+    border-radius: 2rem;
     /*Voor testen*/
+}
+
+.text-containber {
+    height: 40%;
 }
 
 .start-now {
