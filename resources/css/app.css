@@ -27,7 +27,8 @@
     --background-lighter: #443C52;
     --background-darker: #25202C;
     --background-super-dark: #1B1720;
-    --font-color-normal: #EEE;
+    --font-color-normal: #eee;
+    --color-orange: #F58020;
 }
 
 *,

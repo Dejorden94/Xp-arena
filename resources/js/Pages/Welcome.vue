@@ -64,7 +64,7 @@ defineProps({
                         <div class="badge-container">
                             <img class="badge-img" src="images/info-imgs/Gamification-leaderboard.png"
                                 alt="Een afbeelding van een trofee">
-                            <figcaption>LeaderBoard</figcaption>
+                            <figcaption>Leaderboard</figcaption>
                         </div>
                         <div class="badge-container">
                             <img class="badge-img" src="images/info-imgs/Gamification-progress.png"
@@ -85,7 +85,7 @@ defineProps({
                 </section>
                 <section class="info-section">
                     <figure class="easy-info">
-                        <img src="images/info-imgs/info-phone-mockup-closeup-blur.png"
+                        <img src="images/info-imgs/info-phone-mockup-closeup.png"
                             alt="Gebruiker houdt een telefoon vast en heeft Xp arena open staan.">
                     </figure>
                     <div class="text-container">
@@ -94,7 +94,9 @@ defineProps({
                             address.</p>
                     </div>
                 </section>
-                <section class="start-now"></section>
+                <section class="start-now">
+                    <a :href="route('register')">START NOW</a>
+                </section>
             </article>
         </div>
     </div>
@@ -176,8 +178,26 @@ defineProps({
 }
 
 .start-now {
-    background: blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20vh;
     grid-column: 1/4;
+    background-image: url("images/info-imgs/levelup-bg1.png");
+    background-size: 30%;
+}
+
+.start-now>a {
+    display: block;
+    font-size: 2rem;
+    background: var(--background-lighter);
+    font-weight: 700;
+    text-align: center;
+    width: 20rem;
+    height: 4rem;
+    line-height: 4rem;
+    border-radius: 3rem;
+    border: 2px solid var(--color-orange);
 }
 
 .bg-dots-darker {
