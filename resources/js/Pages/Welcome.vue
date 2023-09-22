@@ -24,20 +24,34 @@ defineProps({
 
     <div class="home-container">
         <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 text-right">
-            <Link v-if="$page.props.auth.user" :href="route('dashboard')"
-                class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-            Dashboard</Link>
-
-            <template v-else>
-                <img class="logo" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
-                <Link :href="route('login')"
+            <article class="menu-desktop">
+                <Link v-if="$page.props.auth.user" :href="route('dashboard')"
                     class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                Log in</Link>
+                Dashboard</Link>
 
-                <Link v-if="canRegister" :href="route('register')"
-                    class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                Register</Link>
-            </template>
+                <template v-else>
+                    <img class="logo" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
+                    <Link :href="route('login')">
+                    Log in</Link>
+
+                    <Link v-if="canRegister" :href="route('register')">
+                    Register</Link>
+                </template>
+            </article>
+
+            <article class="menu-mobile">
+                <Link v-if="$page.props.auth.user" :href="route('dashboard')"
+                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+                Dashboard</Link>
+
+                <template v-else>
+                    <Link :href="route('login')">
+                    Log in</Link>
+
+                    <Link v-if="canRegister" :href="route('register')">
+                    Register</Link>
+                </template>
+            </article>
 
             <article class="info-container">
                 <section class="info-section welcome-info">
@@ -103,9 +117,16 @@ defineProps({
 </template>
 
 <style>
+body {
+    background: var(--background-darker);
+}
+
+.menu-mobile {
+    display: none;
+}
+
 .home-container {
     height: 100vh;
-    background: var(--background-darker);
 }
 
 .logo {
@@ -129,6 +150,7 @@ defineProps({
     background: var(--background-lighter);
     border-radius: 2rem 2rem 0 0;
     height: 100%;
+    width: 100%;
 }
 
 .smartphone-laptop-info>img {
@@ -166,6 +188,10 @@ defineProps({
 
 .easy-info {
     height: 100%;
+}
+
+.easy-info>img {
+    border-radius: 3rem 3rem 0 0;
 }
 
 .text-container {
@@ -207,8 +233,14 @@ defineProps({
 @media screen and (max-width: 1280px) {
     .info-container {
         display: flex;
-        justify-content: center;
         flex-direction: column;
+        margin-top: 4rem;
+        gap: 2.4rem;
+    }
+
+    .logo {
+        width: 40%;
+        margin: 0 auto;
     }
 }
 
