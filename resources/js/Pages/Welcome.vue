@@ -236,6 +236,11 @@ body {
         flex-direction: column;
         margin-top: 4rem;
         gap: 2.4rem;
+        height: 140vh;
+    }
+
+    .start-now {
+        background-size: cover;
     }
 
     .logo {
@@ -250,7 +255,6 @@ body {
         background-color: var(--background-lighter);
         width: 100vw;
         height: 10vh;
-
     }
 
     .menu-desktop {
