@@ -24,16 +24,16 @@ defineProps({
 
     <div class="home-container">
         <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 text-right">
+            <img class="logo" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
             <article class="menu-desktop">
                 <Link v-if="$page.props.auth.user" :href="route('dashboard')"
                     class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
                 Dashboard</Link>
 
                 <template v-else>
-                    <img class="logo" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
+
                     <Link :href="route('login')">
                     Log in</Link>
-
                     <Link v-if="canRegister" :href="route('register')">
                     Register</Link>
                 </template>
@@ -241,6 +241,19 @@ body {
     .logo {
         width: 40%;
         margin: 0 auto;
+    }
+
+    .menu-mobile {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        background-color: var(--background-lighter);
+        width: 100vw;
+        height: 10vh;
+    }
+
+    .menu-desktop {
+        display: none;
     }
 }
 
