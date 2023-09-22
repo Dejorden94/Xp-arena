@@ -245,11 +245,12 @@ body {
 
     .menu-mobile {
         display: block;
-        position: absolute;
+        position: fixed;
         bottom: 0;
         background-color: var(--background-lighter);
         width: 100vw;
         height: 10vh;
+
     }
 
     .menu-desktop {
