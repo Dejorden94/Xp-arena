@@ -236,6 +236,10 @@ figcaption {
 }
 
 @media screen and (max-width: 1280px) {
+    .home-container {
+        height: 170vh;
+    }
+
     .info-container {
         display: flex;
         flex-direction: column;
@@ -258,6 +262,7 @@ figcaption {
 
     .start-now {
         background-size: cover;
+        height: 60%;
     }
 
     .logo {
