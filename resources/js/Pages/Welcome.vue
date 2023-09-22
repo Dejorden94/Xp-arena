@@ -143,6 +143,11 @@ body {
     height: 100vh;
 }
 
+figcaption {
+    font-weight: bold;
+    font-size: 85%;
+}
+
 .smartphone-laptop-info {
     display: flex;
     justify-content: center;
@@ -237,6 +242,18 @@ body {
         margin-top: 4rem;
         gap: 2.4rem;
         height: 140vh;
+    }
+
+    .info-section {
+        height: 110%;
+    }
+
+    figcaption {
+        font-size: 70%;
+    }
+
+    .text-container {
+        padding: 0 2rem;
     }
 
     .start-now {
