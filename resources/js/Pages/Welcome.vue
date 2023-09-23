@@ -125,10 +125,6 @@ body {
     display: none;
 }
 
-.home-container {
-    height: 100vh;
-}
-
 .logo {
     width: 10%;
 }
@@ -171,6 +167,10 @@ figcaption {
     border: .2rem solid var(--background-lighter);
     border-radius: 3rem;
     /*Voor testen*/
+}
+
+.text-right {
+    margin-bottom: 30rem;
 }
 
 .gamification {
@@ -236,10 +236,6 @@ figcaption {
 }
 
 @media screen and (max-width: 1280px) {
-    .home-container {
-        height: 170vh;
-    }
-
     .info-container {
         display: flex;
         flex-direction: column;
@@ -248,21 +244,24 @@ figcaption {
         height: 140vh;
     }
 
+    .badge-container {
+        margin-bottom: 2rem;
+    }
+
     .info-section {
         height: 110%;
     }
 
     figcaption {
-        font-size: 70%;
+        font-size: 60%;
     }
 
     .text-container {
-        padding: 0 2rem;
+        padding: 2rem;
     }
 
     .start-now {
         background-size: cover;
-        height: 60%;
     }
 
     .logo {
