@@ -211,7 +211,7 @@ figcaption {
     grid-column: 1/4;
     grid-row: 2/4;
     border-radius: 3rem;
-    background-image: url("images/info-imgs/levelup-bg1.png");
+    background-image: url("/images/info-imgs/levelup-bg1.png");
     background-size: 100%;
 }
 
