@@ -166,7 +166,6 @@ figcaption {
     background: var(--background-super-dark);
     border: .2rem solid var(--background-lighter);
     border-radius: 3rem;
-    /*Voor testen*/
 }
 
 .text-right {
@@ -248,10 +247,6 @@ figcaption {
         margin-bottom: 2rem;
     }
 
-    .info-section {
-        height: 110%;
-    }
-
     figcaption {
         font-size: 60%;
     }
@@ -262,6 +257,8 @@ figcaption {
 
     .start-now {
         background-size: cover;
+        padding: 4rem;
+        border-radius: 2rem;
     }
 
     .logo {
