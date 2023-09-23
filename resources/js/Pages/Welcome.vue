@@ -23,7 +23,7 @@ defineProps({
     <Head title="Home" />
 
     <div class="home-container">
-        <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 text-right">
+        <div v-if="canLogin" class=" text-right">
             <img class="logo" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
             <article class="menu-desktop">
                 <Link v-if="$page.props.auth.user" :href="route('dashboard')"
@@ -136,7 +136,7 @@ body {
     grid-template-rows: repeat(2, 1fr);
     gap: 1rem;
     width: 100vw;
-    height: 100vh;
+    height: 80vh;
 }
 
 figcaption {
@@ -166,10 +166,6 @@ figcaption {
     background: var(--background-super-dark);
     border: .2rem solid var(--background-lighter);
     border-radius: 3rem;
-}
-
-.text-right {
-    margin-bottom: 30rem;
 }
 
 .gamification {
@@ -211,10 +207,12 @@ figcaption {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 20vh;
+    height: 100%;
     grid-column: 1/4;
+    grid-row: 2/4;
+    border-radius: 3rem;
     background-image: url("images/info-imgs/levelup-bg1.png");
-    background-size: 30%;
+    background-size: 100%;
 }
 
 .start-now>a {
@@ -273,6 +271,10 @@ figcaption {
         background-color: var(--background-lighter);
         width: 100vw;
         height: 10vh;
+    }
+
+    .text-right {
+        margin-bottom: 30rem;
     }
 
     .menu-desktop {
