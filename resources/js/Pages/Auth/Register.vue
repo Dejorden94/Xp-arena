@@ -76,7 +76,7 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
             </div>
 
-            <div class="">
+            <div class="send-section">
                 <Link :href="route('login')"
                     class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Already registered?
@@ -99,7 +99,6 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-
 }
 
 .send-button {
@@ -114,6 +113,14 @@ p {
 .input-field {
     display: flex;
     margin-bottom: 1rem;
+}
+
+.input-field:first-of-type {
+    margin-top: 2rem;
+}
+
+.input-field:nth-of-type(2) {
+    margin-bottom: 2rem;
 }
 
 .input {
