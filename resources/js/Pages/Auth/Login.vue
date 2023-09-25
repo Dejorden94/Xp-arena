@@ -41,10 +41,11 @@ const submit = () => {
 
             <form @submit.prevent="submit">
                 <div class="login-field">
+                    <h2>Login</h2>
+                    <p>Welcome back!</p>
                     <InputLabel for="email" value="Email" />
 
-                    <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus
-                        autocomplete="username" />
+                    <TextInput id="email" type="email" v-model="form.email" required autofocus autocomplete="username" />
 
                     <InputError class="mt-2" :message="form.errors.email" />
                 </div>
@@ -52,7 +53,7 @@ const submit = () => {
                 <div class="login-field">
                     <InputLabel for="password" value="Password" />
 
-                    <TextInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required
+                    <TextInput id="password" type="password" v-model="form.password" required
                         autocomplete="current-password" />
 
                     <InputError class="mt-2" :message="form.errors.password" />
@@ -61,7 +62,7 @@ const submit = () => {
                 <div class="login-field">
                     <label class="flex items-center">
                         <Checkbox name="remember" v-model:checked="form.remember" />
-                        <span class="">Remember me</span>
+                        <span>Remember me</span>
                     </label>
                 </div>
 
@@ -70,8 +71,9 @@ const submit = () => {
                     Forgot your password?
                     </Link>
 
-                    <PrimaryButton class="" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                        Log in
+                    <PrimaryButton class="login-button" :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing">
+                        Login
                     </PrimaryButton>
                 </div>
             </form>
@@ -100,7 +102,14 @@ const submit = () => {
 }
 
 .login-field {
+    height: 100%;
     display: flex;
+    flex-direction: column;
+}
+
+.login-field>h2,
+.login-field>p {
+    text-align: center;
 }
 
 .create-account {
@@ -117,5 +126,9 @@ const submit = () => {
     box-shadow: var(--box-shadow);
     border: 0.2rem solid var(--background-lighter);
     border-radius: 1rem;
+}
+
+.login-button {
+    font-size: 100%;
 }
 </style>

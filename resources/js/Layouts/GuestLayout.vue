@@ -45,7 +45,6 @@ const props = defineProps({
 
 .login-form {
     background: var(--background-super-light);
-    height: 20rem;
     border: none;
     margin: 2rem 0;
     border-radius: 1rem;
