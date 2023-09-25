@@ -40,9 +40,9 @@ const submit = () => {
             </div>
 
             <form @submit.prevent="submit">
+                <h2>Login</h2>
+                <p>Welcome back!</p>
                 <div class="login-field">
-                    <h2>Login</h2>
-                    <p>Welcome back!</p>
                     <InputLabel for="email" value="Email" />
 
                     <TextInput id="email" type="email" v-model="form.email" required autofocus autocomplete="username" />
@@ -104,12 +104,16 @@ const submit = () => {
 .login-field {
     height: 100%;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
 }
 
-.login-field>h2,
-.login-field>p {
+h2,
+p {
     text-align: center;
+}
+
+p {
+    margin-bottom: 2rem;
 }
 
 .create-account {
