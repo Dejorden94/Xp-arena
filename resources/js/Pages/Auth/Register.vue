@@ -32,13 +32,13 @@ const submit = () => {
             <p>Cool! First we need some information for your account.</p>
             <div>
                 <div class="input-field">
-                    <InputLabel for="name" value="Name" />
+                    <InputLabel for="name" value="Name:" />
 
                     <TextInput id="name" type="text" class="input" v-model="form.name" required autofocus
                         autocomplete="name" />
                 </div>
                 <div class="input-field">
-                    <InputLabel for="username" value="Username" />
+                    <InputLabel for="username" value="Username:" />
 
                     <TextInput id="username" type="text" class="input" v-model="form.username" required
                         autocomplete="username" />
@@ -51,7 +51,7 @@ const submit = () => {
             </div>
 
             <div class="input-field">
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" value="Email:" />
 
                 <TextInput id="email" type="email" class="input" v-model="form.email" required autocomplete="username" />
 
@@ -59,7 +59,7 @@ const submit = () => {
             </div>
 
             <div class="input-field">
-                <InputLabel for="password" value="Password" />
+                <InputLabel for="password" value="Password:" />
 
                 <TextInput id="password" type="password" class="input" v-model="form.password" required
                     autocomplete="new-password" />
@@ -68,7 +68,7 @@ const submit = () => {
             </div>
 
             <div class="input-field">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
+                <InputLabel for="password_confirmation" value="Repeat:" />
 
                 <TextInput id="password_confirmation" type="password" class="input" v-model="form.password_confirmation"
                     required autocomplete="new-password" />
@@ -129,5 +129,11 @@ p {
     width: 60%;
     height: 1.8rem;
     margin-left: auto;
+}
+
+.send-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 </style>
