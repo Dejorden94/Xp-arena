@@ -43,7 +43,7 @@ const submit = () => {
                 <h2>Login</h2>
                 <p>Welcome back!</p>
                 <div class="login-field">
-                    <InputLabel for="email" value="Email" />
+                    <InputLabel for="email" value="Email:" />
 
                     <TextInput class="input" id="email" type="email" v-model="form.email" required autofocus
                         autocomplete="username" />
@@ -52,7 +52,7 @@ const submit = () => {
                 </div>
 
                 <div class="login-field">
-                    <InputLabel for="password" value="Password" />
+                    <InputLabel for="password" value="Password:" />
 
                     <TextInput class="input" id="password" type="password" v-model="form.password" required
                         autocomplete="current-password" />
@@ -101,7 +101,7 @@ const submit = () => {
 .login-field {
     height: 100%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 .input {
@@ -139,7 +139,7 @@ p {
 }
 
 .create-account {
-    padding: 4rem 2rem;
+    padding: 4rem;
     width: 25vw;
     min-width: 30rem;
     max-width: 60rem;

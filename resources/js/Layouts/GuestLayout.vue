@@ -51,6 +51,6 @@ const props = defineProps({
     width: 25vw;
     min-width: 30rem;
     max-width: 60rem;
-    padding: 4rem 2rem;
+    padding: 4rem;
 }
 </style>
