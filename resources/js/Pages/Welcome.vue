@@ -134,7 +134,7 @@ body {
     justify-content: flex-end;
     align-items: center;
     gap: 2rem;
-    height: 30vh;
+    height: 20vh;
 }
 
 .menu-desktop>img {
