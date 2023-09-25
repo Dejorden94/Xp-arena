@@ -77,8 +77,7 @@ const submit = () => {
             </div>
 
             <div class="send-section">
-                <Link :href="route('login')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <Link :href="route('login')" class="have-account">
                 Already registered?
                 </Link>
 
@@ -92,6 +91,10 @@ const submit = () => {
 
 <style scoped>
 p {
+    text-align: center;
+}
+
+h2 {
     text-align: center;
 }
 
@@ -135,5 +138,10 @@ p {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.have-account {
+    font-size: 80%;
+    text-decoration: underline;
 }
 </style>
