@@ -28,11 +28,15 @@ import { Link } from '@inertiajs/vue3';
 }
 
 .register-form {
+    margin-top: 2rem;
     background: var(--background-super-dark);
-    width: 20vw;
-    padding: 2rem;
+    max-width: 35rem;
+    padding: 4rem;
     display: flex;
     justify-content: center;
     color: var(--font-color-normal);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border: 0.2rem solid var(--background-lighter);
+    border-radius: 1rem;
 }
 </style>
