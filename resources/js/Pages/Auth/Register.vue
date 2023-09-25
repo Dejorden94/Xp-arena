@@ -133,7 +133,7 @@ p {
 
 .send-section {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 </style>
