@@ -125,10 +125,6 @@ body {
     display: none;
 }
 
-.logo {
-    width: 10%;
-}
-
 .info-container {
     padding: 0 2.5rem;
     display: grid;
