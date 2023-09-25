@@ -23,11 +23,11 @@ defineProps({
     <Head title="Home" />
 
     <div class="home-container">
-        <div v-if="canLogin" class=" text-right">
-            <img class="logo" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
+        <img class="logo logo-mobile" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
+        <div v-if="canLogin" class="menu">
             <article class="menu-desktop">
-                <Link v-if="$page.props.auth.user" :href="route('dashboard')"
-                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+                <img class="logo" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
+                <Link v-if="$page.props.auth.user" :href="route('dashboard')">
                 Dashboard</Link>
 
                 <template v-else>
@@ -40,8 +40,7 @@ defineProps({
             </article>
 
             <article class="menu-mobile">
-                <Link v-if="$page.props.auth.user" :href="route('dashboard')"
-                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+                <Link v-if="$page.props.auth.user" :href="route('dashboard')">
                 Dashboard</Link>
 
                 <template v-else>
@@ -121,8 +120,27 @@ body {
     background: var(--background-darker);
 }
 
+.logo-mobile {
+    display: none;
+}
+
 .menu-mobile {
     display: none;
+}
+
+.menu-desktop {
+    padding: 0 2rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2rem;
+    height: 30vh;
+}
+
+.menu-desktop>img {
+    position: absolute;
+    left: 0;
+    margin-left: 2rem;
 }
 
 .info-container {
@@ -229,6 +247,11 @@ figcaption {
 }
 
 @media screen and (max-width: 1280px) {
+
+    .logo-mobile {
+        display: block;
+    }
+
     .info-container {
         display: flex;
         flex-direction: column;
