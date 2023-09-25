@@ -45,7 +45,8 @@ const submit = () => {
                 <div class="login-field">
                     <InputLabel for="email" value="Email" />
 
-                    <TextInput id="email" type="email" v-model="form.email" required autofocus autocomplete="username" />
+                    <TextInput class="input" id="email" type="email" v-model="form.email" required autofocus
+                        autocomplete="username" />
 
                     <InputError class="mt-2" :message="form.errors.email" />
                 </div>
@@ -53,20 +54,20 @@ const submit = () => {
                 <div class="login-field">
                     <InputLabel for="password" value="Password" />
 
-                    <TextInput id="password" type="password" v-model="form.password" required
+                    <TextInput class="input" id="password" type="password" v-model="form.password" required
                         autocomplete="current-password" />
 
                     <InputError class="mt-2" :message="form.errors.password" />
                 </div>
 
-                <div class="login-field">
-                    <label class="flex items-center">
+                <div class="remember-section">
+                    <label>
                         <Checkbox name="remember" v-model:checked="form.remember" />
-                        <span>Remember me</span>
+                        <span class="remember-text">Remember me</span>
                     </label>
                 </div>
 
-                <div class="">
+                <div class="submit-section">
                     <Link v-if="canResetPassword" :href="route('password.request')" class="">
                     Forgot your password?
                     </Link>
@@ -97,14 +98,35 @@ const submit = () => {
     align-items: center;
 }
 
-.login {
-    background: var(--background-lighter);
-}
-
 .login-field {
     height: 100%;
     display: flex;
-    /* flex-direction: column; */
+    justify-content: space-evenly;
+}
+
+.input {
+    background: var(--background-lighter);
+    border: none;
+    width: 60%;
+    height: 1.8rem;
+    margin-left: auto;
+    margin-bottom: 1rem;
+}
+
+.rember-section {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.remember-text {
+    margin-left: 1rem;
+}
+
+.submit-section {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 h2,
@@ -133,6 +155,7 @@ p {
 }
 
 .login-button {
+    margin: 0;
     font-size: 100%;
 }
 </style>

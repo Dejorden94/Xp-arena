@@ -52,6 +52,7 @@ html {
 
 body {
     font-size: 1.6rem;
+    background: var(--background-darker);
 }
 
 h2 {
@@ -60,7 +61,8 @@ h2 {
 }
 
 button,
-.login-button {
+.login-button,
+.send-button {
     margin-top: 1rem;
     text-transform: uppercase;
     background: var(--background-lighter);

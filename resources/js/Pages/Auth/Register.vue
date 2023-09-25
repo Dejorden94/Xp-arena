@@ -105,12 +105,7 @@ h2 {
 }
 
 .send-button {
-    text-transform: uppercase;
     font-size: 100%;
-    padding: 0.5rem 1.5rem;
-    margin-top: 1rem;
-    border: 0.2rem solid var(--color-orange);
-    border-radius: 1.5rem;
 }
 
 .input-field {
