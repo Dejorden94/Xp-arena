@@ -30,71 +30,92 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <div class="login-styling">
+        <GuestLayout :isLoginPage="true">
 
-        <Head title="Log in" />
+            <Head title="Log in" />
 
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
-        </div>
-
-        <form @submit.prevent="submit">
-            <div class="login-field">
-                <InputLabel for="email" value="Email" />
-
-                <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus
-                    autocomplete="username" />
-
-                <InputError class="mt-2" :message="form.errors.email" />
+            <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
+                {{ status }}
             </div>
 
-            <div class="login-field">
-                <InputLabel for="password" value="Password" />
+            <form @submit.prevent="submit">
+                <div class="login-field">
+                    <InputLabel for="email" value="Email" />
 
-                <TextInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required
-                    autocomplete="current-password" />
+                    <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus
+                        autocomplete="username" />
 
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
+                    <InputError class="mt-2" :message="form.errors.email" />
+                </div>
 
-            <div class="login-field">
-                <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="">Remember me</span>
-                </label>
-            </div>
+                <div class="login-field">
+                    <InputLabel for="password" value="Password" />
 
-            <div class="">
-                <Link v-if="canResetPassword" :href="route('password.request')" class="">
-                Forgot your password?
-                </Link>
+                    <TextInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required
+                        autocomplete="current-password" />
 
-                <PrimaryButton class="" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
-                </PrimaryButton>
-            </div>
-        </form>
-    </GuestLayout>
-    <article class="create-account">
-        <h2>Create Account</h2>
-        <p>Don't have an account yet? No problem, just click the button below.</p>
-        <Link href="/register">
-        <button>Create Account</button>
-        </Link>
-    </article>
+                    <InputError class="mt-2" :message="form.errors.password" />
+                </div>
+
+                <div class="login-field">
+                    <label class="flex items-center">
+                        <Checkbox name="remember" v-model:checked="form.remember" />
+                        <span class="">Remember me</span>
+                    </label>
+                </div>
+
+                <div class="">
+                    <Link v-if="canResetPassword" :href="route('password.request')" class="">
+                    Forgot your password?
+                    </Link>
+
+                    <PrimaryButton class="" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                        Log in
+                    </PrimaryButton>
+                </div>
+            </form>
+        </GuestLayout>
+        <article class="create-account">
+            <h2>Create Account</h2>
+            <p>Don't have an account yet? No problem, just click the button below.</p>
+            <Link href="/register">
+            <button>Create Account</button>
+            </Link>
+        </article>
+    </div>
 </template>
 
 <style scoped>
+.login-styling {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login {
+    background: var(--background-lighter);
+}
+
 .login-field {
     display: flex;
 }
 
 .create-account {
-    max-width: 35rem;
+    padding: 4rem 2rem;
+    width: 25vw;
+    min-width: 30rem;
+    max-width: 60rem;
+    background: var(--background-super-dark);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+    box-shadow: var(--box-shadow);
+    border: 0.2rem solid var(--background-lighter);
+    border-radius: 1rem;
 }
 </style>

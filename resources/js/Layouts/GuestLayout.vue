@@ -1,6 +1,10 @@
 <script setup>
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Link } from '@inertiajs/vue3';
+
+const props = defineProps({
+    isLoginPage: Boolean
+});
 </script>
 
 <template>
@@ -11,7 +15,7 @@ import { Link } from '@inertiajs/vue3';
             </Link>
         </div>
 
-        <div class="register-form">
+        <div :class="isLoginPage ? 'login-form' : 'register-form'">
             <slot />
         </div>
     </div>
@@ -19,7 +23,6 @@ import { Link } from '@inertiajs/vue3';
 
 <style scoped>
 .register-form-page {
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,8 +38,20 @@ import { Link } from '@inertiajs/vue3';
     display: flex;
     justify-content: center;
     color: var(--font-color-normal);
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--box-shadow);
     border: 0.2rem solid var(--background-lighter);
     border-radius: 1rem;
+}
+
+.login-form {
+    background: var(--background-super-light);
+    height: 20rem;
+    border: none;
+    margin: 2rem 0;
+    border-radius: 1rem;
+    width: 25vw;
+    min-width: 30rem;
+    max-width: 60rem;
+    padding: 4rem 2rem;
 }
 </style>
