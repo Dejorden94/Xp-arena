@@ -80,10 +80,17 @@ const submit = () => {
                 Already registered?
                 </Link>
 
-                <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
+                <PrimaryButton class="send-button" :disabled="form.processing">
+                    Send
                 </PrimaryButton>
             </div>
         </form>
     </GuestLayout>
 </template>
+
+<style scoped>
+.send-button {
+    text-transform: uppercase;
+    font-size: 100%;
+}
+</style>
