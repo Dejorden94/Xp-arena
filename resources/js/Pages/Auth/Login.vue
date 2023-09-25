@@ -68,7 +68,7 @@ const submit = () => {
                 </div>
 
                 <div class="submit-section">
-                    <Link v-if="canResetPassword" :href="route('password.request')" class="">
+                    <Link v-if="canResetPassword" :href="route('password.request')" class="password-forgot">
                     Forgot your password?
                     </Link>
 
@@ -127,6 +127,10 @@ const submit = () => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.password-forgot {
+    text-decoration: underline;
 }
 
 h2,
