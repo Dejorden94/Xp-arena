@@ -27,17 +27,20 @@ const submit = () => {
 
         <Head title="Register" />
 
-        <form @submit.prevent="submit">
+        <form class="register-form" @submit.prevent="submit">
+            <h2>Create account</h2>
+            <p>Cool! First we need some information for your account.</p>
             <div>
-                <InputLabel for="name" value="Name" />
+                <div class="input-field">
+                    <InputLabel for="name" value="Name" />
 
-                <TextInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus
-                    autocomplete="name" />
-
-                <div class="mt-4">
+                    <TextInput id="name" type="text" class="input" v-model="form.name" required autofocus
+                        autocomplete="name" />
+                </div>
+                <div class="input-field">
                     <InputLabel for="username" value="Username" />
 
-                    <TextInput id="username" type="text" class="mt-1 block w-full" v-model="form.username" required
+                    <TextInput id="username" type="text" class="input" v-model="form.username" required
                         autocomplete="username" />
 
                     <InputError class="mt-2" :message="form.errors.username" />
@@ -47,34 +50,33 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
 
-            <div class="mt-4">
+            <div class="input-field">
                 <InputLabel for="email" value="Email" />
 
-                <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required
-                    autocomplete="username" />
+                <TextInput id="email" type="email" class="input" v-model="form.email" required autocomplete="username" />
 
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
-            <div class="mt-4">
+            <div class="input-field">
                 <InputLabel for="password" value="Password" />
 
-                <TextInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required
+                <TextInput id="password" type="password" class="input" v-model="form.password" required
                     autocomplete="new-password" />
 
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
-            <div class="mt-4">
+            <div class="input-field">
                 <InputLabel for="password_confirmation" value="Confirm Password" />
 
-                <TextInput id="password_confirmation" type="password" class="mt-1 block w-full"
-                    v-model="form.password_confirmation" required autocomplete="new-password" />
+                <TextInput id="password_confirmation" type="password" class="input" v-model="form.password_confirmation"
+                    required autocomplete="new-password" />
 
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="">
                 <Link :href="route('login')"
                     class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Already registered?
@@ -89,8 +91,36 @@ const submit = () => {
 </template>
 
 <style scoped>
+p {
+    text-align: center;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+}
+
 .send-button {
     text-transform: uppercase;
     font-size: 100%;
+    padding: 0.5rem 1.5rem;
+    margin-top: 1rem;
+    border: 0.2rem solid var(--color-orange);
+    border-radius: 1.5rem;
+}
+
+.input-field {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.input {
+    background: var(--background-lighter);
+    border: none;
+    width: 60%;
+    height: 1.8rem;
+    margin-left: auto;
 }
 </style>
