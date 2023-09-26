@@ -87,7 +87,8 @@ defineProps({
                         <label for="name">E-mail:</label>
                         <input id="name" type="email">
                         <label for="message">Message:</label>
-                        <textarea rows="4" cols="20" name="message" placeholder="Type yout message..."></textarea>
+                        <textarea rows="4" cols="20" name="message" placeholder="Type your message..."></textarea>
+                        <input class="send-button contact" type="submit" value="Send">
                     </section>
                 </form>
 
@@ -162,6 +163,7 @@ body {
 
 .contact-form {
     padding: 2.5rem;
+    margin-bottom: 4rem;
     background: var(--background-super-dark);
     width: 60%;
     display: flex;
@@ -174,6 +176,10 @@ body {
 .contact-form>section {
     display: flex;
     flex-direction: column;
+}
+
+.contact {
+    width: 10rem;
 }
 
 .bg-dots-darker {
