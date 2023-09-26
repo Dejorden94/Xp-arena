@@ -71,8 +71,11 @@ defineProps({
                     </section>
                 </article>
 
-                <article>
-
+                <article class="video">
+                    <iframe src="https://www.youtube.com/embed/MuDLw1zIc94?si=a6pd_xxAzsmJg8lU" title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
                 </article>
 
                 <form class="contact-form" action="">
@@ -83,8 +86,8 @@ defineProps({
                         <input id="name" type="text">
                         <label for="name">E-mail:</label>
                         <input id="name" type="email">
-                        <label for="message">Name:</label>
-                        <textarea rows="4" cols="20" name="message" placeholder="Type uw bericht"></textarea>
+                        <label for="message">Message:</label>
+                        <textarea rows="4" cols="20" name="message" placeholder="Type yout message..."></textarea>
                     </section>
                 </form>
 
@@ -123,17 +126,16 @@ body {
 
 .about-container {
     padding: 0 2.5rem;
+    margin-top: 4rem;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 1rem;
-    height: 80vh;
 }
 
 .about-us {
-    max-width: 60%;
-    min-width: 30%;
+    width: 60%;
     border: 2px solid var(--background-lighter);
     text-align: center;
     border-radius: 3rem;
@@ -146,11 +148,22 @@ body {
     border-radius: 0 0 3rem 3rem;
 }
 
+.video {
+    margin: 2rem 0;
+    width: 60%;
+    height: 40rem;
+}
+
+.video>iframe {
+    border-radius: 3rem;
+    width: 100%;
+    height: 100%;
+}
+
 .contact-form {
     padding: 2.5rem;
     background: var(--background-super-dark);
-    max-width: 60%;
-    min-width: 30%;
+    width: 60%;
     display: flex;
     gap: 1rem;
     flex-direction: column;
@@ -196,6 +209,22 @@ body {
 
     .menu-desktop {
         display: none;
+    }
+
+    .about-container {
+        height: 140vh;
+    }
+
+    .about-us {
+        width: 100%;
+    }
+
+    .video {
+        width: 100%;
+    }
+
+    .contact-form {
+        width: 100%;
     }
 }
 
