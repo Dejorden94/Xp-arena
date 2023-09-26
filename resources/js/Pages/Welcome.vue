@@ -52,67 +52,67 @@ defineProps({
                     <Link :href="route('about')">About</Link>
                 </template>
             </article>
-
-            <article class="info-container">
-                <section class="info-section welcome-info">
-                    <figure class="smartphone-laptop-info">
-                        <img src="images/info-imgs/info-laptop-smartphone.png"
-                            alt="Uitleg over Xp Arena getoond op een laptop en mobiele telefoon.">
-                    </figure>
-                    <div class="text-container">
-                        <h2>Welcome to Xp arena</h2>
-                        <p>A tool to gamify any process</p>
-                    </div>
-                </section>
-                <section class="info-section">
-                    <figure class="gamification">
-                        <div class="badge-container">
-                            <img class="badge-img" src="images/info-imgs/Gamification-points.png"
-                                alt="Een coin met een waarde van 1.">
-                            <figcaption>Points</figcaption>
-                        </div>
-                        <div class="badge-container">
-                            <img class="badge-img" src="images/info-imgs/Gamification-badges.png" alt="Een rood lintje.">
-                            <figcaption>Badges</figcaption>
-                        </div>
-                        <div class="badge-container">
-                            <img class="badge-img" src="images/info-imgs/Gamification-leaderboard.png"
-                                alt="Een afbeelding van een trofee">
-                            <figcaption>Leaderboard</figcaption>
-                        </div>
-                        <div class="badge-container">
-                            <img class="badge-img" src="images/info-imgs/Gamification-progress.png"
-                                alt="Een progressie klokje.">
-                            <figcaption>Progress</figcaption>
-                        </div>
-                        <div class="badge-container">
-                            <img class="badge-img" src="images/info-imgs/Gamification-avatar.png"
-                                alt="Een avatar afbeelding van Batman.">
-                            <figcaption>Avatar</figcaption>
-                        </div>
-                    </figure>
-                    <div class="text-container">
-                        <h2>Gamification</h2>
-                        <p>XP arena uses game mechanics like points, badges, leaderboard, progress overview and adjustable
-                            avatar.</p>
-                    </div>
-                </section>
-                <section class="info-section">
-                    <figure class="easy-info">
-                        <img src="images/info-imgs/info-phone-mockup-closeup.png"
-                            alt="Gebruiker houdt een telefoon vast en heeft Xp arena open staan.">
-                    </figure>
-                    <div class="text-container">
-                        <h2>Easy & free</h2>
-                        <p>Getting started is easy and free. You can use your Google account, or signup with another e-mail
-                            address.</p>
-                    </div>
-                </section>
-                <section class="start-now">
-                    <a :href="route('register')">START NOW</a>
-                </section>
-            </article>
         </div>
+
+        <article class="info-container">
+            <section class="info-section welcome-info">
+                <figure class="smartphone-laptop-info">
+                    <img src="images/info-imgs/info-laptop-smartphone.png"
+                        alt="Uitleg over Xp Arena getoond op een laptop en mobiele telefoon.">
+                </figure>
+                <div class="text-container">
+                    <h2>Welcome to Xp arena</h2>
+                    <p>A tool to gamify any process</p>
+                </div>
+            </section>
+            <section class="info-section">
+                <figure class="gamification">
+                    <div class="badge-container">
+                        <img class="badge-img" src="images/info-imgs/Gamification-points.png"
+                            alt="Een coin met een waarde van 1.">
+                        <figcaption>Points</figcaption>
+                    </div>
+                    <div class="badge-container">
+                        <img class="badge-img" src="images/info-imgs/Gamification-badges.png" alt="Een rood lintje.">
+                        <figcaption>Badges</figcaption>
+                    </div>
+                    <div class="badge-container">
+                        <img class="badge-img" src="images/info-imgs/Gamification-leaderboard.png"
+                            alt="Een afbeelding van een trofee">
+                        <figcaption>Leaderboard</figcaption>
+                    </div>
+                    <div class="badge-container">
+                        <img class="badge-img" src="images/info-imgs/Gamification-progress.png"
+                            alt="Een progressie klokje.">
+                        <figcaption>Progress</figcaption>
+                    </div>
+                    <div class="badge-container">
+                        <img class="badge-img" src="images/info-imgs/Gamification-avatar.png"
+                            alt="Een avatar afbeelding van Batman.">
+                        <figcaption>Avatar</figcaption>
+                    </div>
+                </figure>
+                <div class="text-container">
+                    <h2>Gamification</h2>
+                    <p>XP arena uses game mechanics like points, badges, leaderboard, progress overview and adjustable
+                        avatar.</p>
+                </div>
+            </section>
+            <section class="info-section">
+                <figure class="easy-info">
+                    <img src="images/info-imgs/info-phone-mockup-closeup.png"
+                        alt="Gebruiker houdt een telefoon vast en heeft Xp arena open staan.">
+                </figure>
+                <div class="text-container">
+                    <h2>Easy & free</h2>
+                    <p>Getting started is easy and free. You can use your Google account, or signup with another e-mail
+                        address.</p>
+                </div>
+            </section>
+            <section class="start-now">
+                <a :href="route('register')">START NOW</a>
+            </section>
+        </article>
     </div>
 </template>
 
@@ -280,7 +280,6 @@ figcaption {
     }
 
     .logo {
-        width: 40%;
         margin: 0 auto;
     }
 

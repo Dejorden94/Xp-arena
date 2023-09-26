@@ -52,54 +52,55 @@ defineProps({
                     <Link :href="route('about')">About</Link>
                 </template>
             </article>
-
-            <main class="about-container">
-                <article class="about-us">
-                    <figure>
-                        <img src="images/info-imgs/info-about-graphic.png" alt="">
-                    </figure>
-                    <section class="text-section">
-                        <h2>About us</h2>
-                        <p>XP arena is heavily inspired by the book Reality is Broken by Jane McGonigal.
-                            <br>
-                            <br>
-                            Games are very good at motivating people to do seamingly meaningless work. Our mission is to
-                            provice
-                            a platform that allows the user to add game mechanics to any prosess to make it more inviting,
-                            challenging and fun!
-                        </p>
-                    </section>
-                </article>
-
-                <article class="video">
-                    <iframe src="https://www.youtube.com/embed/MuDLw1zIc94?si=a6pd_xxAzsmJg8lU" title="YouTube video player"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen></iframe>
-                </article>
-
-                <form class="contact-form" action="">
-                    <h2>Contact</h2>
-                    <p>Don't hesitate to contact us</p>
-                    <section>
-                        <div class="input-container">
-                            <label for="name">Name:</label>
-                            <input id="name" type="text">
-                        </div>
-                        <div class="input-container">
-                            <label for="name">E-mail:</label>
-                            <input id="name" type="email">
-                        </div>
-                        <div class="input-container">
-                            <label for="message">Message:</label>
-                            <textarea rows="4" cols="40" name="message" placeholder="Type your message..."></textarea>
-                        </div>
-                        <input class="send-button contact" type="submit" value="Send">
-                    </section>
-                </form>
-
-            </main>
         </div>
+
+        <main class="about-container">
+            <article class="about-us">
+                <figure>
+                    <img src="images/info-imgs/info-about-graphic.png" alt="">
+                </figure>
+                <section class="text-section">
+                    <h2>About us</h2>
+                    <p>XP arena is heavily inspired by the book Reality is Broken by Jane McGonigal.
+                        <br>
+                        <br>
+                        Games are very good at motivating people to do seamingly meaningless work. Our mission is to
+                        provice
+                        a platform that allows the user to add game mechanics to any prosess to make it more inviting,
+                        challenging and fun!
+                    </p>
+                </section>
+            </article>
+
+            <article class="video">
+                <iframe src="https://www.youtube.com/embed/MuDLw1zIc94?si=a6pd_xxAzsmJg8lU" title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+            </article>
+
+            <form class="contact-form" action="">
+                <h2>Contact</h2>
+                <p>Don't hesitate to contact us</p>
+                <section>
+                    <div class="input-container">
+                        <label for="name">Name:</label>
+                        <input id="name" type="text">
+                    </div>
+                    <div class="input-container">
+                        <label for="name">E-mail:</label>
+                        <input id="name" type="email">
+                    </div>
+                    <div class="input-container">
+                        <label for="message">Message:</label>
+                        <textarea rows="4" cols="40" name="message" placeholder="Type your message..."></textarea>
+                    </div>
+                    <input class="send-button contact" type="submit" value="Send">
+                </section>
+            </form>
+
+        </main>
+
     </div>
 </template>
 

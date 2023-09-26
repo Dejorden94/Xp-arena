@@ -1,3 +1,3 @@
 <template>
-    <img class="logo" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
+    <img class="logo-auth-pages" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
 </template>
