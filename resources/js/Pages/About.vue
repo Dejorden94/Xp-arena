@@ -76,15 +76,16 @@ defineProps({
                 </article>
 
                 <form class="contact-form" action="">
-                    <h3>Contact</h3>
+                    <h2>Contact</h2>
                     <p>Don't hesitate to contact us</p>
-                    <label for="name">Name:</label>
-                    <input id="name" type="text">
-                    <label for="name">E-mail:</label>
-                    <input id="name" type="email">
-                    <label for="message">Name:</label>
-                    <textarea rows="4" cols="20" name="message" form="usrform">
-Enter text here...</textarea>
+                    <section>
+                        <label for="name">Name:</label>
+                        <input id="name" type="text">
+                        <label for="name">E-mail:</label>
+                        <input id="name" type="email">
+                        <label for="message">Name:</label>
+                        <textarea rows="4" cols="20" name="message" placeholder="Type uw bericht"></textarea>
+                    </section>
                 </form>
 
             </main>
@@ -146,6 +147,18 @@ body {
 }
 
 .contact-form {
+    padding: 2.5rem;
+    background: var(--background-super-dark);
+    max-width: 60%;
+    min-width: 30%;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    border: 2px solid var(--background-lighter);
+    border-radius: 3rem;
+}
+
+.contact-form>section {
     display: flex;
     flex-direction: column;
 }
