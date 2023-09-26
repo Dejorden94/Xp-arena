@@ -31,11 +31,11 @@ defineProps({
                 Dashboard</Link>
 
                 <template v-else>
-
                     <Link :href="route('login')">
                     Log in</Link>
                     <Link v-if="canRegister" :href="route('register')">
                     Register</Link>
+                    <Link :href="route('about')">About</Link>
                 </template>
             </article>
 
@@ -49,6 +49,7 @@ defineProps({
 
                     <Link v-if="canRegister" :href="route('register')">
                     Register</Link>
+                    <Link :href="route('about')">About</Link>
                 </template>
             </article>
 
