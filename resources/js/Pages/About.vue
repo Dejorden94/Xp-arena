@@ -222,7 +222,6 @@ label {
         flex-direction: column;
         margin-top: 4rem;
         gap: 2.4rem;
-        height: 140vh;
     }
 
     .logo {
@@ -243,10 +242,6 @@ label {
         display: none;
     }
 
-    .about-container {
-        height: 140vh;
-    }
-
     .about-us {
         width: 100%;
     }
@@ -257,6 +252,7 @@ label {
 
     .contact-form {
         width: 100%;
+        margin-bottom: 8rem;
     }
 
     .contact-form>section {
