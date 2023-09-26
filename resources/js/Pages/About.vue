@@ -82,12 +82,18 @@ defineProps({
                     <h2>Contact</h2>
                     <p>Don't hesitate to contact us</p>
                     <section>
-                        <label for="name">Name:</label>
-                        <input id="name" type="text">
-                        <label for="name">E-mail:</label>
-                        <input id="name" type="email">
-                        <label for="message">Message:</label>
-                        <textarea rows="4" cols="20" name="message" placeholder="Type your message..."></textarea>
+                        <div class="input-container">
+                            <label for="name">Name:</label>
+                            <input id="name" type="text">
+                        </div>
+                        <div class="input-container">
+                            <label for="name">E-mail:</label>
+                            <input id="name" type="email">
+                        </div>
+                        <div class="input-container">
+                            <label for="message">Message:</label>
+                            <textarea rows="4" cols="40" name="message" placeholder="Type your message..."></textarea>
+                        </div>
                         <input class="send-button contact" type="submit" value="Send">
                     </section>
                 </form>
@@ -100,6 +106,22 @@ defineProps({
 <style>
 body {
     background: var(--background-darker);
+}
+
+.input-container {
+    text-align: center;
+    width: 80%;
+    display: flex;
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+.input-container>input {
+    width: 60%;
+}
+
+label {
+    width: 10rem;
 }
 
 .logo-mobile {
@@ -126,6 +148,7 @@ body {
 }
 
 .about-container {
+    text-align: center;
     padding: 0 2.5rem;
     margin-top: 4rem;
     display: flex;
@@ -174,7 +197,9 @@ body {
 }
 
 .contact-form>section {
+    width: 100%;
     display: flex;
+    align-items: flex-end;
     flex-direction: column;
 }
 
@@ -231,6 +256,18 @@ body {
 
     .contact-form {
         width: 100%;
+    }
+
+    .contact-form>section {
+        align-items: flex-start;
+    }
+
+    label {
+        width: 5remrem;
+    }
+
+    .contact {
+        margin-left: auto;
     }
 }
 
