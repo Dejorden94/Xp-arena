@@ -53,9 +53,23 @@ defineProps({
                 </template>
             </article>
 
-            <article class="info-container">
+            <main class="info-container">
+                <article class="about-us">
+                    <figure>
+                        <img src="images/info-imgs/info-about-graphic.png" alt="">
+                    </figure>
+                    <section class="text-section">
+                        <h2>About us</h2>
+                        <p>XP arena is heavily inspired by the book Reality is Broken by Jane McGonigal.
 
-            </article>
+                            Games are very good at motivating people to do seamingly meaningless work. Our mission is to
+                            provice
+                            a platform that allows the user to add game mechanics to any prosess to make it more inviting,
+                            challenging and fun!</p>
+                    </section>
+                </article>
+
+            </main>
         </div>
     </div>
 </template>
@@ -90,13 +104,20 @@ body {
 
 .info-container {
     padding: 0 2.5rem;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 1rem;
     width: 100vw;
     height: 80vh;
 }
+
+.about-us {
+    width: 60%;
+    border: 2px solid var(--background-lighter);
+}
+
+.text-section {}
 
 .bg-dots-darker {
     background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E");
