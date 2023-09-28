@@ -49,7 +49,7 @@ defineProps({
 
                     <Link v-if="canRegister" :href="route('register')">
                     Register</Link>
-                    <Link :href="route('about')">About</Link>
+                    <Link href="/">Home</Link>
                 </template>
             </article>
         </div>

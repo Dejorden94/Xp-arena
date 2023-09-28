@@ -54,17 +54,17 @@ defineProps({
                     <span></span>
                     <span></span>
                 </button>
-                <Link v-if="$page.props.auth.user" :href="route('dashboard')">
+                <Link class="mobile-link" v-if="$page.props.auth.user" :href="route('dashboard')">
                 Dashboard</Link>
 
                 <template v-else>
                     <div v-if="showMenu" class="mobile-menu">
-                        <Link :href="route('login')">
+                        <Link class="mobile-link" :href="route('login')">
                         Log in</Link>
 
-                        <Link v-if="canRegister" :href="route('register')">
+                        <Link class="mobile-link" v-if="canRegister" :href="route('register')">
                         Register</Link>
-                        <Link :href="route('about')">About</Link>
+                        <Link class="mobile-link" :href="route('about')">About</Link>
                     </div>
                 </template>
             </article>
@@ -135,6 +135,7 @@ defineProps({
 <style>
 body {
     background: var(--background-darker);
+    position: relative;
 }
 
 .logo-mobile {
@@ -326,6 +327,33 @@ figcaption {
         margin-bottom: 1.4rem;
         background-color: aliceblue;
     }
+
+    .mobile-menu {
+        top: 0;
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+        background: var(--background-darker);
+        opacity: 0.7;
+        z-index: -10;
+        /* Behouden op 10 */
+    }
+
+    .mobile-link {
+        margin-bottom: 4rem;
+        font-size: 2rem;
+        font-weight: bolder;
+        text-transform: uppercase;
+    }
+
+    .mobile-link:first-child {
+        margin-top: 35rem;
+    }
+
 
     .text-right {
         margin-bottom: 30rem;
