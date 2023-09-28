@@ -1,6 +1,15 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 
+import { ref } from 'vue';
+
+const showMenu = ref(false);
+
+const toggleMenu = () => {
+    showMenu.value = !showMenu.value;
+};
+
+
 defineProps({
     canLogin: {
         type: Boolean,
@@ -40,16 +49,23 @@ defineProps({
             </article>
 
             <article class="menu-mobile">
+                <button @click="toggleMenu" class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <Link v-if="$page.props.auth.user" :href="route('dashboard')">
                 Dashboard</Link>
 
                 <template v-else>
-                    <Link :href="route('login')">
-                    Log in</Link>
+                    <div v-if="showMenu" class="mobile-menu">
+                        <Link :href="route('login')">
+                        Log in</Link>
 
-                    <Link v-if="canRegister" :href="route('register')">
-                    Register</Link>
-                    <Link :href="route('about')">About</Link>
+                        <Link v-if="canRegister" :href="route('register')">
+                        Register</Link>
+                        <Link :href="route('about')">About</Link>
+                    </div>
                 </template>
             </article>
         </div>
@@ -290,6 +306,25 @@ figcaption {
         background-color: var(--background-lighter);
         width: 100vw;
         height: 10vh;
+    }
+
+    .hamburger {
+        width: 7.5rem;
+        height: 100%;
+        border: none;
+        background: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .menu-mobile>.hamburger>span {
+        display: block;
+        width: 100%;
+        height: 0.3rem;
+        margin-bottom: 1.4rem;
+        background-color: aliceblue;
     }
 
     .text-right {
