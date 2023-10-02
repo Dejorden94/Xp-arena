@@ -50,7 +50,7 @@ defineProps({
                 </template>
             </article>
 
-            <MobileMenu :canRegister="canRegister" />
+            <MobileMenu :canRegister="canRegister" :currentRoute="$page.url" />
         </div>
 
         <article class="info-container">
@@ -122,10 +122,6 @@ body {
 }
 
 .logo-mobile {
-    display: none;
-}
-
-.menu-mobile {
     display: none;
 }
 
@@ -282,61 +278,6 @@ figcaption {
     .logo {
         margin: 0 auto;
     }
-
-    .menu-mobile {
-        display: block;
-        position: fixed;
-        bottom: 0;
-        background-color: var(--background-lighter);
-        width: 100vw;
-        height: 10vh;
-    }
-
-    .hamburger {
-        width: 7.5rem;
-        height: 100%;
-        border: none;
-        background: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }
-
-    .menu-mobile>.hamburger>span {
-        display: block;
-        width: 100%;
-        height: 0.3rem;
-        margin-bottom: 1.4rem;
-        background-color: aliceblue;
-    }
-
-    .mobile-menu {
-        top: 0;
-        position: fixed;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        width: 100vw;
-        height: 100vh;
-        background: var(--background-darker);
-        opacity: 0.7;
-        z-index: -10;
-        /* Behouden op 10 */
-    }
-
-    .mobile-link {
-        margin-bottom: 4rem;
-        font-size: 2rem;
-        font-weight: bolder;
-        text-transform: uppercase;
-    }
-
-    .mobile-link:first-child {
-        margin-top: 35rem;
-    }
-
 
     .text-right {
         margin-bottom: 30rem;

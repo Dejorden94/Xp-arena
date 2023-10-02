@@ -1,6 +1,8 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 
+import MobileMenu from '/resources/js/Components/MobileMenu.vue';
+
 defineProps({
     canLogin: {
         type: Boolean,
@@ -39,19 +41,7 @@ defineProps({
                 </template>
             </article>
 
-            <article class="menu-mobile">
-                <Link v-if="$page.props.auth.user" :href="route('dashboard')">
-                Dashboard</Link>
-
-                <template v-else>
-                    <Link :href="route('login')">
-                    Log in</Link>
-
-                    <Link v-if="canRegister" :href="route('register')">
-                    Register</Link>
-                    <Link href="/">Home</Link>
-                </template>
-            </article>
+            <MobileMenu :canRegister="canRegister" :currentRoute="$page.url" />
         </div>
 
         <main class="about-container">
@@ -126,10 +116,6 @@ label {
 }
 
 .logo-mobile {
-    display: none;
-}
-
-.menu-mobile {
     display: none;
 }
 
@@ -227,15 +213,6 @@ label {
     .logo {
         width: 40%;
         margin: 0 auto;
-    }
-
-    .menu-mobile {
-        display: block;
-        position: fixed;
-        bottom: 0;
-        background-color: var(--background-lighter);
-        width: 100vw;
-        height: 10vh;
     }
 
     .menu-desktop {
