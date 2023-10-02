@@ -92,18 +92,18 @@ const showingNavigationDropdown = ref(false);
                 </div>
             </header>
             <article class="player-info">
-                <img class="profile-pic" src="public/images/UI/default-profile-pic.png" alt="It's you!">
+                <img class="profile-pic" src="images/UI/default-profile-pic.png" alt="It's you!">
                 <section class="player-info-section">
-                    <p class="real-name">Real name</p>
-                    <h2 class="username">Username</h2>
-                    <p class="e-mail">e-mail</p>
+                    <p class="real-name"> {{ $page.props.auth.user.name }}</p>
+                    <h2 class="username"> {{ $page.props.auth.user.username }}</h2>
+                    <p class="e-mail"> {{ $page.props.auth.user.email }}</p>
                 </section>
                 <section class="level-section">
                     <p>level</p>
-                    <h2>0</h2>
+                    <h2> {{ $page.props.auth.user.level }}</h2>
                 </section>
                 <section class="experience-section">
-                    <p>experience points</p>
+                    <p> {{ $page.props.auth.user.experience }} / 1000</p>
                     <figure></figure>
                     <p>exp until next level</p>
                 </section>
@@ -160,5 +160,11 @@ const showingNavigationDropdown = ref(false);
 
 .dashboard-logo {
     width: 10%;
+}
+
+@media screen and (max-width: 1280px) {
+    .player-info {
+        height: 20vh;
+    }
 }
 </style>
