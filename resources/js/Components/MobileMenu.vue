@@ -1,0 +1,144 @@
+<template>
+    <article class="menu-mobile">
+        <button @click="toggleMenu" class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <Link class="mobile-link" v-if="$page.props.auth.user" :href="route('dashboard')">
+        Dashboard</Link>
+
+        <template v-else>
+            <div v-if="showMenu" class="mobile-menu">
+                <Link class="mobile-link" :href="route('login')">
+                Log in</Link>
+
+                <Link class="mobile-link" v-if="canRegister" :href="route('register')">
+                Register</Link>
+                <template v-if="currentRoute !== '/about'">
+                    <Link class="mobile-link" :href="route('about')">About</Link>
+                </template>
+                <template v-else>
+                    <Link class="mobile-link" href="/">Home</Link>
+                </template>
+
+            </div>
+        </template>
+    </article>
+</template>
+
+<script>
+import { Link } from '@inertiajs/vue3';
+
+import { ref } from 'vue';
+
+export default {
+    components: {
+        Link
+    },
+    props: {
+        canRegister: Boolean,
+        currentRoute: String
+    },
+
+    setup() {
+        const showMenu = ref(false);
+
+        const toggleMenu = () => {
+            showMenu.value = !showMenu.value;
+        };
+
+        return {
+            showMenu,
+            toggleMenu
+        };
+    }
+}
+</script>
+
+<style>
+.menu-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 1280px) {
+
+    .menu-mobile {
+        display: flex;
+    }
+
+    .logo-mobile {
+        display: block;
+    }
+
+    .info-container {
+        display: flex;
+        flex-direction: column;
+        margin-top: 4rem;
+        gap: 2.4rem;
+        height: 140vh;
+    }
+
+    .badge-container {
+        margin-bottom: 2rem;
+    }
+
+    .menu-mobile {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        background-color: var(--background-lighter);
+        width: 100vw;
+        height: 10vh;
+    }
+
+    .hamburger {
+        width: 7.5rem;
+        height: 100%;
+        border: none;
+        background: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .menu-mobile>.hamburger>span {
+        display: block;
+        width: 100%;
+        height: 0.3rem;
+        margin-bottom: 1.4rem;
+        background-color: aliceblue;
+    }
+
+    .mobile-menu {
+        top: 0;
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(27, 23, 32, 0.7);
+        z-index: -10;
+        /* Behouden op 10 */
+    }
+
+    .mobile-link {
+        opacity: 1;
+        margin-bottom: 4rem;
+        font-size: 2rem;
+        font-weight: bolder;
+        text-transform: uppercase;
+    }
+
+    .mobile-link:first-child {
+        margin-top: 35rem;
+    }
+
+    .menu-desktop {
+        display: none;
+    }
+}
+</style>
