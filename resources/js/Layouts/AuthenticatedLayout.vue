@@ -93,9 +93,11 @@ const showingNavigationDropdown = ref(false);
             </header>
             <article class="player-info">
                 <img class="profile-pic" src="public/images/UI/default-profile-pic.png" alt="It's you!">
-                <p class="real-name">Real name</p>
-                <h2 class="username">Username</h2>
-                <p class="e-mail">e-mail</p>
+                <section class="player-info-section">
+                    <p class="real-name">Real name</p>
+                    <h2 class="username">Username</h2>
+                    <p class="e-mail">e-mail</p>
+                </section>
                 <section class="level-section">
                     <p>level</p>
                     <h2>0</h2>
@@ -117,7 +119,8 @@ const showingNavigationDropdown = ref(false);
 
 <style>
 .player-info {
-    width: 100vw;
+    margin: 0 auto;
+    width: 80vw;
     height: 40vh;
     background: red;
     display: grid;
@@ -126,14 +129,28 @@ const showingNavigationDropdown = ref(false);
 }
 
 .profile-pic {
+    width: 100%;
+    height: 100%;
     background: blue;
-    grid-column: 1/2;
+    grid-column: 1/3;
     grid-row: 1/6;
+}
+
+.player-info-section {
+    background: green;
+    grid-column: 3/9;
+    grid-row: 1/6;
+}
+
+.experience-section {
+    background: purple;
+    grid-column: 3/9;
+    grid-row: 6/9;
 }
 
 .level-section {
     background: yellow;
-    grid-column: 1/2;
+    grid-column: 1/3;
     grid-row: 6/9;
 }
 
