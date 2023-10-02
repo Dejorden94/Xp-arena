@@ -15,20 +15,9 @@ import MobileMenu from '@/Components/MobileMenu.vue';
     <Head title="Dashboard" />
 
     <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ user.username }}</h2>
-        </template>
 
-        <article class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">Welkom! {{ user.username }}</div>
-                    <div class="p-6 text-gray-900">Current experience points: {{ user.experience }}</div>
-                    <div class="p-6 text-gray-900">Level: {{ user.level }}</div>
-                </div>
-            </div>
-        </article>
-        <MobileMenu :canRegister="canRegister" :currentRoute="$page.url" />
+        <!-- <MobileMenu :canRegister="canRegister" :currentRoute="$page.url" /> -->
+        <!-- TO DO Apart component maken voor game aan maken -->
         <article>
             <h2>Maak een nieuwe game aan</h2>
             <form @submit.prevent="createGame">
