@@ -3,6 +3,8 @@ import { Head, Link } from '@inertiajs/vue3';
 
 import { ref } from 'vue';
 
+import MobileMenu from '/resources/js/Components/MobileMenu.vue';
+
 const showMenu = ref(false);
 
 const toggleMenu = () => {
@@ -48,7 +50,10 @@ defineProps({
                 </template>
             </article>
 
-            <article class="menu-mobile">
+            <MobileMenu :canRegister="canRegister" />
+
+
+            <!-- <article class="menu-mobile">
                 <button @click="toggleMenu" class="hamburger">
                     <span></span>
                     <span></span>
@@ -67,7 +72,7 @@ defineProps({
                         <Link class="mobile-link" :href="route('about')">About</Link>
                     </div>
                 </template>
-            </article>
+            </article>-->
         </div>
 
         <article class="info-container">
