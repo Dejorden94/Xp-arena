@@ -6,6 +6,7 @@ import { Head } from '@inertiajs/vue3';
 import GameDetails from '@/Components/GameDetails.vue';
 import GameTasks from '@/Components/GameTasks.vue';
 import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
+import MobileMenu from '@/Components/MobileMenu.vue';
 
 </script>
 
@@ -27,7 +28,7 @@ import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
                 </div>
             </div>
         </article>
-
+        <MobileMenu :canRegister="canRegister" :currentRoute="$page.url" />
         <article>
             <h2>Maak een nieuwe game aan</h2>
             <form @submit.prevent="createGame">
