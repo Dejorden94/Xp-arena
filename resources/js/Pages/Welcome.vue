@@ -51,28 +51,6 @@ defineProps({
             </article>
 
             <MobileMenu :canRegister="canRegister" />
-
-
-            <!-- <article class="menu-mobile">
-                <button @click="toggleMenu" class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                <Link class="mobile-link" v-if="$page.props.auth.user" :href="route('dashboard')">
-                Dashboard</Link>
-
-                <template v-else>
-                    <div v-if="showMenu" class="mobile-menu">
-                        <Link class="mobile-link" :href="route('login')">
-                        Log in</Link>
-
-                        <Link class="mobile-link" v-if="canRegister" :href="route('register')">
-                        Register</Link>
-                        <Link class="mobile-link" :href="route('about')">About</Link>
-                    </div>
-                </template>
-            </article>-->
         </div>
 
         <article class="info-container">
