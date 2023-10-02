@@ -16,45 +16,38 @@ const showingNavigationDropdown = ref(false);
             <nav>
                 <!-- Primary Navigation Menu -->
                 <div>
-                    <div>
-                        <div>
-                            <!-- Logo -->
-                            <div>
-                                <Link :href="route('dashboard')">
-                                <ApplicationLogo />
-                                </Link>
-                            </div>
+                    <div class="dashboard-heading">
+                        <!-- Logo -->
+                        <ApplicationLogo class="dashboard-logo" />
+                        <Link :href="route('dashboard')">
+                        </Link>
 
-                            <!-- Navigation Links -->
-                            <div>
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
-                                </NavLink>
-                            </div>
-                        </div>
 
-                        <div>
-                            <!-- Settings Dropdown -->
-                            <div>
-                                <Dropdown>
-                                    <template #trigger>
-                                        <span>
-                                            <button>
-                                                {{ $page.props.auth.user.name }}
-                                                <!-- SVG for dropdown arrow -->
-                                            </button>
-                                        </span>
-                                    </template>
+                        <!-- Navigation Links -->
 
-                                    <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
-                                        <DropdownLink :href="route('logout')" method="post" as="button">
-                                            Log Out
-                                        </DropdownLink>
-                                    </template>
-                                </Dropdown>
-                            </div>
-                        </div>
+                        <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                            Dashboard
+                        </NavLink>
+                        <!-- Settings Dropdown -->
+                        <Dropdown>
+                            <template #trigger>
+                                <span>
+                                    <button>
+                                        {{ $page.props.auth.user.name }}
+                                        <!-- SVG for dropdown arrow -->
+                                    </button>
+                                </span>
+                            </template>
+
+                            <template #content>
+                                <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
+                                <DropdownLink :href="route('logout')" method="post" as="button">
+                                    Log Out
+                                </DropdownLink>
+                            </template>
+                        </Dropdown>
+
+
 
                         <!-- Hamburger -->
                         <div>
@@ -98,6 +91,21 @@ const showingNavigationDropdown = ref(false);
                     <slot name="header" />
                 </div>
             </header>
+            <article class="player-info">
+                <img class="profile-pic" src="public/images/UI/default-profile-pic.png" alt="It's you!">
+                <p class="real-name">Real name</p>
+                <h2 class="username">Username</h2>
+                <p class="e-mail">e-mail</p>
+                <section class="level-section">
+                    <p>level</p>
+                    <h2>0</h2>
+                </section>
+                <section class="experience-section">
+                    <p>experience points</p>
+                    <figure></figure>
+                    <p>exp until next level</p>
+                </section>
+            </article>
 
             <!-- Page Content -->
             <main>
@@ -107,4 +115,33 @@ const showingNavigationDropdown = ref(false);
     </div>
 </template>
 
-<style></style>
+<style>
+.player-info {
+    width: 100vw;
+    height: 40vh;
+    background: red;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr)
+}
+
+.profile-pic {
+    background: blue;
+    grid-column: 1/2;
+    grid-row: 1/6;
+}
+
+.level-section {
+    background: yellow;
+    grid-column: 1/2;
+    grid-row: 6/9;
+}
+
+.dashboard-heading {
+    display: flex;
+}
+
+.dashboard-logo {
+    width: 10%;
+}
+</style>
