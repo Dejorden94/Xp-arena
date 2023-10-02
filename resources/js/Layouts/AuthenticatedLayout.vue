@@ -132,6 +132,10 @@ const showingNavigationDropdown = ref(false);
     grid-template-rows: repeat(8, 1fr);
 }
 
+.player-info p {
+    color: var(--font-color-gray);
+}
+
 .player-info>* {
     padding: 1rem;
 }
@@ -168,9 +172,24 @@ const showingNavigationDropdown = ref(false);
 }
 
 .level-section {
+    position: relative;
     border-bottom-left-radius: 1rem;
     grid-column: 1/3;
     grid-row: 6/9;
+}
+
+.level-section::after {
+    content: "";
+    position: absolute;
+    top: 15%;
+    /* Beginpunt van de border */
+    bottom: 15%;
+    /* Eindpunt van de border */
+    right: 0;
+    width: 0.2rem;
+    /* Breedte van de border */
+    background-color: var(--background-super-dark);
+    /* Kleur van de border */
 }
 
 .level {
