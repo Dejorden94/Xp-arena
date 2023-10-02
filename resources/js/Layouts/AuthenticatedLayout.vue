@@ -29,7 +29,7 @@ const showingNavigationDropdown = ref(false);
                             Dashboard
                         </NavLink>
                         <NavLink :href="route('about')">
-                            Dashboard
+                            About
                         </NavLink>
                         <NavLink href="/">
                             Home
