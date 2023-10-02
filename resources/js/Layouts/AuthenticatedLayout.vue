@@ -92,7 +92,9 @@ const showingNavigationDropdown = ref(false);
                 </div>
             </header>
             <article class="player-info">
-                <img class="profile-pic" src="images/UI/default-profile-pic.png" alt="It's you!">
+                <figure class="profile-pic">
+                    <img src="images/UI/default-profile-pic.png" alt="It's you!">
+                </figure>
                 <section class="player-info-section">
                     <p class="real-name"> {{ $page.props.auth.user.name }}</p>
                     <h2 class="username"> {{ $page.props.auth.user.username }}</h2>
@@ -100,7 +102,7 @@ const showingNavigationDropdown = ref(false);
                 </section>
                 <section class="level-section">
                     <p>level</p>
-                    <h2> {{ $page.props.auth.user.level }}</h2>
+                    <h2 class="level"> {{ $page.props.auth.user.level }}</h2>
                 </section>
                 <section class="experience-section">
                     <p> {{ $page.props.auth.user.experience }} / 1000</p>
@@ -119,39 +121,64 @@ const showingNavigationDropdown = ref(false);
 
 <style>
 .player-info {
-    margin: 0 auto;
+    border-radius: 1rem;
+    border: 1px solid var(--background-lighter);
+    margin: 4rem auto;
     width: 80vw;
     height: 40vh;
-    background: red;
+    background: var(--background-lighter);
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(8, 1fr)
+    grid-template-rows: repeat(8, 1fr);
+}
+
+.player-info>* {
+    padding: 1rem;
 }
 
 .profile-pic {
+    display: flex;
+    justify-content: center;
     width: 100%;
     height: 100%;
-    background: blue;
     grid-column: 1/3;
     grid-row: 1/6;
+    border-top-left-radius: 1rem;
+}
+
+.profile-pic>img {
+    height: 100%;
 }
 
 .player-info-section {
-    background: green;
+    background: var(--background-super-dark);
+    border-top-right-radius: 1rem;
     grid-column: 3/9;
     grid-row: 1/6;
 }
 
+.username {
+    font-size: 150%;
+}
+
 .experience-section {
-    background: purple;
+    border-bottom-right-radius: 1rem;
     grid-column: 3/9;
     grid-row: 6/9;
 }
 
 .level-section {
-    background: yellow;
+    border-bottom-left-radius: 1rem;
     grid-column: 1/3;
     grid-row: 6/9;
+}
+
+.level {
+    background: linear-gradient(90deg, #FDA829, #FF5C00);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
 }
 
 .dashboard-heading {
