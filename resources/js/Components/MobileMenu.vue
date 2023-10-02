@@ -1,9 +1,9 @@
 <template>
     <article class="menu-mobile">
         <button @click="toggleMenu" class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
+            <span class="hamburger-stroke"></span>
+            <span class="hamburger-stroke"></span>
+            <span class="hamburger-stroke"></span>
         </button>
         <Link class="mobile-link" v-if="$page.props.auth.user" :href="route('dashboard')">
         Dashboard</Link>
@@ -101,14 +101,6 @@ export default {
         justify-content: center;
         align-items: center;
         flex-direction: column;
-    }
-
-    .menu-mobile>.hamburger>span {
-        display: block;
-        width: 100%;
-        height: 0.3rem;
-        margin-bottom: 1.4rem;
-        background-color: aliceblue;
     }
 
     .mobile-menu {

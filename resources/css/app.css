@@ -76,3 +76,15 @@ button,
 .logo-auth-pages {
     width: 100%;
 }
+
+.hamburger-stroke {
+    display: block;
+    width: 100%;
+    height: 0.3rem;
+    margin-bottom: 1.4rem;
+    background-color: aliceblue;
+}
+
+.hamburger-stroke:last-child {
+    margin-bottom: 0;
+}

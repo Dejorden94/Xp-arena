@@ -28,17 +28,14 @@ const showingNavigationDropdown = ref(false);
                         <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </NavLink>
+                        <NavLink :href="route('about')">
+                            Dashboard
+                        </NavLink>
+                        <NavLink href="/">
+                            Home
+                        </NavLink>
                         <!-- Settings Dropdown -->
                         <Dropdown>
-                            <template #trigger>
-                                <span>
-                                    <button>
-                                        {{ $page.props.auth.user.name }}
-                                        <!-- SVG for dropdown arrow -->
-                                    </button>
-                                </span>
-                            </template>
-
                             <template #content>
                                 <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
                                 <DropdownLink :href="route('logout')" method="post" as="button">
@@ -51,8 +48,11 @@ const showingNavigationDropdown = ref(false);
 
                         <!-- Hamburger -->
                         <div>
-                            <button @click="showingNavigationDropdown = !showingNavigationDropdown">
-                                <!-- SVG for hamburger icon -->
+                            <button class="dashboard-hamburger"
+                                @click="showingNavigationDropdown = !showingNavigationDropdown">
+                                <span class="hamburger-stroke"></span>
+                                <span class="hamburger-stroke"></span>
+                                <span class="hamburger-stroke"></span>
                             </button>
                         </div>
                     </div>
@@ -120,6 +120,15 @@ const showingNavigationDropdown = ref(false);
 </template>
 
 <style>
+.dashboard-hamburger {
+    padding: 1rem;
+    width: 6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .player-info {
     border-radius: 1rem;
     border: 1px solid var(--background-lighter);
