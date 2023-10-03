@@ -90,7 +90,7 @@ const showingNavigationDropdown = ref(false);
                 </div>
             </header>
 
-            <PlayerInformation />>
+            <PlayerInformation />
 
             <!-- Page Content -->
             <main>

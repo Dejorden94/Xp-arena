@@ -36,8 +36,7 @@ import { Link } from '@inertiajs/vue3';
     border-radius: 1rem;
     border: 1px solid var(--background-lighter);
     margin: 4rem auto;
-    width: 80vw;
-    height: 40vh;
+    max-width: 90%;
     background: var(--background-lighter);
     display: grid;
     grid-template-columns: repeat(8, 1fr);
@@ -48,11 +47,8 @@ import { Link } from '@inertiajs/vue3';
     color: var(--font-color-gray);
 }
 
-.player-info>* {
-    padding: 1rem;
-}
-
 .profile-pic {
+    padding: 1rem;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -67,6 +63,7 @@ import { Link } from '@inertiajs/vue3';
 }
 
 .player-info-section {
+    padding: 1rem;
     background: var(--background-super-dark);
     border-top-right-radius: 1rem;
     grid-column: 3/9;
@@ -78,12 +75,14 @@ import { Link } from '@inertiajs/vue3';
 }
 
 .experience-section {
+    padding: 0 1rem;
     border-bottom-right-radius: 1rem;
     grid-column: 3/9;
     grid-row: 6/9;
 }
 
 .level-section {
+    padding: 0 1rem;
     position: relative;
     border-bottom-left-radius: 1rem;
     grid-column: 1/3;
@@ -106,11 +105,5 @@ import { Link } from '@inertiajs/vue3';
     -webkit-background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
-}
-
-@media screen and (max-width: 1280px) {
-    .player-info {
-        height: 20vh;
-    }
 }
 </style>
