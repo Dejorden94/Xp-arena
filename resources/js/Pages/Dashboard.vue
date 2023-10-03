@@ -1,12 +1,11 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { usePage } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
 
 import GameDetails from '@/Components/GameDetails.vue';
 import GameTasks from '@/Components/GameTasks.vue';
 import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
-import MobileMenu from '@/Components/MobileMenu.vue';
+import AddGameComponent from '@/Components/AddGameComponent.vue';
 
 </script>
 
@@ -63,6 +62,8 @@ import MobileMenu from '@/Components/MobileMenu.vue';
                 </li>
             </ul>
         </article>
+        <AddGameComponent v-show="showAddGame" />
+        <button class="join-add-button" @click="toggleJoinGame">Join or add game</button>
     </AuthenticatedLayout>
 </template>
 
@@ -86,6 +87,7 @@ export default {
             validPincode: false,
             followedGames: [],
             unverifiedTasks: [],
+            showAddGame: false,
         }
     },
     created() {
@@ -193,12 +195,19 @@ export default {
         refreshTasks() {
             this.loadGameDetails(this.gameData.id);
         },
+        toggleJoinGame() {
+            this.showAddGame = !this.showAddGame;
+        }
 
     }
 }
 </script>
 
 <style scoped>
+.join-add-button {
+    margin-bottom: 10rem;
+}
+
 article,
 GameDetails,
 GameTasks {
