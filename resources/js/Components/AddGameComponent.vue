@@ -5,7 +5,7 @@
 <template>
     <article class="add-game">
         <section class="join-game">
-            <h1>Join Game</h1>
+            <h1 @click="$emit('showJoin')">Join Game</h1>
         </section>
         <section class="create-game">
             <h1>Create-game</h1>
@@ -16,6 +16,7 @@
 <style scoped>
 h1 {
     color: var(--font-color-white);
+    cursor: pointer;
 }
 
 .add-game {

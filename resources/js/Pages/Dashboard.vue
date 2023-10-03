@@ -6,6 +6,7 @@ import GameDetails from '@/Components/GameDetails.vue';
 import GameTasks from '@/Components/GameTasks.vue';
 import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
 import AddGameComponent from '@/Components/AddGameComponent.vue';
+import PinComponent from '@/Components/PinComponent.vue';
 
 </script>
 
@@ -45,16 +46,6 @@ import AddGameComponent from '@/Components/AddGameComponent.vue';
         <UnverifiedTasks v-if="unverifiedTasks.length > 0" :unverifiedTasks="unverifiedTasks" />
 
         <article>
-            <h2>Voer een game pincode in</h2>
-            <form @submit.prevent="submitPincode">
-                <div>
-                    <label for="pincode">Pincode:</label>
-                    <input type="text" id="pincode" v-model="pincode" required>
-                </div>
-                <button type="submit">Verzenden</button>
-            </form>
-        </article>
-        <article>
             <h2>Followed Games</h2>
             <ul>
                 <li v-for="game in followedGames" :key="game.id" @click="loadGameDetails(game.id)">
@@ -62,7 +53,8 @@ import AddGameComponent from '@/Components/AddGameComponent.vue';
                 </li>
             </ul>
         </article>
-        <AddGameComponent v-show="showAddGame" />
+        <PinComponent v-show="showJoin" />
+        <AddGameComponent v-show="showAddGame" @showJoin="handleShowJoin" />
         <button class="join-add-button" @click="toggleJoinGame">Join or add game</button>
     </AuthenticatedLayout>
 </template>
@@ -82,12 +74,10 @@ export default {
             tasks: {},
             gameData: null,
             gameDetailsVisible: false,
-            pincode: '',
-            validPincodes: [],
-            validPincode: false,
             followedGames: [],
             unverifiedTasks: [],
             showAddGame: false,
+            showJoin: false
         }
     },
     created() {
@@ -171,18 +161,7 @@ export default {
         hideGameDetails() {
             this.gameDetailsVisible = false;
         },
-        submitPincode() {
-            axios.post('/games/follow', {
-                pincode: this.pincode
-            })
-                .then(response => {
-                    this.pincode = '';
-                    this.fetchFollowedGames(); // Leeg het invoerveld voor de pincode
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
+
         fetchFollowedGames() {
             axios.get('/dashboard/games')
                 .then(response => {
@@ -197,8 +176,10 @@ export default {
         },
         toggleJoinGame() {
             this.showAddGame = !this.showAddGame;
+        },
+        handleShowJoin() {
+            this.showJoin = !this.showJoin;
         }
-
     }
 }
 </script>
