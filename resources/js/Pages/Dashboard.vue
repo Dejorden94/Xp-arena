@@ -7,7 +7,7 @@ import GameTasks from '@/Components/GameTasks.vue';
 import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
 import AddGameComponent from '@/Components/AddGameComponent.vue';
 import PinComponent from '@/Components/PinComponent.vue';
-
+import CreateGameComponent from '@/Components/CreateGameComponent.vue';
 </script>
 
 
@@ -16,18 +16,7 @@ import PinComponent from '@/Components/PinComponent.vue';
 
     <AuthenticatedLayout>
 
-        <!-- <MobileMenu :canRegister="canRegister" :currentRoute="$page.url" /> -->
-        <!-- TO DO Apart component maken voor game aan maken -->
-        <article>
-            <h2>Maak een nieuwe game aan</h2>
-            <form @submit.prevent="createGame">
-                <div>
-                    <label for="name">Naam Game:</label>
-                    <input type="text" id="name" v-model="name" required>
-                </div>
-                <button type="submit">Aanmaken</button>
-            </form>
-        </article>
+        <CreateGameComponent v-show="createGame" />
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails" />
 
@@ -54,7 +43,7 @@ import PinComponent from '@/Components/PinComponent.vue';
             </ul>
         </article>
         <PinComponent v-show="showJoin" />
-        <AddGameComponent v-show="showAddGame" @showJoin="handleShowJoin" />
+        <AddGameComponent v-show="showAddGame" @showJoin="handleShowJoin" @showCreate="handletoggleCreate" />
         <button class="join-add-button" @click="toggleJoinGame">Join or add game</button>
     </AuthenticatedLayout>
 </template>
@@ -70,68 +59,24 @@ export default {
         return {
             name: '',
             games: [],
-            user: {},
             tasks: {},
             gameData: null,
             gameDetailsVisible: false,
             followedGames: [],
             unverifiedTasks: [],
             showAddGame: false,
-            showJoin: false
+            showJoin: false,
+            createGame: false,
         }
     },
     created() {
         this.user = this.$page.props.auth.user;
-        this.refreshGames(this.user.id);
         this.fetchUnverifiedTasks(); // Haal ongeverifieerde taken op bij het laden van de pagina
     },
     mounted() {
         this.fetchFollowedGames();
     },
     methods: {
-        createGame() {
-            axios.post('/games', {
-                name: this.name,
-                user_id: this.user.id
-            })
-                .then(response => {
-                    this.name = ''; // Leeg het invoerveld voor de naam van de game
-                    this.refreshGames(); // Laad de lijst met games opnieuw
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
-        async refreshGames() {
-            try {
-                const response = await axios.get(`/users/${this.user.id}/games`);
-                this.games = response.data;
-            } catch (error) {
-                console.log(error);
-            }
-        },
-        async loadGameDetails(gameId) {
-            try {
-                const response = await axios.get(`/api/games/${gameId}`);
-                if (response.data) {
-                    this.gameData = response.data;
-                    this.gameData.isUserOwner = this.user.id === this.gameData.user_id;
-
-
-                    if (this.gameData.isUserOwner) {
-                        this.fetchTasks(gameId); // Wacht op het ophalen van taken
-                    } else {
-                        this.fetchFollowedTasks(gameId); // Wacht op het ophalen van gevolgde taken
-                    }
-
-                    this.gameDetailsVisible = true;
-                } else {
-                    console.error("Geen data ontvangen van de API.");
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        },
         async fetchUnverifiedTasks() {
             try {
                 const response = await axios.get(`/unverified-tasks`);
@@ -179,6 +124,10 @@ export default {
         },
         handleShowJoin() {
             this.showJoin = !this.showJoin;
+        },
+        handletoggleCreate() {
+            console.log("Create");
+            this.createGame = !this.createGame;
         }
     }
 }

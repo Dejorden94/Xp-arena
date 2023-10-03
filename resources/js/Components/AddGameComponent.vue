@@ -8,7 +8,7 @@
             <h1 @click="$emit('showJoin')">Join Game</h1>
         </section>
         <section class="create-game">
-            <h1>Create-game</h1>
+            <h1 @click="$emit('showCreate')">Create-game</h1>
         </section>
     </article>
 </template>
