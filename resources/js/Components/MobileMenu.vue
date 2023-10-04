@@ -84,7 +84,9 @@ export default {
     }
 
     .menu-mobile {
-        display: block;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
         position: fixed;
         bottom: 0;
         background-color: var(--background-lighter);
