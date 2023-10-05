@@ -16,7 +16,7 @@
                     <Link class="mobile-link" href="/">Home</Link>
                 </template>
             </div>
-            <button v-if="currentRoute !== '/dashboard'" class="join-add-button" @click="toggleJoinGame">+</button>
+            <button v-if="currentRoute !== '/dashboard'" class="join-add-button">+</button>
         </template>
 
         <template v-else>
@@ -77,6 +77,8 @@ export default {
 
 @media screen and (max-width: 1280px) {
     .join-add-button {
+        border: none;
+        background: linear-gradient(90deg, #FDA829, #FF5C00);
         display: block;
         font-weight: 100;
         font-size: 500%;

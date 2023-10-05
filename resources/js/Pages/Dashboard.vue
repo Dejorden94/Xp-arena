@@ -120,7 +120,7 @@ export default {
         refreshTasks() {
             this.loadGameDetails(this.gameData.id);
         },
-        toggleJoinGame() {
+        handleJoinGame() {
             this.showAddGame = !this.showAddGame;
         },
         handleShowJoin() {
