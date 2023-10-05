@@ -16,7 +16,7 @@
                     <Link class="mobile-link" href="/">Home</Link>
                 </template>
             </div>
-            <button v-if="currentRoute !== '/dashboard'" class="join-add-button">+</button>
+            <button v-if="currentRoute !== '/dashboard'" class="join-add-button" @click="$emit('showJoin')">+</button>
         </template>
 
         <template v-else>

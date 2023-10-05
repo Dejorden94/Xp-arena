@@ -91,7 +91,7 @@ const showingNavigationDropdown = ref(false);
                 </div>
             </header>
 
-            <MobileMenu />
+            <MobileMenu @showJoin="$emit('showJoin')" />
 
             <PlayerInformation />
 
