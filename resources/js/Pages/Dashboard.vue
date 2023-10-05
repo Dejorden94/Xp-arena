@@ -43,7 +43,7 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
             </ul>
         </article>
         <PinComponent v-show="showJoin" />
-        <AddGameComponent v-show="showAddGame" @showCreate="handletoggleCreate" />
+        <AddGameComponent v-show="showAddGame" @showCreate="handletoggleCreate" @showJoin="handleShowJoin" />
 
     </AuthenticatedLayout>
     <!-- <button class="join-add-button" @click="toggleJoinGame">+</button> -->
@@ -124,11 +124,9 @@ export default {
             this.showAddGame = !this.showAddGame;
         },
         handleShowJoin() {
-            console.log('Show join');
             this.showJoin = !this.showJoin;
         },
         handletoggleCreate() {
-            console.log("Create");
             this.createGame = !this.createGame;
         }
     }
