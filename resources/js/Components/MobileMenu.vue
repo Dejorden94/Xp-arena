@@ -5,14 +5,24 @@
             <span class="hamburger-stroke"></span>
             <span class="hamburger-stroke"></span>
         </button>
-        <Link class="mobile-link" v-if="$page.props.auth.user" :href="route('dashboard')">
-        Dashboard</Link>
+        <template v-if="$page.props.auth.user">
+            <div v-if="showMenu" class="mobile-menu">
+                <Link class="mobile-link" :href="route('dashboard')">
+                Dashboard</Link>
+                <template v-if="currentRoute !== '/about'">
+                    <Link class="mobile-link" :href="route('about')">About</Link>
+                </template>
+                <template v-else>
+                    <Link class="mobile-link" href="/">Home</Link>
+                </template>
+            </div>
+            <button v-if="currentRoute !== '/dashboard'" class="join-add-button" @click="toggleJoinGame">+</button>
+        </template>
 
         <template v-else>
             <div v-if="showMenu" class="mobile-menu">
                 <Link class="mobile-link" :href="route('login')">
                 Log in</Link>
-
                 <Link class="mobile-link" v-if="canRegister" :href="route('register')">
                 Register</Link>
                 <template v-if="currentRoute !== '/about'">
@@ -21,8 +31,8 @@
                 <template v-else>
                     <Link class="mobile-link" href="/">Home</Link>
                 </template>
-
             </div>
+
         </template>
     </article>
 </template>
@@ -61,7 +71,23 @@ export default {
     display: none;
 }
 
+.join-add-button {
+    display: none;
+}
+
 @media screen and (max-width: 1280px) {
+    .join-add-button {
+        display: block;
+        font-weight: 100;
+        font-size: 500%;
+        width: 10rem;
+        height: 10rem;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        margin-left: -5rem;
+    }
 
     .menu-mobile {
         display: flex;
