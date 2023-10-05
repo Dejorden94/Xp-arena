@@ -44,8 +44,9 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
         </article>
         <PinComponent v-show="showJoin" />
         <AddGameComponent v-show="showAddGame" @showJoin="handleShowJoin" @showCreate="handletoggleCreate" />
-        <button class="join-add-button" @click="toggleJoinGame">Join or add game</button>
+
     </AuthenticatedLayout>
+    <button class="join-add-button" @click="toggleJoinGame"></button>
 </template>
 
 <script>
@@ -135,7 +136,9 @@ export default {
 
 <style scoped>
 .join-add-button {
-    margin-bottom: 10rem;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
 }
 
 article,
