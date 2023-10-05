@@ -46,7 +46,8 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
         <AddGameComponent v-show="showAddGame" @showJoin="handleShowJoin" @showCreate="handletoggleCreate" />
 
     </AuthenticatedLayout>
-    <button class="join-add-button" @click="toggleJoinGame"></button>
+    <button class="join-add-button" @click="toggleJoinGame"><img src="images/icons/noun-floppy.svg"
+            alt="create or join game"></button>
 </template>
 
 <script>
@@ -136,6 +137,7 @@ export default {
 
 <style scoped>
 .join-add-button {
+    padding: 2rem;
     width: 10rem;
     height: 10rem;
     border-radius: 50%;
@@ -143,6 +145,10 @@ export default {
     bottom: 2rem;
     left: 50%;
     margin-left: -5rem;
+}
+
+.join-add-button>img {
+    color: var(--font-normal);
 }
 
 article,
