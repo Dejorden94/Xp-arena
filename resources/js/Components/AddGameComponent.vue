@@ -15,12 +15,25 @@
 
 <style scoped>
 h1 {
+    font-size: 150%;
+    font-weight: 700;
     color: var(--font-color-white);
     cursor: pointer;
 }
 
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .add-game {
+    height: 15rem;
     padding: 0;
+    position: absolute;
+    bottom: 15rem;
+    left: 50%;
+    margin-left: -11.2rem;
 }
 
 .join-game {
