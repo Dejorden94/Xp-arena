@@ -136,9 +136,13 @@ export default {
 
 <style scoped>
 .join-add-button {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
     position: absolute;
-    bottom: 0;
+    bottom: 2rem;
     left: 50%;
+    margin-left: -5rem;
 }
 
 article,
