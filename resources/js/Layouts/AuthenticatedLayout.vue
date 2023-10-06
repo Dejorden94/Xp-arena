@@ -26,12 +26,11 @@ const showingNavigationDropdown = ref(false);
 
 
                         <!-- Navigation Links -->
-
-                        <NavLink :href="route('about')">
-                            About
-                        </NavLink>
                         <NavLink href="/">
                             Home
+                        </NavLink>
+                        <NavLink :href="route('dashboard')">
+                            Dashboard
                         </NavLink>
                         <NavLink :href="route('profile.edit')">
                             Profile
@@ -108,6 +107,7 @@ const showingNavigationDropdown = ref(false);
 .dashboard-heading {
     display: flex;
     justify-content: space-around;
+    align-items: center;
 }
 
 .dashboard-logo {
