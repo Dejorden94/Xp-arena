@@ -93,10 +93,6 @@ export default {
         margin-left: -5rem;
     }
 
-    .menu-mobile {
-        display: flex;
-    }
-
     .logo-mobile {
         display: block;
     }
@@ -136,10 +132,10 @@ export default {
     }
 
     .mobile-menu {
-        top: 0;
+        bottom: 0;
         position: fixed;
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
         align-items: center;
         flex-direction: column;
         width: 100vw;
@@ -157,8 +153,8 @@ export default {
         text-transform: uppercase;
     }
 
-    .mobile-link:first-child {
-        margin-top: 35rem;
+    .mobile-link:last-child {
+        margin-bottom: 20rem;
     }
 
     .menu-desktop {
