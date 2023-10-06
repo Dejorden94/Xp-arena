@@ -27,33 +27,16 @@ const showingNavigationDropdown = ref(false);
 
                         <!-- Navigation Links -->
 
-                        <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
-                        </NavLink>
                         <NavLink :href="route('about')">
                             About
                         </NavLink>
                         <NavLink href="/">
                             Home
                         </NavLink>
-                        <!-- Settings Dropdown -->
-                        <Dropdown>
-                            <template #content>
-                                <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
-                                <DropdownLink :href="route('logout')" method="post" as="button">
-                                    Log Out
-                                </DropdownLink>
-                            </template>
-                        </Dropdown>
-
-
-
-                        <!-- Hamburger -->
-                        <button class="dashboard-hamburger" @click="showingNavigationDropdown = !showingNavigationDropdown">
-                            <span class="hamburger-stroke"></span>
-                            <span class="hamburger-stroke"></span>
-                            <span class="hamburger-stroke"></span>
-                        </button>
+                        <NavLink :href="route('profile.edit')">
+                            Profile
+                        </NavLink>
+                        <NavLink :href="route('logout')" method="post" as="button">Log out</NavLink>
                     </div>
                 </div>
 
@@ -67,14 +50,7 @@ const showingNavigationDropdown = ref(false);
 
                     <!-- Responsive Settings Options -->
                     <div>
-                        <div>
-                            <div>
-                                {{ $page.props.auth.user.name }}
-                            </div>
-                            <div>{{ $page.props.auth.user.email }}</div>
-                        </div>
-
-                        <div>
+                        <div class="dropdown-menu">
                             <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
                                 Log Out
@@ -106,16 +82,32 @@ const showingNavigationDropdown = ref(false);
 <style>
 .dashboard-hamburger {
     /* padding: 1rem; */
+    display: none;
     width: 6rem;
     height: 6rem;
-    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
+.dropdown-menu {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+.dropdown-menu>button {
+    width: 10rem;
+}
+
+.dropdown-link {
+    background: none;
+    color: #eee;
+}
+
 .dashboard-heading {
     display: flex;
+    justify-content: space-around;
 }
 
 .dashboard-logo {
@@ -131,6 +123,10 @@ const showingNavigationDropdown = ref(false);
 }
 
 @media screen and (max-width: 1280px) {
+    .dashboard-hamburger {
+        display: flex;
+    }
+
     .player-info {
         height: 20vh;
     }
