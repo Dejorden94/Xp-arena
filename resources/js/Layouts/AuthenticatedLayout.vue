@@ -120,6 +120,10 @@ const showingNavigationDropdown = ref(false);
 }
 
 @media screen and (max-width: 1280px) {
+    .dashboard-heading {
+        display: none;
+    }
+
     .dashboard-hamburger {
         display: flex;
     }
