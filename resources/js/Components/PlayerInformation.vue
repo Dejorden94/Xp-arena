@@ -5,8 +5,9 @@ import { Link } from '@inertiajs/vue3';
 <template>
     <article class="player-info">
         <figure class="profile-pic">
-
+            <Link :href="route('profile.edit')">
             <img src="images/UI/default-profile-pic.png" alt="It's you!">
+            </Link>
         </figure>
         <section class="player-info-section">
             <p class="real-name"> {{ $page.props.auth.user.name }}</p>

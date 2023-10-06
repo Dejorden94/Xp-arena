@@ -21,9 +21,6 @@ const showingNavigationDropdown = ref(false);
                     <div class="dashboard-heading">
                         <!-- Logo -->
                         <ApplicationLogo class="dashboard-logo" />
-                        <Link :href="route('dashboard')">
-                        </Link>
-
 
                         <!-- Navigation Links -->
                         <NavLink href="/">
