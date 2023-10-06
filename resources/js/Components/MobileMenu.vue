@@ -9,6 +9,8 @@
             <div v-if="showMenu" class="mobile-menu">
                 <Link class="mobile-link" :href="route('dashboard')">
                 Dashboard</Link>
+                <Link class="mobile-link" :href="route('profile.edit')">
+                Profile</Link>
                 <template v-if="currentRoute !== '/about'">
                     <Link class="mobile-link" :href="route('about')">About</Link>
                 </template>

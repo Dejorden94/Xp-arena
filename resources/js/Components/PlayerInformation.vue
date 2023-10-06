@@ -1,10 +1,11 @@
 <script setup>
-
+import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
     <article class="player-info">
         <figure class="profile-pic">
+
             <img src="images/UI/default-profile-pic.png" alt="It's you!">
         </figure>
         <section class="player-info-section">
