@@ -7,18 +7,18 @@
         </button>
         <template v-if="$page.props.auth.user">
             <div v-if="showMenu" class="mobile-menu">
-                <Link class="mobile-link" :href="route('dashboard')">
+                <Link v-show="$page.component !== 'Dashboard'" class="mobile-link" :href="route('dashboard')">
                 Dashboard</Link>
-                <Link class="mobile-link" :href="route('profile.edit')">
+                <Link v-show="$page.component !== 'Profile/Edit'" class="mobile-link" :href="route('profile.edit')">
                 Profile</Link>
                 <template v-if="currentRoute !== '/about'">
                     <Link class="mobile-link" :href="route('about')">About</Link>
                 </template>
-                <template v-else>
+                <template v-if="currentRoute !== '/'">
                     <Link class="mobile-link" href="/">Home</Link>
                 </template>
             </div>
-            <button v-if="currentRoute !== '/dashboard'" class="join-add-button" @click="$emit('showJoin')">+</button>
+            <button v-show="$page.component === 'Dashboard'" class="join-add-button" @click="$emit('showJoin')">+</button>
         </template>
 
         <template v-else>
