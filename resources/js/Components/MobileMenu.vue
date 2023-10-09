@@ -110,6 +110,7 @@ export default {
     }
 
     .menu-mobile {
+        z-index: 100;
         display: flex;
         justify-content: flex-start;
         align-items: center;

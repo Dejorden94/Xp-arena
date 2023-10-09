@@ -28,6 +28,17 @@ section {
     border-radius: 1rem;
 }
 
+.add-game::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: -1;
+}
+
 .add-game {
     border: none;
     background: none;
@@ -35,11 +46,12 @@ section {
     width: 80vw;
     padding: 0;
     position: absolute;
-    top: 60%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 1;
+    /* Zorg ervoor dat het boven de ::before pseudo-element wordt weergegeven */
 }
-
 
 .join-game {
     margin-bottom: 1rem;

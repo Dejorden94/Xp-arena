@@ -43,7 +43,9 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
             </ul>
         </article>
         <PinComponent v-show="showJoin" />
-        <AddGameComponent v-show="showAddGame" @showCreate="handletoggleCreate" @showJoin="handleShowJoin" />
+        <div v-if="showAddGame" class="overlay"></div>
+        <AddGameComponent class="add-game-component" v-show="showAddGame" @showCreate="handletoggleCreate"
+            @showJoin="handleShowJoin" />
 
     </AuthenticatedLayout>
     <!-- <button class="join-add-button" @click="toggleJoinGame">+</button> -->
@@ -200,6 +202,16 @@ li {
 
 li:hover {
     color: #007BFF;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 0;
 }
 </style>
 
