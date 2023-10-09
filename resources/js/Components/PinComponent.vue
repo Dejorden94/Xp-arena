@@ -54,7 +54,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 50%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80%;
