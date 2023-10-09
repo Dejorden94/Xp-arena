@@ -24,7 +24,7 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
         <article class="games-overview">
             <h2>Je games</h2>
             <ul>
-                <li v-on:click="loadGameDetails(game.id)" v-for="game in games" :key="game.id">
+                <li class="game" v-on:click="loadGameDetails(game.id)" v-for="game in games" :key="game.id">
                     {{ game.name }}
                 </li>
             </ul>
@@ -35,7 +35,7 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
         <article class="games-overview">
             <h2>Followed Games</h2>
             <ul>
-                <li v-for="game in followedGames" :key="game.id" @click="loadGameDetails(game.id)">
+                <li class="game" v-for="game in followedGames" :key="game.id" @click="loadGameDetails(game.id)">
                     {{ game.name }}
                 </li>
             </ul>
@@ -173,18 +173,12 @@ export default {
 </script>
 
 <style scoped>
-article,
-GameDetails,
-GameTasks {
+article {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 2rem;
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    width: 60%;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -226,7 +220,8 @@ button:hover {
 }
 
 ul {
-    padding-left: 1rem;
+    width: 100%;
+    height: 100%;
 }
 
 li {
@@ -238,8 +233,21 @@ li:hover {
     color: #007BFF;
 }
 
+.game {
+    padding-left: 1rem;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(#4DA9FF, #3770A6);
+    width: 100%;
+    height: 10rem;
+    font-size: 150%;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+}
+
 .games-overview {
-    background: var(--background-lighter);
+    /* background: var(--background-lighter); */
     color: var(--font-color-normal);
 }
 
