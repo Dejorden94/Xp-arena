@@ -6,7 +6,7 @@
         <h2>Join game</h2>
         <form @submit.prevent="submitPincode">
             <input placeholder="Enter game pin" type="text" id="pincode" v-model="pincode" required>
-            <button type="submit">GO</button>
+            <button type="submit" @click="$emit('reloadJoinedGames')">GO</button>
         </form>
     </article>
 </template>

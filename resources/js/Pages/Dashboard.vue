@@ -21,7 +21,7 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
         <GameTasks v-if="gameDetailsVisible && gameData" :initialTasks="tasks" :gameId="gameData.id" :user="user"
             :key="gameData.id" :isUserOwner="gameData.isUserOwner" />
 
-        <article>
+        <article class="games-overview">
             <h2>Je games</h2>
             <ul>
                 <li v-on:click="loadGameDetails(game.id)" v-for="game in games" :key="game.id">
@@ -32,7 +32,7 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
 
         <UnverifiedTasks v-if="unverifiedTasks.length > 0" :unverifiedTasks="unverifiedTasks" />
 
-        <article>
+        <article class="games-overview">
             <h2>Followed Games</h2>
             <ul>
                 <li v-for="game in followedGames" :key="game.id" @click="loadGameDetails(game.id)">
@@ -41,9 +41,11 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
             </ul>
         </article>
         <div v-if="showJoin" class="overlay"></div>
-        <PinComponent v-show="showJoin" />
+        <PinComponent v-show="showJoin" @reloadJoinedGames="fetchFollowedGames" />
+
         <div v-if="createGame" class="overlay"></div>
         <CreateGameComponent v-show="createGame" @reloadGames="refreshGames" />
+
         <div v-if="showAddGame" class="overlay"></div>
         <AddGameComponent class="add-game-component" v-show="showAddGame" @showCreate="handletoggleCreate"
             @showJoin="handleShowJoin" />
@@ -77,6 +79,7 @@ export default {
         this.user = this.$page.props.auth.user;
         this.fetchUnverifiedTasks(); // Haal ongeverifieerde taken op bij het laden van de pagina
         this.refreshGames(this.user.id);
+        this.fetchFollowedGames(this.user.id)
     },
     mounted() {
         this.fetchFollowedGames();
@@ -188,7 +191,6 @@ GameTasks {
 
 
 h2 {
-    color: #333;
     margin-bottom: 1rem;
 }
 
@@ -234,6 +236,11 @@ li {
 
 li:hover {
     color: #007BFF;
+}
+
+.games-overview {
+    background: var(--background-lighter);
+    color: var(--font-color-normal);
 }
 
 .overlay {
