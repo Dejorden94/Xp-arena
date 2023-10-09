@@ -8,14 +8,14 @@
             <h1 @click="$emit('showJoin')">Join Game</h1>
         </section>
         <section class="create-game">
-            <h1 @click="$emit('showCreate')">Create-game</h1>
+            <h1 @click="$emit('showCreate')">Create game</h1>
         </section>
     </article>
 </template>
 
 <style scoped>
 h1 {
-    font-size: 180%;
+    font-size: 200%;
     font-weight: 700;
     color: var(--font-color-white);
     cursor: pointer;
@@ -35,9 +35,11 @@ section {
     width: 80vw;
     padding: 0;
     position: absolute;
+    top: 60%;
     left: 50%;
-    margin-left: -15rem;
+    transform: translate(-50%, -50%);
 }
+
 
 .join-game {
     margin-bottom: 1rem;

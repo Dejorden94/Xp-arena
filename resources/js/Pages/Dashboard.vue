@@ -125,9 +125,11 @@ export default {
         },
         handleShowJoin() {
             this.showJoin = !this.showJoin;
+            this.showAddGame = !this.showAddGame;
         },
         handletoggleCreate() {
             this.createGame = !this.createGame;
+            this.showAddGame = !this.showAddGame;
         }
     }
 }
