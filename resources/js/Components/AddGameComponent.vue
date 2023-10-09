@@ -15,7 +15,7 @@
 
 <style scoped>
 h1 {
-    font-size: 150%;
+    font-size: 180%;
     font-weight: 700;
     color: var(--font-color-white);
     cursor: pointer;
@@ -25,26 +25,30 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 1rem;
 }
 
 .add-game {
-    height: 15rem;
+    border: none;
+    background: none;
+    height: 25rem;
+    width: 80vw;
     padding: 0;
     position: absolute;
-    bottom: 15rem;
     left: 50%;
-    margin-left: -11.2rem;
+    margin-left: -15rem;
 }
 
 .join-game {
+    margin-bottom: 1rem;
     width: 100%;
     height: 50%;
-    background: linear-gradient(#FDA829, #FF5C00)
+    background: linear-gradient(#FDA829, #FF5C00);
 }
 
 .create-game {
     width: 100%;
     height: 50%;
-    background: linear-gradient(#4DA9FF, #3770A6)
+    background: linear-gradient(#4DA9FF, #3770A6);
 }
 </style>
