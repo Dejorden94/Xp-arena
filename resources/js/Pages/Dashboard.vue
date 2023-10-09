@@ -16,8 +16,6 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
 
     <AuthenticatedLayout @showJoin="handleJoinGame">
 
-        <CreateGameComponent v-show="createGame" />
-
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails" />
 
         <GameTasks v-if="gameDetailsVisible && gameData" :initialTasks="tasks" :gameId="gameData.id" :user="user"
@@ -43,6 +41,7 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
             </ul>
         </article>
         <PinComponent v-show="showJoin" />
+        <CreateGameComponent v-show="createGame" />
         <div v-if="showAddGame" class="overlay"></div>
         <AddGameComponent class="add-game-component" v-show="showAddGame" @showCreate="handletoggleCreate"
             @showJoin="handleShowJoin" />
