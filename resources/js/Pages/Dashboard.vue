@@ -40,7 +40,9 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
                 </li>
             </ul>
         </article>
+        <div v-if="showJoin" class="overlay"></div>
         <PinComponent v-show="showJoin" />
+        <div v-if="createGame" class="overlay"></div>
         <CreateGameComponent v-show="createGame" />
         <div v-if="showAddGame" class="overlay"></div>
         <AddGameComponent class="add-game-component" v-show="showAddGame" @showCreate="handletoggleCreate"

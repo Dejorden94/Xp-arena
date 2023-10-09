@@ -1,13 +1,12 @@
-<script setup></script>
 <template>
-    <article>
-        <h2>Voer een game pincode in</h2>
+    <article class="pincode">
+        <figure>
+            <img src="images/info-imgs/info-about-graphic.png" alt="Xp arena information graphic.">
+        </figure>
+        <h2>Join game</h2>
         <form @submit.prevent="submitPincode">
-            <div>
-                <label for="pincode">Pincode:</label>
-                <input type="text" id="pincode" v-model="pincode" required>
-            </div>
-            <button type="submit">Verzenden</button>
+            <input placeholder="Enter game pin" type="text" id="pincode" v-model="pincode" required>
+            <button type="submit">GO</button>
         </form>
     </article>
 </template>
@@ -34,61 +33,82 @@ export default {
                     console.log(error);
                 });
         },
+        fetchFollowedGames() {
+            axios.get('/dashboard/games')
+                .then(response => {
+                    this.followedGames = response.data.games;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
     },
 }
 </script>
 <style scoped>
-.join-add-button {
-    margin-bottom: 10rem;
+.pincode {
+    background: var(--background-super-dark);
+    border: 2px solid var(--background-lighter);
+    border-radius: 1rem;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    padding: 0;
 }
 
-article,
-GameDetails,
-GameTasks {
+article {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 2rem;
-    padding: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f9f9f9;
-    width: 60%;
     margin-left: auto;
     margin-right: auto;
 }
 
+figure {
+    background: var(--background-lighter);
+    width: 100%;
+    height: 100%;
+}
+
 
 h2 {
-    color: #333;
-    margin-bottom: 1rem;
+    font-size: 150%;
+    margin-top: 1rem;
+    color: var(--font-white);
 }
 
 form {
-    margin-top: 1rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     width: 100%;
 }
 
-form>div {
-    margin-bottom: 1rem;
-}
-
-input,
-textarea {
+input {
+    text-align: center;
+    margin: 0 auto 1rem auto;
+    background: var(--background-lighter);
+    border: none;
     padding: 0.5rem;
-    width: 100%;
-    border: 1px solid #ccc;
+    width: 60%;
     border-radius: 5px;
+
 }
 
 button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #007BFF;
-    color: #fff;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    padding: 0.2rem 2rem;
+    background: var(--background-lighter);
 }
 
 button:hover {
