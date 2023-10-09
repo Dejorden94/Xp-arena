@@ -43,7 +43,7 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
         <div v-if="showJoin" class="overlay"></div>
         <PinComponent v-show="showJoin" />
         <div v-if="createGame" class="overlay"></div>
-        <CreateGameComponent v-show="createGame" />
+        <CreateGameComponent v-show="createGame" @reloadGames="refreshGames" />
         <div v-if="showAddGame" class="overlay"></div>
         <AddGameComponent class="add-game-component" v-show="showAddGame" @showCreate="handletoggleCreate"
             @showJoin="handleShowJoin" />
@@ -76,6 +76,7 @@ export default {
     created() {
         this.user = this.$page.props.auth.user;
         this.fetchUnverifiedTasks(); // Haal ongeverifieerde taken op bij het laden van de pagina
+        this.refreshGames(this.user.id);
     },
     mounted() {
         this.fetchFollowedGames();
@@ -95,6 +96,28 @@ export default {
                 this.games = response.data;
             } catch (error) {
                 console.log(error);
+            }
+        },
+        async loadGameDetails(gameId) {
+            try {
+                const response = await axios.get(`/api/games/${gameId}`);
+                if (response.data) {
+                    this.gameData = response.data;
+                    this.gameData.isUserOwner = this.user.id === this.gameData.user_id;
+
+
+                    if (this.gameData.isUserOwner) {
+                        this.fetchTasks(gameId); // Wacht op het ophalen van taken
+                    } else {
+                        this.fetchFollowedTasks(gameId); // Wacht op het ophalen van gevolgde taken
+                    }
+
+                    this.gameDetailsVisible = true;
+                } else {
+                    console.error("Geen data ontvangen van de API.");
+                }
+            } catch (error) {
+                console.error(error);
             }
         },
         fetchTasks(gameId) {

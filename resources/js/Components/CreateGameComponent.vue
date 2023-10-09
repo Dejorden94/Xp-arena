@@ -8,7 +8,7 @@
         <h2>Create game</h2>
         <form @submit.prevent="createGame">
             <input placeholder="Enter game name" type="text" id="name" v-model="name" required>
-            <button type="submit">Save</button>
+            <button type="submit" @click="$emit('reloadGames')">Save</button>
         </form>
     </article>
 </template>
@@ -43,28 +43,6 @@ export default {
                 this.games = response.data;
             } catch (error) {
                 console.log(error);
-            }
-        },
-        async loadGameDetails(gameId) {
-            try {
-                const response = await axios.get(`/api/games/${gameId}`);
-                if (response.data) {
-                    this.gameData = response.data;
-                    this.gameData.isUserOwner = this.user.id === this.gameData.user_id;
-
-
-                    if (this.gameData.isUserOwner) {
-                        this.fetchTasks(gameId); // Wacht op het ophalen van taken
-                    } else {
-                        this.fetchFollowedTasks(gameId); // Wacht op het ophalen van gevolgde taken
-                    }
-
-                    this.gameDetailsVisible = true;
-                } else {
-                    console.error("Geen data ontvangen van de API.");
-                }
-            } catch (error) {
-                console.error(error);
             }
         },
     }
