@@ -102,7 +102,6 @@ input {
     padding: 0.5rem;
     width: 60%;
     border-radius: 5px;
-
 }
 
 button {

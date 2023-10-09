@@ -89,6 +89,14 @@ export default {
                 console.error(error);
             }
         },
+        async refreshGames() {
+            try {
+                const response = await axios.get(`/users/${this.user.id}/games`);
+                this.games = response.data;
+            } catch (error) {
+                console.log(error);
+            }
+        },
         fetchTasks(gameId) {
             axios.get(`/api/games/${gameId}/tasks`)
                 .then(response => {

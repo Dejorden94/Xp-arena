@@ -1,14 +1,14 @@
 <script setup>
 </script>
 <template>
-    <article>
-        <h2>Maak een nieuwe game aan</h2>
+    <article class="create-game">
+        <figure>
+            <img src="images/Logo-Xp-Arena.png" alt="">
+        </figure>
+        <h2>Create game</h2>
         <form @submit.prevent="createGame">
-            <div>
-                <label for="name">Naam Game:</label>
-                <input type="text" id="name" v-model="name" required>
-            </div>
-            <button type="submit">Aanmaken</button>
+            <input placeholder="Enter game name" type="text" id="name" v-model="name" required>
+            <button type="submit">Save</button>
         </form>
     </article>
 </template>
@@ -72,61 +72,47 @@ export default {
 </script>
 
 <style scoped>
-.join-add-button {
-    margin-bottom: 10rem;
-}
-
-article,
-GameDetails,
-GameTasks {
+.create-game {
+    background: var(--background-super-dark);
+    border: 2px solid var(--background-lighter);
+    border-radius: 1rem;
+    position: absolute;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 2rem;
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
+    justify-content: center;
+    align-items: center;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 40rem;
+    padding: 0;
 }
-
 
 h2 {
-    color: #333;
-    margin-bottom: 1rem;
+    font-size: 150%;
+    margin-top: 1rem;
+    color: var(--font-white);
 }
 
 form {
-    margin-top: 1rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     width: 100%;
 }
 
-form>div {
-    margin-bottom: 1rem;
-}
-
-input,
-textarea {
+input {
+    text-align: center;
+    margin: 0 auto 1rem auto;
+    background: var(--background-lighter);
+    border: none;
     padding: 0.5rem;
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    width: 60%;
 }
 
 button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #007BFF;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #0056b3;
+    background: var(--background-lighter);
 }
 
 ul {
