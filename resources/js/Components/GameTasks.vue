@@ -5,7 +5,10 @@
             <li v-for="task in initialTasks" :key="task.id">
                 <input v-if="task.status === 'pending' && !isUserOwner || task.status === 'rejected'" type="checkbox"
                     v-model="task.completed" @change="toggleTaskCompletion(task.id)" />
-                {{ task.name }} - {{ task.description }} - {{ task.experience }} - {{ task.status }}
+                <p v-if="!isUserOwner">{{ task.name }} - {{ task.description }} - {{ task.experience }} - {{ task.status
+                }}</p>
+                <p v-if="isUserOwner">{{ task.name }} - {{ task.description }} - {{ task.experience }}</p>
+
                 <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
                 <span v-if="task.status === 'completed'" class="task-status reviewd">Reviewd</span>
                 <span v-else-if="task.status === 'rejected'" class="task-status rejected">Afgewezen</span>
@@ -94,12 +97,13 @@ export default {
 }
 
 article {
-    border: 1px solid #ccc;
+    width: 100vw;
     padding: 1rem;
-    margin-bottom: 1rem;
-    background-color: #f9f9f9;
+    background-color: var(--background-super-dark);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
+    border: 2px solid var(--background-lighter);
+    margin-bottom: 1rem;
 }
 
 h3 {
@@ -107,16 +111,18 @@ h3 {
 }
 
 ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
     list-style: none;
     padding: 0;
 }
 
 li {
+    width: 50%;
     margin-bottom: 0.5rem;
     padding: 0.5rem;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
 }
 </style>
 

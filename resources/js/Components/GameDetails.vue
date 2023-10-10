@@ -7,9 +7,9 @@
         </section>
 
         <form @submit.prevent="addTask">
-            <input v-model="newTaskName" type="text" placeholder="Titel" required>
-            <textarea v-model="newTaskDescription" placeholder="Beschrijving" required></textarea>
-            <input v-model="newTaskExperience" type="number" placeholder="Experience" required>
+            <input class="task-input" v-model="newTaskName" type="text" placeholder="Titel" required>
+            <textarea class="task-input" v-model="newTaskDescription" placeholder="Beschrijving" required></textarea>
+            <input class="task-input" v-model="newTaskExperience" type="number" placeholder="Experience" required>
             <button type="submit">Toevoegen</button>
         </form>
     </article>
@@ -93,23 +93,25 @@ export default {
 article {
     width: 100vw;
     padding: 1rem;
-    background-color: #f9f9f9;
+    background-color: var(--background-super-dark);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
+    border: 2px solid var(--background-lighter);
     margin-bottom: 1rem;
 }
 
 form {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     margin-top: 1rem;
 }
 
-input,
-textarea {
+.task-input {
+    margin-top: 1rem;
+    background: var(--background-lighter);
+    border: none;
     padding: 0.5rem;
-    margin-bottom: 0.5rem;
-    border: 1px solid #ccc;
     border-radius: 5px;
 }
 </style>
