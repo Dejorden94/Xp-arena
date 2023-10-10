@@ -7,6 +7,7 @@
                     v-model="task.completed" @change="toggleTaskCompletion(task.id)" />
                 <p v-if="!isUserOwner">{{ task.name }} - {{ task.description }} - {{ task.experience }} - {{ task.status
                 }}</p>
+
                 <p v-if="isUserOwner">{{ task.name }} - {{ task.description }} - {{ task.experience }}</p>
 
                 <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
@@ -96,27 +97,26 @@ export default {
     color: white;
 }
 
-article {
-    width: 100vw;
+h3 {
+    margin: 0 auto;
+    font-size: 200%;
+    font-weight: 700;
+    margin-top: 0;
+}
+
+ul {
     padding: 1rem;
     background-color: var(--background-super-dark);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     border: 2px solid var(--background-lighter);
     margin-bottom: 1rem;
-}
-
-h3 {
-    margin-top: 0;
-}
-
-ul {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     text-align: center;
     list-style: none;
-    padding: 0;
+    padding: 1rem;
 }
 
 li {

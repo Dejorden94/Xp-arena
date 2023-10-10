@@ -16,15 +16,16 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
 
     <AuthenticatedLayout @showJoin="handleJoinGame">
 
-        <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails" />
+        <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails"
+            @handleGame="toggleGames" />
 
         <GameTasks v-if="gameDetailsVisible && gameData" :initialTasks="tasks" :gameId="gameData.id" :user="user"
             :key="gameData.id" :isUserOwner="gameData.isUserOwner" />
 
-        <article class="games-overview">
+        <article v-show="showGames" class="games-overview">
             <h2>Je games</h2>
             <ul>
-                <li class="game" v-on:click="loadGameDetails(game.id)" v-for="game in games" :key="game.id">
+                <li class="game" v-on:click="loadGameDetails(game.id); toggleGames();" v-for="game in games" :key="game.id">
                     {{ game.name }}
                 </li>
             </ul>
@@ -32,10 +33,11 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
 
         <UnverifiedTasks v-if="unverifiedTasks.length > 0" :unverifiedTasks="unverifiedTasks" />
 
-        <article class="games-overview">
+        <article v-show="showGames" class="games-overview">
             <h2>Followed Games</h2>
             <ul>
-                <li class="game" v-for="game in followedGames" :key="game.id" @click="loadGameDetails(game.id)">
+                <li class="game" v-for="game in followedGames" :key="game.id"
+                    @click="loadGameDetails(game.id); toggleGames();">
                     {{ game.name }}
                 </li>
             </ul>
@@ -73,6 +75,7 @@ export default {
             showAddGame: false,
             showJoin: false,
             createGame: false,
+            showGames: true,
         }
     },
     created() {
@@ -174,6 +177,9 @@ export default {
             this.showJoin = false;
             this.showAddGame = false;
             this.createGame = false;
+        },
+        toggleGames() {
+            this.showGames = !this.showGames;
         }
     }
 }
