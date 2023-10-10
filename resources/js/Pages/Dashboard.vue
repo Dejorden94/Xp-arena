@@ -41,7 +41,7 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
             </ul>
         </article>
         <div v-if="showJoin" class="overlay"></div>
-        <PinComponent v-show="showJoin" @reloadJoinedGames="fetchFollowedGames" />
+        <PinComponent v-show="showJoin" @reloadJoinedGames="fetchFollowedGames(); setFalse();" />
 
         <div v-if="createGame" class="overlay"></div>
         <CreateGameComponent v-show="createGame" @reloadGames="refreshGames" />
@@ -167,6 +167,11 @@ export default {
         handletoggleCreate() {
             this.createGame = !this.createGame;
             this.showAddGame = !this.showAddGame;
+        },
+        setFalse() {
+            this.showJoin = false;
+            this.showAddGame = false;
+            this.createGame = false;
         }
     }
 }
