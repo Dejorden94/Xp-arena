@@ -18,7 +18,11 @@
                     <Link class="mobile-link" href="/">Home</Link>
                 </template>
             </div>
-            <button v-show="$page.component === 'Dashboard'" class="join-add-button" @click="$emit('showJoin')">+</button>
+            <button v-show="$page.component === 'Dashboard'"
+                :class="{ 'join-add-button': true, 'clicked': isButtonClicked }"
+                @click="$emit('showJoin'); toggleAddMenu()">
+                {{ isButtonClicked ? 'x' : '+' }}
+            </button>
         </template>
 
         <template v-else>
@@ -45,6 +49,11 @@ import { Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 export default {
+    data() {
+        return {
+            isButtonClicked: false
+        }
+    },
     components: {
         Link
     },
@@ -52,7 +61,6 @@ export default {
         canRegister: Boolean,
         currentRoute: String
     },
-
     setup() {
         const showMenu = ref(false);
 
@@ -64,6 +72,11 @@ export default {
             showMenu,
             toggleMenu
         };
+    },
+    methods: {
+        toggleAddMenu() {
+            this.isButtonClicked = !this.isButtonClicked;
+        }
     }
 }
 </script>
@@ -91,6 +104,11 @@ export default {
         bottom: 2rem;
         left: 50%;
         margin-left: -5rem;
+    }
+
+    .join-add-button.clicked {
+        background: linear-gradient(90deg, #4DA9FF, #3770A6);
+
     }
 
     .logo-mobile {

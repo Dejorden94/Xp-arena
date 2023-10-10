@@ -159,6 +159,8 @@ export default {
         },
         handleJoinGame() {
             this.showAddGame = !this.showAddGame;
+            this.createGame = false;
+            this.showJoin = false;
         },
         handleShowJoin() {
             this.showJoin = !this.showJoin;
