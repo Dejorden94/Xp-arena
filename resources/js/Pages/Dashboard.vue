@@ -44,7 +44,7 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
         <PinComponent v-show="showJoin" @reloadJoinedGames="fetchFollowedGames(); setFalse();" />
 
         <div v-if="createGame" class="overlay"></div>
-        <CreateGameComponent v-show="createGame" @reloadGames="refreshGames" />
+        <CreateGameComponent v-show="createGame" @reloadGames="refreshGames(); setFalse();" />
 
         <div v-if="showAddGame" class="overlay"></div>
         <AddGameComponent class="add-game-component" v-show="showAddGame" @showCreate="handletoggleCreate"
