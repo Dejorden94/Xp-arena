@@ -35,7 +35,7 @@ section {
     width: 80vw;
     padding: 0;
     position: absolute;
-    top: 50%;
+    bottom: 0;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
