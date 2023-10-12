@@ -27,6 +27,12 @@ const onSubmit = () => {
     data.append('email', form.email);
     data.append('profile_picture', form.profile_picture);
 
+    // Log de inhoud van de FormData
+    for (let [key, value] of data.entries()) {
+        console.log(key, value);
+    }
+
+
     form.patch(route('profile.update'), {
         onSuccess: () => {
             form.reset();
@@ -34,6 +40,7 @@ const onSubmit = () => {
         data,
     });
 };
+
 
 const onFileChange = (event) => {
     const file = event.target.files[0];
@@ -52,6 +59,8 @@ const onFileChange = (event) => {
         return;
     }
 
+    form.profile_picture = file;
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
@@ -68,15 +77,13 @@ const onFileChange = (event) => {
             <p>Update your account's profile information and email address.</p>
         </header>
 
-        <form @submit.prevent="onSubmit">
+        <form @submit.prevent="onSubmit" enctype="multipart/form-data">
             <div>
                 <InputLabel for="profile_picture" value="Profile Picture" />
-                <input id="profile_picture" type="file" accept="image/*" @change="onFileChange" />
+                <input id="profile_picture" name="profile_picture" type="file" accept="image/*" @change="onFileChange" />
                 <InputError :message="form.errors.profile_picture" />
             </div>
-        </form>
 
-        <form @submit.prevent="form.patch(route('profile.update'))">
             <div>
                 <InputLabel for="name" value="Name" />
                 <TextInput id="name" type="text" v-model="form.name" required autofocus autocomplete="name" />
