@@ -86,13 +86,13 @@ const onFileChange = (event) => {
 
             <div>
                 <InputLabel for="name" value="Name" />
-                <TextInput id="name" type="text" v-model="form.name" required autofocus autocomplete="name" />
+                <TextInput class="input" id="name" type="text" v-model="form.name" required autofocus autocomplete="name" />
                 <InputError :message="form.errors.name" />
             </div>
 
             <div>
                 <InputLabel for="email" value="Email" />
-                <TextInput id="email" type="email" v-model="form.email" required autocomplete="username" />
+                <TextInput class="input" id="email" type="email" v-model="form.email" required autocomplete="username" />
                 <InputError :message="form.errors.email" />
             </div>
 
@@ -117,3 +117,10 @@ const onFileChange = (event) => {
         </form>
     </section>
 </template>
+
+<style scoped>
+.input {
+    color: black;
+    font-size: 100%;
+}
+</style>
