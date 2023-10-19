@@ -42,10 +42,6 @@ defineProps({
 </template>
 
 <style scoped>
-h2 {
-    width: 50Vw;
-}
-
 .edit-player-form {
     padding: 0 2rem;
 }

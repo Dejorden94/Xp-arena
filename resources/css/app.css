@@ -101,3 +101,7 @@ button,
     margin-bottom: 1rem;
     box-shadow: var(--box-shadow);
 }
+
+.input {
+    width: 100%;
+}

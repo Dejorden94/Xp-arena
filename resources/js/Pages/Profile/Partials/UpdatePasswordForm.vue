@@ -43,21 +43,21 @@ const updatePassword = () => {
         <form @submit.prevent="updatePassword">
             <section>
                 <InputLabel for="current_password" value="Current Password" />
-                <TextInput id="current_password" ref="currentPasswordInput" v-model="form.current_password" type="password"
-                    autocomplete="current-password" />
+                <TextInput class="input" id="current_password" ref="currentPasswordInput" v-model="form.current_password"
+                    type="password" autocomplete="current-password" />
                 <InputError :message="form.errors.current_password" />
             </section>
 
             <section>
                 <InputLabel for="password" value="New Password" />
-                <TextInput id="password" ref="passwordInput" v-model="form.password" type="password"
+                <TextInput class="input" id="password" ref="passwordInput" v-model="form.password" type="password"
                     autocomplete="new-password" />
                 <InputError :message="form.errors.password" />
             </section>
 
             <section>
                 <InputLabel for="password_confirmation" value="Confirm Password" />
-                <TextInput id="password_confirmation" v-model="form.password_confirmation" type="password"
+                <TextInput class="input" id="password_confirmation" v-model="form.password_confirmation" type="password"
                     autocomplete="new-password" />
                 <InputError :message="form.errors.password_confirmation" />
             </section>

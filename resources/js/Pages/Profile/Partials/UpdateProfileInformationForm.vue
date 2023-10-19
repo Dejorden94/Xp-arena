@@ -123,4 +123,8 @@ const onFileChange = (event) => {
     color: black;
     font-size: 100%;
 }
+
+input[type=file] {
+    width: 100%;
+}
 </style>
