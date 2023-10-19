@@ -41,33 +41,33 @@ const updatePassword = () => {
         </header>
 
         <form @submit.prevent="updatePassword">
-            <div>
+            <section>
                 <InputLabel for="current_password" value="Current Password" />
                 <TextInput id="current_password" ref="currentPasswordInput" v-model="form.current_password" type="password"
                     autocomplete="current-password" />
                 <InputError :message="form.errors.current_password" />
-            </div>
+            </section>
 
-            <div>
+            <section>
                 <InputLabel for="password" value="New Password" />
                 <TextInput id="password" ref="passwordInput" v-model="form.password" type="password"
                     autocomplete="new-password" />
                 <InputError :message="form.errors.password" />
-            </div>
+            </section>
 
-            <div>
+            <section>
                 <InputLabel for="password_confirmation" value="Confirm Password" />
                 <TextInput id="password_confirmation" v-model="form.password_confirmation" type="password"
                     autocomplete="new-password" />
                 <InputError :message="form.errors.password_confirmation" />
-            </div>
+            </section>
 
-            <div>
+            <section>
                 <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
                 <Transition>
                     <p v-if="form.recentlySuccessful">Saved.</p>
                 </Transition>
-            </div>
+            </section>
         </form>
     </section>
 </template>

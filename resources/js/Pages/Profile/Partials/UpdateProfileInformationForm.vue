@@ -78,17 +78,17 @@ const onFileChange = (event) => {
         </header>
 
         <form @submit.prevent="onSubmit" enctype="multipart/form-data">
-            <div>
+            <section>
                 <InputLabel for="profile_picture" value="Profile Picture" />
                 <input id="profile_picture" name="profile_picture" type="file" accept="image/*" @change="onFileChange" />
                 <InputError :message="form.errors.profile_picture" />
-            </div>
+            </section>
 
-            <div>
+            <section>
                 <InputLabel for="name" value="Name" />
                 <TextInput class="input" id="name" type="text" v-model="form.name" required autofocus autocomplete="name" />
                 <InputError :message="form.errors.name" />
-            </div>
+            </section>
 
             <div>
                 <InputLabel for="email" value="Email" />
@@ -96,7 +96,7 @@ const onFileChange = (event) => {
                 <InputError :message="form.errors.email" />
             </div>
 
-            <div v-if="mustVerifyEmail && user.email_verified_at === null">
+            <section v-if="mustVerifyEmail && user.email_verified_at === null">
                 <p>Your email address is unverified.
                     <Link :href="route('verification.send')" method="post" as="button">
                     Click here to re-send the verification email.
@@ -106,14 +106,14 @@ const onFileChange = (event) => {
                 <div v-show="status === 'verification-link-sent'">
                     A new verification link has been sent to your email address.
                 </div>
-            </div>
+            </section>
 
-            <div>
+            <section>
                 <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
                 <Transition>
                     <p v-if="form.recentlySuccessful">Saved.</p>
                 </Transition>
-            </div>
+            </section>
         </form>
     </section>
 </template>

@@ -50,27 +50,27 @@ const closeModal = () => {
         <DangerButton @click="confirmUserDeletion">Delete Account</DangerButton>
 
         <Modal :show="confirmingUserDeletion" @close="closeModal">
-            <div>
+            <article>
                 <h2>Are you sure you want to delete your account?</h2>
                 <p>
                     Once your account is deleted, all of its resources and data will be permanently deleted. Please
                     enter your password to confirm you would like to permanently delete your account.
                 </p>
 
-                <div>
+                <section>
                     <InputLabel for="password" value="Password" />
                     <TextInput id="password" ref="passwordInput" v-model="form.password" type="password"
                         placeholder="Password" @keyup.enter="deleteUser" />
                     <InputError :message="form.errors.password" />
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
                     <DangerButton :disabled="form.processing" @click="deleteUser">
                         Delete Account
                     </DangerButton>
-                </div>
-            </div>
+                </section>
+            </article>
         </Modal>
     </section>
 </template>
