@@ -88,3 +88,17 @@ button,
 .hamburger-stroke:last-child {
     margin-bottom: 0;
 }
+
+/* Profile edit styling */
+
+.player-edit-section {
+
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    background: var(--background-super-dark);
+    border: 2px solid var(--background-lighter);
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--box-shadow);
+}

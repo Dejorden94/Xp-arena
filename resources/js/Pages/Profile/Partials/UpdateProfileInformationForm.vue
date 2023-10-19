@@ -71,7 +71,7 @@ const onFileChange = (event) => {
 </script>
 
 <template>
-    <section>
+    <article class="player-edit-section">
         <header>
             <h2>Profile Information</h2>
             <p>Update your account's profile information and email address.</p>
@@ -115,7 +115,7 @@ const onFileChange = (event) => {
                 </Transition>
             </section>
         </form>
-    </section>
+    </article>
 </template>
 
 <style scoped>

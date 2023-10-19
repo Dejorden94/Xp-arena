@@ -34,7 +34,7 @@ const updatePassword = () => {
 </script>
 
 <template>
-    <section>
+    <article class="player-edit-section">
         <header>
             <h2>Update Password</h2>
             <p>Ensure your account is using a long, random password to stay secure.</p>
@@ -69,5 +69,5 @@ const updatePassword = () => {
                 </Transition>
             </section>
         </form>
-    </section>
+    </article>
 </template>

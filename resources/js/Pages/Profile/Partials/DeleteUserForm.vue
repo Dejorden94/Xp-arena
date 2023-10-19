@@ -38,7 +38,7 @@ const closeModal = () => {
 </script>
 
 <template>
-    <section class="delete-section">
+    <article class="player-edit-section delete-section">
         <header>
             <h2>Delete Account</h2>
             <p>
@@ -72,7 +72,7 @@ const closeModal = () => {
                 </section>
             </article>
         </Modal>
-    </section>
+    </article>
 </template>
 
 <style scoped>
