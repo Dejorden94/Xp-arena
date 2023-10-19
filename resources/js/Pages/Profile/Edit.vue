@@ -23,7 +23,7 @@ defineProps({
             <h2>Profile</h2>
         </template>
 
-        <div>
+        <div class="edit-player-form">
             <div>
                 <div>
                     <UpdateProfileInformationForm :must-verify-email="mustVerifyEmail" :status="status" />
@@ -40,3 +40,13 @@ defineProps({
         </div>
     </AuthenticatedLayout>
 </template>
+
+<style scoped>
+h2 {
+    width: 50Vw;
+}
+
+.edit-player-form {
+    padding: 0 2rem;
+}
+</style>

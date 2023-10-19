@@ -92,8 +92,7 @@ button,
 /* Profile edit styling */
 
 .player-edit-section {
-
-    padding: 1rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     background: var(--background-super-dark);
