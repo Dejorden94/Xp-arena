@@ -6,12 +6,7 @@
             <h2>{{ gameData.pin_code }}</h2>
         </section>
 
-        <form @submit.prevent="addTask">
-            <input class="task-input" v-model="newTaskName" type="text" placeholder="Titel" required>
-            <textarea class="task-input" v-model="newTaskDescription" placeholder="Beschrijving" required></textarea>
-            <input class="task-input" v-model="newTaskExperience" type="number" placeholder="Experience" required>
-            <button type="submit">Toevoegen</button>
-        </form>
+        <AddQuest :gameData="gameData" @refreshTasks="$emit('refreshTasks')" />
     </article>
 
     <article v-if="!gameData.isUserOwner"> <!--Component wanneer NIET de owner de game laad-->
@@ -21,19 +16,11 @@
             <h2>{{ gameData.description }}</h2>
             <p>{{ gameData.owner }}</p>
         </section>
-
-        <section v-if="gameData.tasks">
-            <h3>Quests</h3>
-            <ul>
-                <li v-for="task in gameData.tasks" :key="task.id">
-                    {{ task.name }}
-                </li>
-            </ul>
-        </section>
     </article>
 </template>
   
 <script>
+import AddQuest from '@/Components/AddQuest.vue';
 export default {
     props: {
         gameData: {
@@ -44,19 +31,6 @@ export default {
     methods: {
         hideGameDetails() {
             this.$emit('hide');
-        },
-        addTask() {
-            axios.post(`/games/${this.gameData.id}/add-task`, { // gebruik de nieuwe route
-                name: this.newTaskName,
-                description: this.newTaskDescription,
-                experience: this.newTaskExperience
-            })
-                .then(response => {
-                    // ... je huidige logica om taken toe te voegen ...
-                })
-                .catch(error => {
-                    console.error(error);
-                });
         },
         fetchTasks() {
             if (this.gameData.id) {
@@ -85,7 +59,8 @@ export default {
     },
     created() {
         this.fetchTasks();
-    }
+    },
+    components: { AddQuest }
 };
 </script>
 
@@ -98,21 +73,6 @@ article {
     border-radius: 5px;
     border: 2px solid var(--background-lighter);
     margin-bottom: 1rem;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin-top: 1rem;
-}
-
-.task-input {
-    margin-top: 1rem;
-    background: var(--background-lighter);
-    border: none;
-    padding: 0.5rem;
-    border-radius: 5px;
 }
 </style>
 

@@ -17,7 +17,7 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
     <AuthenticatedLayout @showJoin="handleJoinGame">
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails"
-            @handleGame="toggleGames" />
+            @handleGame="toggleGames" @refreshTasks="refreshTasks" />
 
         <GameTasks v-if="gameDetailsVisible && gameData" :initialTasks="tasks" :gameId="gameData.id" :user="user"
             :key="gameData.id" :isUserOwner="gameData.isUserOwner" />
@@ -127,6 +127,7 @@ export default {
             }
         },
         fetchTasks(gameId) {
+            console.log("Fetching the tasks");
             axios.get(`/api/games/${gameId}/tasks`)
                 .then(response => {
                     this.tasks = response.data.tasks;

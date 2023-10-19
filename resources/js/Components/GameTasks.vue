@@ -1,5 +1,5 @@
 <template>
-    <article>
+    <article class="quest-overview">
         <h3>Quests</h3>
         <ul>
             <li v-for="task in initialTasks" :key="task.id">
@@ -123,6 +123,13 @@ li {
     width: 50%;
     margin-bottom: 0.5rem;
     padding: 0.5rem;
+}
+
+
+@media screen and (max-width: 900px) {
+    .quest-overview {
+        margin-bottom: 15rem;
+    }
 }
 </style>
 
