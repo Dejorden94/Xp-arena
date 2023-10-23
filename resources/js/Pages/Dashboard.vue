@@ -8,16 +8,17 @@ import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
 import AddGameComponent from '@/Components/AddGameComponent.vue';
 import PinComponent from '@/Components/PinComponent.vue';
 import CreateGameComponent from '@/Components/CreateGameComponent.vue';
+
 </script>
 
 
 <template>
     <Head title="Dashboard" />
 
-    <AuthenticatedLayout @showJoin="handleJoinGame">
+    <AuthenticatedLayout @showJoin="handleJoinGame" :showTaskCheck="showTaskCheck" :showAddJoin="showAddJoin">
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails"
-            @handleGame="toggleGames" @refreshTasks="refreshTasks" />
+            @handleGame="toggleGames" @refreshTasks="refreshTasks" @hideButton="toggleTaskCheck" />
 
         <GameTasks v-if="gameDetailsVisible && gameData" :initialTasks="tasks" :gameId="gameData.id" :user="user"
             :key="gameData.id" :isUserOwner="gameData.isUserOwner" />
@@ -25,9 +26,11 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
         <article v-show="showGames" class="games-overview">
             <h2>Je games</h2>
             <ul>
-                <li class="game" v-on:click="loadGameDetails(game.id); toggleGames();" v-for="game in games" :key="game.id">
+                <li class="game" @click="loadGameDetails(game.id); toggleGames(); toggleTaskCheck();" v-for="game in games"
+                    :key="game.id">
                     {{ game.name }}
                 </li>
+
             </ul>
         </article>
 
@@ -76,6 +79,8 @@ export default {
             showJoin: false,
             createGame: false,
             showGames: true,
+            showTaskCheck: false,
+            showAddJoin: true
         }
     },
     created() {
@@ -127,7 +132,6 @@ export default {
             }
         },
         fetchTasks(gameId) {
-            console.log("Fetching the tasks");
             axios.get(`/api/games/${gameId}/tasks`)
                 .then(response => {
                     this.tasks = response.data.tasks;
@@ -181,7 +185,15 @@ export default {
         },
         toggleGames() {
             this.showGames = !this.showGames;
+        },
+        toggleTaskCheck() {
+            this.showTaskCheck = !this.showTaskCheck;
+            this.showAddJoin = !this.showAddJoin;
+        },
+        test() {
+            console.log("test check dude");
         }
+
     }
 }
 </script>

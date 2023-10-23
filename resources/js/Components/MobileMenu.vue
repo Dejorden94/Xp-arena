@@ -5,6 +5,10 @@
             <span class="hamburger-stroke"></span>
             <span class="hamburger-stroke"></span>
         </button>
+        <div>
+            showTaskCheck: {{ showTaskCheck }}
+            showAddJoin: {{ showAddJoin }}
+        </div>
         <template v-if="$page.props.auth.user">
             <div v-if="showMenu" class="mobile-menu">
                 <Link v-show="$page.component !== 'Dashboard'" class="mobile-link" :href="route('dashboard')">
@@ -18,11 +22,16 @@
                     <Link class="mobile-link" href="/">Home</Link>
                 </template>
             </div>
-            <button v-show="$page.component === 'Dashboard'"
+            <button v-show="showAddJoin && $page.component === 'Dashboard'"
                 :class="{ 'join-add-button': true, 'clicked': isButtonClicked }"
                 @click="$emit('showJoin'); toggleAddMenu()">
                 {{ isButtonClicked ? 'x' : '+' }}
             </button>
+
+            <button v-show="showTaskCheck" class="join-add-button">
+                {{ isButtonClicked ? 'show' : 'add' }}
+            </button>
+
         </template>
 
         <template v-else>
@@ -38,7 +47,6 @@
                     <Link class="mobile-link" href="/">Home</Link>
                 </template>
             </div>
-
         </template>
     </article>
 </template>
@@ -48,10 +56,14 @@ import { Link } from '@inertiajs/vue3';
 
 import { ref } from 'vue';
 
+import { defineProps } from 'vue';
+
+const props = defineProps(['showTaskCheck', 'showAddJoin']);
+
 export default {
     data() {
         return {
-            isButtonClicked: false
+            isButtonClicked: false,
         }
     },
     components: {
@@ -59,7 +71,9 @@ export default {
     },
     props: {
         canRegister: Boolean,
-        currentRoute: String
+        currentRoute: String,
+        showTaskCheck: Boolean,
+        showAddJoin: Boolean
     },
     setup() {
         const showMenu = ref(false);
@@ -77,7 +91,7 @@ export default {
         toggleAddMenu() {
             this.isButtonClicked = !this.isButtonClicked;
         }
-    }
+    },
 }
 </script>
 

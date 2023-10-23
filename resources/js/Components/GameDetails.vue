@@ -1,6 +1,6 @@
 <template>
     <article v-if="gameData.isUserOwner"> <!--Compnent wanneer owner de game laad-->
-        <button @click="hideGameDetails(); $emit('handleGame')">Verberg</button>
+        <button @click="handleButtonClick">Verberg</button>
         <section>
             <h1>{{ gameData.name }}</h1>
             <h2>{{ gameData.pin_code }}</h2>
@@ -10,7 +10,7 @@
     </article>
 
     <article v-if="!gameData.isUserOwner"> <!--Component wanneer NIET de owner de game laad-->
-        <button @click="hideGameDetails">Verberg</button>
+        <button @click="handleButtonClick">Verberg</button>
         <section>
             <h1>{{ gameData.name }}</h1>
             <h2>{{ gameData.description }}</h2>
@@ -55,6 +55,11 @@ export default {
                 .catch(error => {
                     console.error(error);
                 });
+        },
+        handleButtonClick() {
+            this.hideGameDetails();
+            this.$emit('handleGame');
+            this.$emit('hideButton');
         }
     },
     created() {

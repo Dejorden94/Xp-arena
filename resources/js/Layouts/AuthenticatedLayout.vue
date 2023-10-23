@@ -1,13 +1,16 @@
 <script setup>
-import { ref } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
+
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import PlayerInformation from '@/Components/PlayerInformation.vue';
 import MobileMenu from '@/Components/MobileMenu.vue';
 import { Link } from '@inertiajs/vue3';
+
+import { ref, defineProps } from 'vue';
+
+const props = defineProps(['showTaskCheck', 'showAddJoin']);
+
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -62,7 +65,8 @@ const showingNavigationDropdown = ref(false);
                 </div>
             </header>
 
-            <MobileMenu @showJoin="$emit('showJoin')" />
+            <MobileMenu @showJoin="$emit('showJoin')" :showTaskCheck="showTaskCheck" :showAddJoin="showAddJoin" />
+
 
             <PlayerInformation />
 
