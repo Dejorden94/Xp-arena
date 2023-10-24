@@ -25,8 +25,9 @@
                 {{ isButtonClicked ? 'x' : '+' }}
             </button>
 
-            <button v-show="showTaskCheck" class="join-add-button" @click="$emit('showQuestCheck')">
-                {{ isButtonClicked ? 'x' : '+' }}
+            <button v-show="showTaskCheck" :class="{ 'join-add-button': true, 'clicked': isQuestButtonClicked }"
+                @click="$emit('showQuestCheck'); toggleQuesyMenu()">
+                {{ isQuestButtonClicked ? 'x' : '+' }}
             </button>
 
         </template>
@@ -61,6 +62,7 @@ export default {
     data() {
         return {
             isButtonClicked: false,
+            isQuestButtonClicked: false
         }
     },
     components: {
@@ -87,8 +89,11 @@ export default {
     methods: {
         toggleAddMenu() {
             this.isButtonClicked = !this.isButtonClicked;
-        }
-    },
+        },
+        toggleQuesyMenu() {
+            this.isQuestButtonClicked = !this.isQuestButtonClicked;
+        },
+    }
 }
 </script>
 
@@ -118,6 +123,26 @@ export default {
     }
 
     .join-add-button.clicked {
+        background: linear-gradient(90deg, #4DA9FF, #3770A6);
+
+    }
+
+    .quest-check-button {
+        border: none;
+        background: linear-gradient(90deg, #FDA829, #FF5C00);
+        display: block;
+        font-weight: 100;
+        font-size: 500%;
+        width: 10rem;
+        height: 10rem;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        margin-left: -5rem;
+    }
+
+    .quest-check-button.clicked {
         background: linear-gradient(90deg, #4DA9FF, #3770A6);
 
     }
