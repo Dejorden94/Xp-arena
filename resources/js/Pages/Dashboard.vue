@@ -60,7 +60,7 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
             @showJoin="handleShowJoin" />
 
         <div v-if="showAddQuesTaskMenu" class="overlay"></div>
-        <AddQuestCheckComponent v-show="showAddQuesTaskMenu" @showQuest="" />
+        <AddQuestCheckComponent v-show="showAddQuesTaskMenu" @showQuest="toggleAddQuest" />
 
         <div v-if="showAddQuest" class="overlay"></div>
         <AddQuest v-show="showAddQuest" :gameData="gameData" @refreshTasks="refreshTasks" />
@@ -208,6 +208,10 @@ export default {
         },
         toggleQuestCheckMenu() {
             this.showAddQuesTaskMenu = !this.showAddQuesTaskMenu
+        },
+        toggleAddQuest() {
+            this.showAddQuest = !this.showAddQuest;
+            this.showAddQuesTaskMenu = !this.showAddQuesTaskMenu;
         }
 
     }

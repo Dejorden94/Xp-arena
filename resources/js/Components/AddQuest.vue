@@ -4,6 +4,7 @@
             <input class="task-input" v-model="newTaskName" type="text" placeholder="Titel" required>
             <textarea class="task-input" v-model="newTaskDescription" placeholder="Beschrijving" required></textarea>
             <input class="task-input" v-model="newTaskExperience" type="number" placeholder="Experience" required>
+
             <button type="submit" @click="$emit('refreshTasks')">Toevoegen</button>
         </form>
     </section>
@@ -36,6 +37,15 @@ export default {
 </script>
 
 <style scoped>
+section {
+    position: absolute;
+    z-index: 1;
+    width: 80%;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, -50%);
+}
+
 form {
     display: flex;
     flex-direction: column;

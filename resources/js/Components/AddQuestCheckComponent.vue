@@ -31,6 +31,7 @@ section {
 .add-quest-check {
     display: flex;
     flex-direction: row;
+    gap: 1rem;
     border: none;
     background: none;
     height: 25rem;
@@ -39,7 +40,7 @@ section {
     position: absolute;
     bottom: 0;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 0);
     z-index: 1;
     /* Zorg ervoor dat het boven de ::before pseudo-element wordt weergegeven */
 }
