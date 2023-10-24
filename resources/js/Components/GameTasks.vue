@@ -3,24 +3,43 @@
         <h3>Quests</h3>
         <ul>
             <li v-for="task in initialTasks" :key="task.id">
+                <!-- Niet de eigenaar van de game  -->
+                <button v-if="!isUserOwner" @click="showQuestDetails(task)">Toon Details</button>
+
                 <input v-if="task.status === 'pending' && !isUserOwner || task.status === 'rejected'" type="checkbox"
                     v-model="task.completed" @change="toggleTaskCompletion(task.id)" />
                 <p v-if="!isUserOwner">{{ task.name }} - {{ task.description }} - {{ task.experience }} - {{ task.status
                 }}</p>
-
-                <p v-if="isUserOwner">{{ task.name }} - {{ task.description }} - {{ task.experience }}</p>
-
                 <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
                 <span v-if="task.status === 'completed'" class="task-status reviewd">Reviewd</span>
                 <span v-else-if="task.status === 'rejected'" class="task-status rejected">Afgewezen</span>
+
+                <!-- Eigenaar van game  -->
+                <button v-if="isUserOwner" @click="showQuestDetails(task)">Toon Details</button>
+                <p v-if="isUserOwner">{{ task.name }} - {{ task.description }} - {{ task.experience }}</p>
                 <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
             </li>
         </ul>
+
+        <GameQuestDetails v-show="showQuestDetailsModal" :quest="selectedQuest" @close="showQuestDetailsModal = false" />
+
     </article>
 </template>
 
 <script>
+import GameQuestDetails from '@/Components/GameQuestDetails.vue';
+
 export default {
+    components: {
+        GameQuestDetails
+    },
+    data() {
+        return {
+            currenTaskId: null,
+            showQuestDetailsModal: false,
+            selectedQuest: null,
+        }
+    },
     props: {
         initialTasks: {
             type: Array,
@@ -70,6 +89,10 @@ export default {
                     console.error(error);
                 });
         },
+        showQuestDetails(task) {
+            this.selectedQuest = task;
+            this.showQuestDetailsModal = !this.showQuestDetailsModal;
+        }
     }
 };
 </script>
