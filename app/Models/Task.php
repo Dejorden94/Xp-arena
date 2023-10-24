@@ -43,4 +43,9 @@ class Task extends Model
     {
         return $this->hasMany(FollowerTask::class, 'task_id');
     }
+
+    public function taskCriteria()
+    {
+        return $this->hasMany(TaskCriterion::class, 'task_id');
+    }
 }

@@ -52,6 +52,11 @@ Route::get('/users/{userId}/games/{gameId}/followed-tasks', [GameController::cla
 
 Route::post('/games/{gameId}/add-task', [TaskController::class, 'addTask'])->middleware('auth');
 
+// Criteria Routes 
+Route::post('/task/{taskId}/add-criteria', [TaskController::class, 'addCriteria']);
+Route::put('/criteria/{criterionId}/edit', [TaskController::class, 'editCriteria']);
+Route::delete('/criteria/{criterionId}/delete', [TaskController::class, 'deleteCriteria']);
+Route::get('/task/{taskId}/check-criteria', [TaskController::class, 'checkCriteria']);
 
 
 Route::get('/dashboard', function () {

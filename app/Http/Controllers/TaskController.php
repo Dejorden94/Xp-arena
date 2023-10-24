@@ -7,6 +7,7 @@ use App\Models\Task;
 use App\Models\Game;
 use App\Models\User;
 use App\Models\FollowerTask;
+use App\Models\TaskCriterion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -159,5 +160,44 @@ class TaskController extends Controller
         FollowerTask::insert($followerTasksData); // Opslaan van taken voor volgers
 
         return response()->json(['id' => $game->id]);
+    }
+
+    // Criteria functions 
+    public function addCriteria(Request $request, $taskId)
+    {
+        $task = Task::findOrFail($taskId);
+
+        $criterion = new TaskCriterion([
+            'description' => $request->input('description'),
+            'is_met' => false
+        ]);
+
+        $task->criteria()->save($criterion);
+
+        return redirect()->back()->with('success', 'Criterium toegevoegd!');
+    }
+    public function editCriteria(Request $request, $criterionId)
+    {
+        $criterion = TaskCriterion::findOrFail($criterionId);
+        $criterion->description = $request->input('description');
+        $criterion->save();
+
+        return redirect()->back()->with('success', 'Criterium bijgewerkt!');
+    }
+    public function deleteCriteria($criterionId)
+    {
+        $criterion = TaskCriterion::findOrFail($criterionId);
+        $criterion->delete();
+
+        return redirect()->back()->with('success', 'Criterium verwijderd!');
+    }
+    public function checkCriteria($taskId)
+    {
+        $task = Task::with('criteria')->findOrFail($taskId);
+        $allMet = $task->criteria->every(function ($criterion) {
+            return $criterion->is_met;
+        });
+
+        return response()->json(['allCriteriaMet' => $allMet]);
     }
 }
