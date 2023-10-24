@@ -5,7 +5,7 @@
         <button @click="showAddCriteriaForm = true">Voeg criteria toe</button>
 
         <section v-if="showAddCriteriaForm">
-            <input v-model="newCriterionName" placeholder="Naam van criterium">
+            <input v-model="newCriterionDescription" placeholder="Omschrijving van criterium">
             <button @click="addCriteria">Opslaan</button>
         </section>
 
@@ -26,7 +26,7 @@ export default {
         return {
             criteria: [],
             showAddCriteriaForm: false,
-            newCriterionName: ''
+            newCriterionDescription: ''
         };
     },
     computed: {
@@ -34,18 +34,31 @@ export default {
             return this.quest && this.quest.name ? this.quest.name : 'Loading...';
         }
     },
-
+    created() {
+        this.fetchCriteria();
+    },
     methods: {
         async addCriteria() {
             try {
-                const response = await axios.post(`/api/tasks/${this.quest.id}/criteria`, {
-                    name: this.newCriterionName
+                const response = await axios.post(`/task/${this.quest.id}/add-criteria`, {
+                    description: this.newCriterionDescription
                 });
                 this.criteria.push(response.data);  // Voeg het nieuwe criterium toe aan de lijst
-                this.newCriterionName = '';  // Reset het invoerveld
+                this.newCriterionDescription = '';  // Reset het invoerveld
                 this.showAddCriteriaForm = false;  // Verberg het formulier
+
+                // Haal de criteria opnieuw op
+                this.fetchCriteria();
             } catch (error) {
                 console.error("Er is een fout opgetreden bij het toevoegen van het criterium:", error);
+            }
+        },
+        async fetchCriteria() {
+            try {
+                const response = await axios.get(`/task/${this.quest.id}/check-criteria`);
+                this.criteria = response.data;
+            } catch (error) {
+                console.error("Er is een fout opgetreden bij het ophalen van de criteria:", error);
             }
         }
     }

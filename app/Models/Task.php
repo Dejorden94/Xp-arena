@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\TaskCriterion;
+
 
 class Task extends Model
 {
@@ -44,8 +46,8 @@ class Task extends Model
         return $this->hasMany(FollowerTask::class, 'task_id');
     }
 
-    public function taskCriteria()
+    public function criteria()
     {
-        return $this->hasMany(TaskCriterion::class, 'task_id');
+        return $this->hasMany(TaskCriterion::class);
     }
 }

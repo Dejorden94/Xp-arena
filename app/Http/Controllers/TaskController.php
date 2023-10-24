@@ -165,7 +165,8 @@ class TaskController extends Controller
     // Criteria functions 
     public function addCriteria(Request $request, $taskId)
     {
-        $task = Task::findOrFail($taskId);
+
+        $task = Task::with('criteria')->findOrFail($taskId);
 
         $criterion = new TaskCriterion([
             'description' => $request->input('description'),
@@ -194,10 +195,12 @@ class TaskController extends Controller
     public function checkCriteria($taskId)
     {
         $task = Task::with('criteria')->findOrFail($taskId);
-        $allMet = $task->criteria->every(function ($criterion) {
-            return $criterion->is_met;
-        });
-
-        return response()->json(['allCriteriaMet' => $allMet]);
+        if ($task) {
+            $allMet = $task->criteria->every(function ($criterion) {
+                return $criterion->is_met;
+            });
+            return response()->json(['allCriteriaMet' => $allMet]);
+        }
+        return 'Geen criteria voor deze quest';
     }
 }
