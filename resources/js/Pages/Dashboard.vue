@@ -9,6 +9,7 @@ import AddGameComponent from '@/Components/AddGameComponent.vue';
 import PinComponent from '@/Components/PinComponent.vue';
 import CreateGameComponent from '@/Components/CreateGameComponent.vue';
 import AddQuest from '@/Components/AddQuest.vue'
+import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
 
 </script>
 
@@ -16,11 +17,11 @@ import AddQuest from '@/Components/AddQuest.vue'
 <template>
     <Head title="Dashboard" />
 
-    <AuthenticatedLayout @showJoin="handleJoinGame" @showTaskCheck="handleTaskCheck" :showTaskCheck="showTaskCheck"
-        :showAddJoin="showAddJoin">
+    <AuthenticatedLayout @showJoin="handleJoinGame" @showTaskCheck="handleQuestCheck" :showTaskCheck="showTaskCheck"
+        :showAddJoin="showAddJoin" @showQuestCheck="toggleQuestCheckMenu">
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails"
-            @handleGame="toggleGames" @refreshTasks="refreshTasks" @hideButton="toggleTaskCheck" />
+            @handleGame="toggleGames" @refreshTasks="refreshTasks" @hideButton="toggleQuestCheck" />
 
         <GameTasks v-if="gameDetailsVisible && gameData" :initialTasks="tasks" :gameId="gameData.id" :user="user"
             :key="gameData.id" :isUserOwner="gameData.isUserOwner" />
@@ -28,7 +29,7 @@ import AddQuest from '@/Components/AddQuest.vue'
         <article v-show="showGames" class="games-overview">
             <h2>Je games</h2>
             <ul>
-                <li class="game" @click="loadGameDetails(game.id); toggleGames(); toggleTaskCheck();" v-for="game in games"
+                <li class="game" @click="loadGameDetails(game.id); toggleGames(); toggleQuestCheck();" v-for="game in games"
                     :key="game.id">
                     {{ game.name }}
                 </li>
@@ -47,6 +48,7 @@ import AddQuest from '@/Components/AddQuest.vue'
                 </li>
             </ul>
         </article>
+
         <div v-if="showJoin" class="overlay"></div>
         <PinComponent v-show="showJoin" @reloadJoinedGames="fetchFollowedGames(); setFalse();" />
 
@@ -56,6 +58,9 @@ import AddQuest from '@/Components/AddQuest.vue'
         <div v-if="showAddGame" class="overlay"></div>
         <AddGameComponent class="add-game-component" v-show="showAddGame" @showCreate="handletoggleCreate"
             @showJoin="handleShowJoin" />
+
+        <div v-if="showAddQuesTaskMenu" class="overlay"></div>
+        <AddQuestCheckComponent v-show="showAddQuesTaskMenu" @showQuest="" />
 
         <div v-if="showAddQuest" class="overlay"></div>
         <AddQuest v-show="showAddQuest" :gameData="gameData" @refreshTasks="refreshTasks" />
@@ -86,7 +91,8 @@ export default {
             showTaskCheck: false,
             showAddJoin: true,
             showAddQuest: false,
-            showAddCheck: false
+            showAddCheck: false,
+            showAddQuesTaskMenu: false
         }
     },
     created() {
@@ -180,7 +186,7 @@ export default {
             this.showJoin = !this.showJoin;
             this.showAddGame = !this.showAddGame;
         },
-        handleTaskCheck() {
+        handleQuestCheck() {
             this.showAddQuest = !this.showAddQuest;
             this.showAddCheck = !this.showAddCheck;
         },
@@ -196,12 +202,12 @@ export default {
         toggleGames() {
             this.showGames = !this.showGames;
         },
-        toggleTaskCheck() {
+        toggleQuestCheck() {
             this.showTaskCheck = !this.showTaskCheck;
             this.showAddJoin = !this.showAddJoin;
         },
-        test() {
-            console.log("test check dude");
+        toggleQuestCheckMenu() {
+            this.showAddQuesTaskMenu = !this.showAddQuesTaskMenu
         }
 
     }

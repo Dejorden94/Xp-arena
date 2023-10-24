@@ -25,8 +25,8 @@
                 {{ isButtonClicked ? 'x' : '+' }}
             </button>
 
-            <button v-show="showTaskCheck" class="join-add-button">
-                {{ isButtonClicked ? 'show' : 'add' }}
+            <button v-show="showTaskCheck" class="join-add-button" @click="$emit('showQuestCheck')">
+                {{ isButtonClicked ? 'x' : '+' }}
             </button>
 
         </template>
