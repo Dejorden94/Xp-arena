@@ -5,10 +5,7 @@
             <span class="hamburger-stroke"></span>
             <span class="hamburger-stroke"></span>
         </button>
-        <div>
-            showTaskCheck: {{ showTaskCheck }}
-            showAddJoin: {{ showAddJoin }}
-        </div>
+
         <template v-if="$page.props.auth.user">
             <div v-if="showMenu" class="mobile-menu">
                 <Link v-show="$page.component !== 'Dashboard'" class="mobile-link" :href="route('dashboard')">
