@@ -5,8 +5,6 @@
             <h1>{{ gameData.name }}</h1>
             <h2>{{ gameData.pin_code }}</h2>
         </section>
-
-        <AddQuest :gameData="gameData" @refreshTasks="$emit('refreshTasks')" />
     </article>
 
     <article v-if="!gameData.isUserOwner"> <!--Component wanneer NIET de owner de game laad-->

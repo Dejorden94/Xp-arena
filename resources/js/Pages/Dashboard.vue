@@ -8,6 +8,7 @@ import UnverifiedTasks from '@/Components/UnverifiedTasks.vue';
 import AddGameComponent from '@/Components/AddGameComponent.vue';
 import PinComponent from '@/Components/PinComponent.vue';
 import CreateGameComponent from '@/Components/CreateGameComponent.vue';
+import AddQuest from '@/Components/AddQuest.vue'
 
 </script>
 
@@ -15,7 +16,8 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
 <template>
     <Head title="Dashboard" />
 
-    <AuthenticatedLayout @showJoin="handleJoinGame" :showTaskCheck="showTaskCheck" :showAddJoin="showAddJoin">
+    <AuthenticatedLayout @showJoin="handleJoinGame" @showTaskCheck="handleTaskCheck" :showTaskCheck="showTaskCheck"
+        :showAddJoin="showAddJoin">
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails"
             @handleGame="toggleGames" @refreshTasks="refreshTasks" @hideButton="toggleTaskCheck" />
@@ -55,8 +57,10 @@ import CreateGameComponent from '@/Components/CreateGameComponent.vue';
         <AddGameComponent class="add-game-component" v-show="showAddGame" @showCreate="handletoggleCreate"
             @showJoin="handleShowJoin" />
 
+        <div v-if="showAddQuest" class="overlay"></div>
+        <AddQuest v-show="showAddQuest" :gameData="gameData" @refreshTasks="refreshTasks" />
+
     </AuthenticatedLayout>
-    <!-- <button class="join-add-button" @click="toggleJoinGame">+</button> -->
 </template>
 
 <script>
@@ -80,7 +84,9 @@ export default {
             createGame: false,
             showGames: true,
             showTaskCheck: false,
-            showAddJoin: true
+            showAddJoin: true,
+            showAddQuest: false,
+            showAddCheck: false
         }
     },
     created() {
@@ -173,6 +179,10 @@ export default {
         handleShowJoin() {
             this.showJoin = !this.showJoin;
             this.showAddGame = !this.showAddGame;
+        },
+        handleTaskCheck() {
+            this.showAddQuest = !this.showAddQuest;
+            this.showAddCheck = !this.showAddCheck;
         },
         handletoggleCreate() {
             this.createGame = !this.createGame;

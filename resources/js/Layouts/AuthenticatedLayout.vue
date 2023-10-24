@@ -65,7 +65,8 @@ const showingNavigationDropdown = ref(false);
                 </div>
             </header>
 
-            <MobileMenu @showJoin="$emit('showJoin')" :showTaskCheck="showTaskCheck" :showAddJoin="showAddJoin" />
+            <MobileMenu @showJoin="$emit('showJoin')" @showTaskCheck="$emit('showTaskCheck')" :showTaskCheck="showTaskCheck"
+                :showAddJoin="showAddJoin" />
 
 
             <PlayerInformation />
