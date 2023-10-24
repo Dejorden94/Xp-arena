@@ -9,6 +9,7 @@ import AddGameComponent from '@/Components/AddGameComponent.vue';
 import PinComponent from '@/Components/PinComponent.vue';
 import CreateGameComponent from '@/Components/CreateGameComponent.vue';
 import AddQuest from '@/Components/AddQuest.vue'
+import AddCheckpoint from '@/Components/AddCheckpoint.vue'
 import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
 
 </script>
@@ -63,7 +64,10 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
         <AddQuestCheckComponent v-show="showAddQuesTaskMenu" @showQuest="toggleAddQuest" />
 
         <div v-if="showAddQuest" class="overlay"></div>
-        <AddQuest v-show="showAddQuest" :gameData="gameData" @refreshTasks="refreshTasks" />
+        <AddQuest v-show="showAddQuest" :gameData="gameData" @refreshTasks="refreshTasks(); setFalseQuestCheck();" />
+
+        <div v-if="showCheckpoint" class="overlay"></div>
+        <AddCheckpoint v-show="showCheckpoint" />
 
     </AuthenticatedLayout>
 </template>
@@ -91,10 +95,11 @@ export default {
             showTaskCheck: false,
             showAddJoin: true,
             showAddQuest: false,
-            showAddCheck: false,
-            showAddQuesTaskMenu: false
+            showAddQuesTaskMenu: false,
+            showCheckpoint: false,
         }
     },
+
     created() {
         this.user = this.$page.props.auth.user;
         this.fetchUnverifiedTasks(); // Haal ongeverifieerde taken op bij het laden van de pagina
@@ -198,6 +203,8 @@ export default {
             this.showJoin = false;
             this.showAddGame = false;
             this.createGame = false;
+            this.showAddQuesTaskMenu = false;
+            this.AddQuest = false;
         },
         toggleGames() {
             this.showGames = !this.showGames;
@@ -212,6 +219,14 @@ export default {
         toggleAddQuest() {
             this.showAddQuest = !this.showAddQuest;
             this.showAddQuesTaskMenu = !this.showAddQuesTaskMenu;
+        },
+        setFalseQuestCheck() {
+            console.log("set false");
+            this.showAddQuesTaskMenu = false;
+            this.showAddQuest = false;
+
+            // Toevoegen wanneer checkpoint component en functionaliteit is gemaakt
+            // this.showCheckpoint = false;
         }
 
     }

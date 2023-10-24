@@ -26,7 +26,9 @@ export default {
                 experience: this.newTaskExperience
             })
                 .then(response => {
-
+                    this.newTaskName = "",
+                        this.newTaskDescription = "",
+                        this.newTaskExperience = ""
                 })
                 .catch(error => {
                     console.error(error);
@@ -38,12 +40,12 @@ export default {
 
 <style scoped>
 section {
-    position: absolute;
+    position: fixed;
     z-index: 1;
     width: 80%;
     left: 50%;
     bottom: 0;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -100%);
 }
 
 form {
