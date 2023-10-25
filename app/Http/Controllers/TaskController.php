@@ -194,11 +194,10 @@ class TaskController extends Controller
     }
     public function checkCriteria($taskId)
     {
+        // Haal de taak op met alle bijbehorende criteria
         $task = Task::with('criteria')->findOrFail($taskId);
 
-        $allMet = $task->criteria->every(function ($criterion) {
-            return $criterion->is_met;
-        });
-        return response()->json(['allCriteriaMet' => $allMet]);
+        // Geef alle criteria terug als JSON
+        return response()->json($task->criteria);
     }
 }

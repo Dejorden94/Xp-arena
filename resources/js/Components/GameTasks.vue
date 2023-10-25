@@ -21,7 +21,8 @@
             </li>
         </ul>
 
-        <GameQuestDetails v-show="showQuestDetailsModal" :quest="selectedQuest" @close="showQuestDetailsModal = false" />
+        <GameQuestDetails ref="questDetails" v-show="showQuestDetailsModal" :quest="selectedQuest" />
+
 
     </article>
 </template>
@@ -92,7 +93,12 @@ export default {
         showQuestDetails(task) {
             this.selectedQuest = task;
             this.showQuestDetailsModal = !this.showQuestDetailsModal;
+
+            // Roep de fetchCriteria methode aan van de GameQuestDetails component
+            this.$refs.questDetails.fetchCriteria();
         }
+
+
     }
 };
 </script>

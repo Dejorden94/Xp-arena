@@ -10,7 +10,7 @@
         </section>
 
         <ul>
-            <li v-for="criterion in criteria" :key="criterion.id">{{ criterion.name }}</li>
+            <li v-for="criterion in criteria" :key="criterion.id">{{ criterion.description }} - {{ criterion.is_met }}</li>
         </ul>
     </article>
 </template>
@@ -20,6 +20,17 @@ export default {
         quest: {
             type: Object,
             required: true
+        }
+    },
+    watch: {
+        quest: {
+            deep: true,
+            immediate: true,
+            handler(newVal, oldVal) {
+                if (newVal && newVal.id) {
+                    this.fetchCriteria();
+                }
+            }
         }
     },
     data() {
@@ -50,12 +61,13 @@ export default {
                 // Haal de criteria opnieuw op
                 this.fetchCriteria();
             } catch (error) {
-                console.error("Er is een fout opgetreden bij het toevoegen van het criterium:", error);
+                console.warn("Er is een fout opgetreden bij het toevoegen van het criterium:", error);
             }
         },
         async fetchCriteria() {
+            this.criteria = [];
             if (!this.quest || !this.quest.id) {
-                console.warn("Quest of quest.id is niet beschikbaar");
+                console.log("Quest of quest.id is niet beschikbaar");
                 return;
             }
 
@@ -75,11 +87,16 @@ export default {
 </script>
 <style scoped>
 article {
-    height: 5rem;
+    margin-bottom: 10rem;
     width: 80vw;
     margin: 0 auto;
     background: var(--background-super-dark);
     border: 2px solid var(--background-lighter);
     border-radius: 1rem;
+}
+
+li {
+    font-size: 200%;
+    color: red;
 }
 </style>
