@@ -195,12 +195,10 @@ class TaskController extends Controller
     public function checkCriteria($taskId)
     {
         $task = Task::with('criteria')->findOrFail($taskId);
-        if ($task) {
-            $allMet = $task->criteria->every(function ($criterion) {
-                return $criterion->is_met;
-            });
-            return response()->json(['allCriteriaMet' => $allMet]);
-        }
-        return 'Geen criteria voor deze quest';
+
+        $allMet = $task->criteria->every(function ($criterion) {
+            return $criterion->is_met;
+        });
+        return response()->json(['allCriteriaMet' => $allMet]);
     }
 }

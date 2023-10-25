@@ -2,7 +2,7 @@
     <article>
         <h1>Quest details van {{ questName }}</h1>
 
-        <button @click="showAddCriteriaForm = true">Voeg criteria toe</button>
+        <button @click="toggleAddCriteria">Voeg criteria toe</button>
 
         <section v-if="showAddCriteriaForm">
             <input v-model="newCriterionDescription" placeholder="Omschrijving van criterium">
@@ -34,7 +34,7 @@ export default {
             return this.quest && this.quest.name ? this.quest.name : 'Loading...';
         }
     },
-    created() {
+    mounted() {
         this.fetchCriteria();
     },
     methods: {
@@ -54,13 +54,22 @@ export default {
             }
         },
         async fetchCriteria() {
+            if (!this.quest || !this.quest.id) {
+                console.warn("Quest of quest.id is niet beschikbaar");
+                return;
+            }
+
             try {
                 const response = await axios.get(`/task/${this.quest.id}/check-criteria`);
                 this.criteria = response.data;
             } catch (error) {
                 console.error("Er is een fout opgetreden bij het ophalen van de criteria:", error);
             }
+        },
+        toggleAddCriteria() {
+            this.showAddCriteriaForm = !this.showAddCriteriaForm;
         }
+
     }
 }
 </script>
