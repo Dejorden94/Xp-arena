@@ -10,6 +10,14 @@
             <p>{{ questDesciption }}</p>
         </section>
 
+        <section class="stars-section">
+            <span class="star progress-star" :class="starsStatus[0] ? 'gold-star' : 'gray-star'">&#9733;</span>
+            <span class="star progress-star" :class="starsStatus[1] ? 'gold-star' : 'gray-star'">&#9733;</span>
+            <span class="star progress-star" :class="starsStatus[2] ? 'gold-star' : 'gray-star'">&#9733;</span>
+        </section>
+
+
+
         <section v-if="showAddCriteriaForm">
             <input v-model="newCriterionDescription" placeholder="Omschrijving van criterium">
             <button @click="addCriteria">Opslaan</button>
@@ -60,6 +68,17 @@ export default {
         },
         questDesciption() {
             return this.quest && this.quest.description ? this.quest.description : 'Loading...';
+        },
+        checkedCriteriaCount() {
+            return this.criteria.filter(criterion => criterion.is_met).length;
+        },
+        starsStatus() {
+            const checkedCount = this.criteria.filter(criterion => criterion.is_met).length;
+            return [
+                checkedCount > 0,  // Eerste ster (links)
+                checkedCount > 2,  // Middelste ster
+                checkedCount > 1   // Laatste ster (rechts)
+            ];
         }
     },
     mounted() {
@@ -138,6 +157,16 @@ article {
     width: 80vw;
     margin: 0 auto 15rem auto;
 }
+
+.progress-star:nth-of-type(2) {
+    font-size: 350%;
+}
+
+.stars-section {
+    text-align: center;
+}
+
+.star:nth-of-type(2) {}
 
 .quest-info {
     height: 20rem;
