@@ -1,7 +1,7 @@
 <template>
     <article>
         <h1>{{ questName }}</h1>
-        <button @click="toggleAddCriteria">Voeg criteria toe</button>
+        <button v-if="criteria.length < 3" @click="toggleAddCriteria">Voeg criteria toe</button>
 
         <button @click="showInfo">Terug</button>
 
@@ -141,6 +141,9 @@ article {
 
 .quest-info {
     height: 20rem;
+    background: var(--background-super-dark);
+    border: 2px solid var(--background-lighter);
+    border-radius: 1rem;
 }
 
 .quest-info>img {
