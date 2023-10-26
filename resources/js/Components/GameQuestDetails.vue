@@ -1,9 +1,14 @@
 <template>
-    <h1>{{ questName }}</h1>
     <article>
+        <h1>{{ questName }}</h1>
         <button @click="toggleAddCriteria">Voeg criteria toe</button>
 
         <button @click="showInfo">Terug</button>
+
+        <section class="quest-info">
+            <img src="images/info-imgs/levelup-bg1.png" alt="Quest background chosen by user.">
+            <p>{{ questDesciption }}</p>
+        </section>
 
         <section v-if="showAddCriteriaForm">
             <input v-model="newCriterionDescription" placeholder="Omschrijving van criterium">
@@ -18,6 +23,9 @@
                 {{ criterion.description }}
             </li>
         </ul>
+        <section>
+            <h2>Attachments</h2>
+        </section>
     </article>
 </template>
 <script>
@@ -49,6 +57,9 @@ export default {
     computed: {
         questName() {
             return this.quest && this.quest.name ? this.quest.name : 'Loading...';
+        },
+        questDesciption() {
+            return this.quest && this.quest.description ? this.quest.description : 'Loading...';
         }
     },
     mounted() {
@@ -117,13 +128,28 @@ h1 {
     text-align: center;
 }
 
+h2 {
+    margin-top: 1rem;
+    text-align: center;
+}
+
 article {
     margin-bottom: 10rem;
     width: 80vw;
     margin: 0 auto 15rem auto;
-    background: var(--background-super-dark);
-    border: 2px solid var(--background-lighter);
-    border-radius: 1rem;
+}
+
+.quest-info {
+    height: 20rem;
+}
+
+.quest-info>img {
+    height: 80%;
+    width: 100%;
+}
+
+.quest-info>p {
+    margin: 1rem;
 }
 
 .criterion {

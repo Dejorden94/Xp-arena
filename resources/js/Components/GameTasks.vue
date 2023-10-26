@@ -56,6 +56,10 @@ export default {
         user: {
             type: Object,
             required: true
+        },
+        quest: {
+            type: Object,
+            required: true
         }
     },
     methods: {
