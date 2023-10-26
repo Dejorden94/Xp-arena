@@ -12,7 +12,8 @@
 
         <ul>
             <li class="criterion" v-for="criterion in criteria" :key="criterion.id">
-                <span :class="criterion.is_met ? 'gold-star' : 'gray-star'">&#9733;</span>
+                <span :class="criterion.is_met ? 'gold-star' : 'gray-star'"
+                    @click="toggleCriterionMet(criterion)">&#9733;</span>
                 {{ criterion.description }}
             </li>
         </ul>
@@ -80,6 +81,22 @@ export default {
                 this.criteria = response.data;
             } catch (error) {
                 console.error("Er is een fout opgetreden bij het ophalen van de criteria:", error);
+            }
+        },
+        async toggleCriterionMet(criterion) {
+            try {
+                // Update de waarde van is_met
+                const updatedValue = !criterion.is_met;
+
+                // Doe een API-aanroep om de waarde in de database bij te werken
+                const response = await axios.post(`/task/${this.quest.id}/criterion/${criterion.id}/toggle-met`, {
+                    is_met: updatedValue
+                });
+
+                // Update de waarde in de lokale data
+                criterion.is_met = updatedValue;
+            } catch (error) {
+                console.error("Er is een fout opgetreden bij het bijwerken van de criterion:", error);
             }
         },
         toggleAddCriteria() {
