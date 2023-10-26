@@ -1,7 +1,6 @@
 <template>
+    <h1>{{ questName }}</h1>
     <article>
-        <h1>Quest details van {{ questName }}</h1>
-
         <button @click="toggleAddCriteria">Voeg criteria toe</button>
 
         <button @click="showInfo">Terug</button>
@@ -12,7 +11,10 @@
         </section>
 
         <ul>
-            <li v-for="criterion in criteria" :key="criterion.id">{{ criterion.is_met }} - {{ criterion.description }} </li>
+            <li class="criterion" v-for="criterion in criteria" :key="criterion.id">
+                <span :class="criterion.is_met ? 'gold-star' : 'gray-star'">&#9733;</span>
+                {{ criterion.description }}
+            </li>
         </ul>
     </article>
 </template>
@@ -91,6 +93,12 @@ export default {
 }
 </script>
 <style scoped>
+h1 {
+    font-size: 150%;
+    font-weight: 700;
+    text-align: center;
+}
+
 article {
     margin-bottom: 10rem;
     width: 80vw;
@@ -100,8 +108,20 @@ article {
     border-radius: 1rem;
 }
 
-li {
-    font-size: 200%;
-    color: red;
+.criterion {
+    width: 100%;
+    min-height: 5rem;
+    margin-top: 1rem;
+    background: var(--background-super-dark);
+    border: 2px solid var(--background-lighter);
+    border-radius: 1rem;
+}
+
+.gold-star {
+    color: gold;
+}
+
+.gray-star {
+    color: gray;
 }
 </style>
