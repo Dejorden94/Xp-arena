@@ -37,6 +37,8 @@
     </article>
 </template>
 <script>
+import { onBeforeUnmount } from 'vue';
+
 export default {
     props: {
         quest: {
@@ -82,7 +84,11 @@ export default {
         }
     },
     mounted() {
+        this.$emit('gameQuestDetailsShown', true);
         this.fetchCriteria();
+    },
+    beforeUnmount() {
+        this.$emit('gameQuestDetailsShown', false);
     },
     methods: {
         async addCriteria() {

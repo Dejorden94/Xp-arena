@@ -19,16 +19,21 @@
                     <Link class="mobile-link" href="/">Home</Link>
                 </template>
             </div>
-            <button v-show="showAddJoin && $page.component === 'Dashboard'"
+
+            <button v-show="!isGameQuestDetailsShown && showAddJoin && $page.component === 'Dashboard'"
                 :class="{ 'join-add-button': true, 'clicked': isButtonClicked }"
                 @click="$emit('showJoin'); toggleAddMenu()">
                 {{ isButtonClicked ? 'x' : '+' }}
             </button>
 
-            <button v-show="showTaskCheck" :class="{ 'join-add-button': true, 'clicked': isQuestButtonClicked }"
+            <button v-show="!isGameQuestDetailsShown && showTaskCheck"
+                :class="{ 'join-add-button': true, 'clicked': isQuestButtonClicked }"
                 @click="$emit('showQuestCheck'); toggleQuesyMenu()">
                 {{ isQuestButtonClicked ? 'x' : '+' }}
             </button>
+
+
+
 
         </template>
 
@@ -56,7 +61,7 @@ import { ref } from 'vue';
 
 import { defineProps } from 'vue';
 
-const props = defineProps(['showTaskCheck', 'showAddJoin']);
+const props = defineProps(['showTaskCheck', 'showAddJoin', 'isGameQuestDetailsShown']);
 
 export default {
     data() {
@@ -72,7 +77,8 @@ export default {
         canRegister: Boolean,
         currentRoute: String,
         showTaskCheck: Boolean,
-        showAddJoin: Boolean
+        showAddJoin: Boolean,
+        isGameQuestDetailsShown: Boolean,
     },
     setup() {
         const showMenu = ref(false);

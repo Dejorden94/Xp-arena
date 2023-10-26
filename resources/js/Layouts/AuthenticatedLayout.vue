@@ -9,7 +9,7 @@ import { Link } from '@inertiajs/vue3';
 
 import { ref, defineProps } from 'vue';
 
-const props = defineProps(['showTaskCheck', 'showAddJoin', 'showPlayerInfo']);
+const props = defineProps(['showTaskCheck', 'showAddJoin', 'showPlayerInfo', 'isGameQuestDetailsShown']);
 
 
 const showingNavigationDropdown = ref(false);
@@ -66,7 +66,8 @@ const showingNavigationDropdown = ref(false);
             </header>
 
             <MobileMenu @showJoin="$emit('showJoin')" @showQuestCheck="$emit('showQuestCheck')"
-                @showTaskCheck="$emit('showTaskCheck')" :showTaskCheck="showTaskCheck" :showAddJoin="showAddJoin" />
+                @showTaskCheck="$emit('showTaskCheck')" :showTaskCheck="showTaskCheck" :showAddJoin="showAddJoin"
+                :isGameQuestDetailsShown="isGameQuestDetailsShown" />
 
 
             <PlayerInformation v-show="showPlayerInfo" />

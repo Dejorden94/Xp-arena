@@ -22,8 +22,8 @@
             </li>
         </ul>
     </article>
-    <GameQuestDetails ref="questDetails" v-show="showQuestDetailsModal" :quest="selectedQuest"
-        @showGameDetails="showQuestDetails" />
+    <GameQuestDetails ref="questDetails" v-if="showQuestDetailsModal" :quest="selectedQuest"
+        @showGameDetails="showQuestDetails" @gameQuestDetailsShown="$emit('gameQuestDetailsShown', $event)" />
 </template>
 
 <script>
