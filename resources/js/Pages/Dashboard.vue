@@ -24,8 +24,8 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails"
             @handleGame="toggleGames" @refreshTasks="refreshTasks" @hideButton="toggleQuestCheck" />
 
-        <GameTasks v-if="gameDetailsVisible && gameData" :initialTasks="tasks" :gameId="gameData.id" :user="user"
-            :key="gameData.id" :isUserOwner="gameData.isUserOwner" />
+        <GameTasks v-if="gameQuestVisible && gameData" :initialTasks="tasks" :gameId="gameData.id" :user="user"
+            :key="gameData.id" :isUserOwner="gameData.isUserOwner" @hideAll="hideAll" />
 
         <article v-show="showGames" class="games-overview">
             <h2>Je games</h2>
@@ -86,6 +86,7 @@ export default {
             tasks: {},
             gameData: null,
             gameDetailsVisible: false,
+            gameQuestVisible: false,
             followedGames: [],
             unverifiedTasks: [],
             showAddGame: false,
@@ -141,6 +142,7 @@ export default {
                     }
 
                     this.gameDetailsVisible = true;
+                    this.gameQuestVisible = true;
                 } else {
                     console.error("Geen data ontvangen van de API.");
                 }
@@ -168,6 +170,7 @@ export default {
         },
         hideGameDetails() {
             this.gameDetailsVisible = false;
+            this.gameQuestVisible = false;
         },
 
         fetchFollowedGames() {
@@ -221,14 +224,15 @@ export default {
             this.showAddQuesTaskMenu = !this.showAddQuesTaskMenu;
         },
         setFalseQuestCheck() {
-            console.log("set false");
             this.showAddQuesTaskMenu = false;
             this.showAddQuest = false;
 
             // Toevoegen wanneer checkpoint component en functionaliteit is gemaakt
             // this.showCheckpoint = false;
+        },
+        hideAll() {
+            this.gameDetailsVisible = !this.gameDetailsVisible;
         }
-
     }
 }
 </script>

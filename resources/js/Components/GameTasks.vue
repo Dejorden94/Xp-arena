@@ -1,5 +1,6 @@
 <template>
-    <article class="quest-overview">
+    <article class="quest-overview" v-show="!showQuestDetailsModal">
+
         <h3>Quests</h3>
         <ul>
             <li v-for="task in initialTasks" :key="task.id">
@@ -20,11 +21,9 @@
                 <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
             </li>
         </ul>
-
-        <GameQuestDetails ref="questDetails" v-show="showQuestDetailsModal" :quest="selectedQuest" />
-
-
     </article>
+    <GameQuestDetails ref="questDetails" v-show="showQuestDetailsModal" :quest="selectedQuest"
+        @showGameDetails="showQuestDetails" />
 </template>
 
 <script>
@@ -93,6 +92,7 @@ export default {
         showQuestDetails(task) {
             this.selectedQuest = task;
             this.showQuestDetailsModal = !this.showQuestDetailsModal;
+            this.$emit('hideAll');
 
             // Roep de fetchCriteria methode aan van de GameQuestDetails component
             this.$refs.questDetails.fetchCriteria();
@@ -157,7 +157,7 @@ li {
 
 @media screen and (max-width: 900px) {
     .quest-overview {
-        margin-bottom: 15rem;
+        margin-bottom: 10rem;
     }
 }
 </style>

@@ -4,13 +4,15 @@
 
         <button @click="toggleAddCriteria">Voeg criteria toe</button>
 
+        <button @click="showInfo">Terug</button>
+
         <section v-if="showAddCriteriaForm">
             <input v-model="newCriterionDescription" placeholder="Omschrijving van criterium">
             <button @click="addCriteria">Opslaan</button>
         </section>
 
         <ul>
-            <li v-for="criterion in criteria" :key="criterion.id">{{ criterion.description }} - {{ criterion.is_met }}</li>
+            <li v-for="criterion in criteria" :key="criterion.id">{{ criterion.is_met }} - {{ criterion.description }} </li>
         </ul>
     </article>
 </template>
@@ -80,6 +82,9 @@ export default {
         },
         toggleAddCriteria() {
             this.showAddCriteriaForm = !this.showAddCriteriaForm;
+        },
+        showInfo() {
+            this.$emit('showGameDetails');
         }
 
     }
@@ -89,7 +94,7 @@ export default {
 article {
     margin-bottom: 10rem;
     width: 80vw;
-    margin: 0 auto;
+    margin: 0 auto 15rem auto;
     background: var(--background-super-dark);
     border: 2px solid var(--background-lighter);
     border-radius: 1rem;
