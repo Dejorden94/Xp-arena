@@ -32,6 +32,11 @@
                 {{ isQuestButtonClicked ? 'x' : '+' }}
             </button>
 
+            <button v-show="isGameQuestDetailsShown" :class="{ 'join-add-button': true, 'clicked': isQuestButtonClicked }"
+                @click="toggleQuesyMenu()">
+                {{ isQuestButtonClicked ? 'iets' : 'pen' }}
+            </button>
+
 
 
 
