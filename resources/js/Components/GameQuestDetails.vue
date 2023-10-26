@@ -11,8 +11,9 @@
         </section>
 
         <ul>
-            <li class="criterion" v-for="criterion in criteria" :key="criterion.id">
-                <span :class="criterion.is_met ? 'gold-star' : 'gray-star'"
+            <li class="criterion" :class="criterion.is_met ? 'gold-background' : 'gray-background'"
+                v-for="criterion in criteria" :key="criterion.id">
+                <span class="star" :class="criterion.is_met ? 'gold-star' : 'gray-star'"
                     @click="toggleCriterionMet(criterion)">&#9733;</span>
                 {{ criterion.description }}
             </li>
@@ -132,6 +133,14 @@ article {
     background: var(--background-super-dark);
     border: 2px solid var(--background-lighter);
     border-radius: 1rem;
+}
+
+.gold-background {
+    background: linear-gradient(var(--color-yellow), var(--color-orange));
+}
+
+.star {
+    font-size: 250%;
 }
 
 .gold-star {
