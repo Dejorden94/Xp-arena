@@ -93,6 +93,7 @@ export default {
             this.selectedQuest = task;
             this.showQuestDetailsModal = !this.showQuestDetailsModal;
             this.$emit('hideAll');
+            this.$emit('togglePlayerInfo');
 
             // Roep de fetchCriteria methode aan van de GameQuestDetails component
             this.$refs.questDetails.fetchCriteria();

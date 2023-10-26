@@ -9,7 +9,7 @@ import { Link } from '@inertiajs/vue3';
 
 import { ref, defineProps } from 'vue';
 
-const props = defineProps(['showTaskCheck', 'showAddJoin']);
+const props = defineProps(['showTaskCheck', 'showAddJoin', 'showPlayerInfo']);
 
 
 const showingNavigationDropdown = ref(false);
@@ -69,7 +69,7 @@ const showingNavigationDropdown = ref(false);
                 @showTaskCheck="$emit('showTaskCheck')" :showTaskCheck="showTaskCheck" :showAddJoin="showAddJoin" />
 
 
-            <PlayerInformation />
+            <PlayerInformation v-show="showPlayerInfo" />
 
             <!-- Page Content -->
             <main>

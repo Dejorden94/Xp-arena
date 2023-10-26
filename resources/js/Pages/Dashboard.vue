@@ -18,14 +18,15 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
 <template>
     <Head title="Dashboard" />
 
-    <AuthenticatedLayout @showJoin="handleJoinGame" @showTaskCheck="handleQuestCheck" :showTaskCheck="showTaskCheck"
-        :showAddJoin="showAddJoin" @showQuestCheck="toggleQuestCheckMenu">
+    <AuthenticatedLayout @showJoin="handleJoinGame" @showTaskCheck="handleQuestCheck" :show-player-info="showPlayerInfo"
+        :showTaskCheck="showTaskCheck" :showAddJoin="showAddJoin" @showQuestCheck="toggleQuestCheckMenu">
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails"
             @handleGame="toggleGames" @refreshTasks="refreshTasks" @hideButton="toggleQuestCheck" />
 
         <GameTasks v-if="gameQuestVisible && gameData" :initialTasks="tasks" :gameId="gameData.id" :user="user"
-            :key="gameData.id" :isUserOwner="gameData.isUserOwner" @hideAll="hideAll" />
+            :key="gameData.id" :isUserOwner="gameData.isUserOwner" @hideAll="hideAll"
+            @togglePlayerInfo="showPlayerInfo = !showPlayerInfo" />
 
         <article v-show="showGames" class="games-overview">
             <h2>Je games</h2>
@@ -98,6 +99,7 @@ export default {
             showAddQuest: false,
             showAddQuesTaskMenu: false,
             showCheckpoint: false,
+            showPlayerInfo: true
         }
     },
 
