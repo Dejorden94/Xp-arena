@@ -7,7 +7,7 @@ import PlayerInformation from '@/Components/PlayerInformation.vue';
 import MobileMenu from '@/Components/MobileMenu.vue';
 import { Link } from '@inertiajs/vue3';
 
-import { ref, defineProps } from 'vue';
+import { ref } from 'vue';
 
 const props = defineProps(['showTaskCheck', 'showAddJoin', 'showPlayerInfo', 'isGameQuestDetailsShown']);
 

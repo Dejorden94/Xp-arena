@@ -28,16 +28,15 @@
 
             <button v-show="!isGameQuestDetailsShown && showTaskCheck"
                 :class="{ 'join-add-button': true, 'clicked': isQuestButtonClicked }"
-                @click="$emit('showQuestCheck'); toggleQuesyMenu()">
+                @click="$emit('showQuestCheck'); toggleQuestMenu()">
                 {{ isQuestButtonClicked ? 'x' : '+' }}
             </button>
 
-            <button v-show="isGameQuestDetailsShown" :class="{ 'join-add-button': true, 'clicked': isQuestButtonClicked }"
-                @click="toggleQuesyMenu()">
-                {{ isQuestButtonClicked ? 'iets' : 'pen' }}
+            <button v-show="isGameQuestDetailsShown" class="criterion-edit join-add-button"
+                @click="toggleCriterionButton()">
+                <span v-show="!isSave"><i class="fa-solid fa-pen"></i></span>
+                <spa v-show="isSave"><i class="fa-regular fa-floppy-disk"></i></spa>
             </button>
-
-
 
 
         </template>
@@ -72,7 +71,8 @@ export default {
     data() {
         return {
             isButtonClicked: false,
-            isQuestButtonClicked: false
+            isQuestButtonClicked: false,
+            isSave: false
         }
     },
     components: {
@@ -101,9 +101,14 @@ export default {
         toggleAddMenu() {
             this.isButtonClicked = !this.isButtonClicked;
         },
-        toggleQuesyMenu() {
+        toggleQuestMenu() {
             this.isQuestButtonClicked = !this.isQuestButtonClicked;
         },
+        toggleCriterionButton() {
+            console.log("toggleCriterionButton is called");
+            this.isSave = !this.isSave;
+        }
+
     }
 }
 </script>
@@ -136,6 +141,17 @@ export default {
     .join-add-button.clicked {
         background: linear-gradient(90deg, #4DA9FF, #3770A6);
 
+    }
+
+    .criterion-edit {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .fa-pen,
+    .fa-floppy-disk {
+        font-size: 5rem;
     }
 
     .quest-check-button {
