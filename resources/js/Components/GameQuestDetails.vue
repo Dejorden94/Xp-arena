@@ -140,7 +140,7 @@ export default {
             this.showAddCriteriaForm = !this.showAddCriteriaForm;
         },
         showInfo() {
-            this.$emit('showGameDetails');
+            this.$emit('hideGameDetails');
         }
 
     }

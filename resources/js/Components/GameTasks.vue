@@ -23,7 +23,8 @@
         </ul>
     </article>
     <GameQuestDetails ref="questDetails" v-if="showQuestDetailsModal" :quest="selectedQuest"
-        @showGameDetails="showQuestDetails" @gameQuestDetailsShown="$emit('gameQuestDetailsShown', $event)" />
+        @showGameDetails="showQuestDetails" @hideGameDetails="hideQuestDetails"
+        @gameQuestDetailsShown="$emit('gameQuestDetailsShown', $event)" />
 </template>
 
 <script>
@@ -95,15 +96,20 @@ export default {
         },
         showQuestDetails(task) {
             this.selectedQuest = task;
-            this.showQuestDetailsModal = !this.showQuestDetailsModal;
+            this.showQuestDetailsModal = true;
             this.$emit('hideAll');
             this.$emit('togglePlayerInfo');
 
-            // Roep de fetchCriteria methode aan van de GameQuestDetails component
-            this.$refs.questDetails.fetchCriteria();
+            // Gebruik nextTick om ervoor te zorgen dat de GameQuestDetails component volledig is gemount
+            this.$nextTick(() => {
+                this.$refs.questDetails.fetchCriteria();
+            });
+        },
+        hideQuestDetails() {
+            this.$emit('hideAll');
+            this.showQuestDetailsModal = false;
+            this.$emit('togglePlayerInfo');
         }
-
-
     }
 };
 </script>
