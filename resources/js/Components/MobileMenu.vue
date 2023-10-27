@@ -32,7 +32,7 @@
                 {{ isQuestButtonClicked ? 'x' : '+' }}
             </button>
 
-            <button v-show="isGameQuestDetailsShown" class="criterion-edit join-add-button"
+            <button v-show="isGameQuestDetailsShown" :class="{ 'criterion-edit join-add-button': true, 'clicked': isSave }"
                 @click="toggleCriterionButton()">
                 <span v-show="!isSave"><i class="fa-solid fa-pen"></i></span>
                 <spa v-show="isSave"><i class="fa-regular fa-floppy-disk"></i></spa>
@@ -105,7 +105,6 @@ export default {
             this.isQuestButtonClicked = !this.isQuestButtonClicked;
         },
         toggleCriterionButton() {
-            console.log("toggleCriterionButton is called");
             this.isSave = !this.isSave;
         }
 
