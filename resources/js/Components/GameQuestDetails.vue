@@ -8,11 +8,11 @@
         <section class="quest-info">
             <img src="images/info-imgs/levelup-bg1.png" alt="Quest background chosen by user.">
             <template v-if="isEditing">
-                <textarea v-model="editedDescription"></textarea>
+                <textarea v-model="editedDescription">{{ questDesciption }}</textarea>
                 <button @click="saveDescriptionChanges">Opslaan</button>
             </template>
             <template v-else>
-                <p @click="editDescription">{{ questDesciption }}</p>
+                <p>{{ questDesciption }}</p>
             </template>
         </section>
 
@@ -40,7 +40,7 @@
                     <button @click="saveCriterionChanges(criterion)">Opslaan</button>
                 </template>
                 <template v-else>
-                    <span @click="editCriterion">{{ criterion.description }}</span>
+                    <span>{{ criterion.description }}</span>
                 </template>
             </li>
         </ul>
