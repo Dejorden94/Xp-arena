@@ -7,8 +7,15 @@
 
         <section class="quest-info">
             <img src="images/info-imgs/levelup-bg1.png" alt="Quest background chosen by user.">
-            <p>{{ questDesciption }}</p>
+            <template v-if="isEditing">
+                <textarea v-model="editedDescription"></textarea>
+                <button @click="saveDescriptionChanges">Opslaan</button>
+            </template>
+            <template v-else>
+                <p @click="editDescription">{{ questDesciption }}</p>
+            </template>
         </section>
+
 
         <section class="stars-section">
             <span class="star progress-star" :class="starsStatus[0] ? 'gold-star' : 'gray-star'">&#9733;</span>
@@ -28,9 +35,16 @@
                 v-for="criterion in criteria" :key="criterion.id">
                 <span class="star" :class="criterion.is_met ? 'gold-star' : 'gray-star'"
                     @click="toggleCriterionMet(criterion)">&#9733;</span>
-                {{ criterion.description }}
+                <template v-if="isEditing">
+                    <input v-model="editedCriterion" placeholder="Bewerk criterium">
+                    <button @click="saveCriterionChanges(criterion)">Opslaan</button>
+                </template>
+                <template v-else>
+                    <span @click="editCriterion">{{ criterion.description }}</span>
+                </template>
             </li>
         </ul>
+
         <section>
             <h2>Attachments</h2>
         </section>
@@ -44,6 +58,10 @@ export default {
         quest: {
             type: Object,
             required: true
+        },
+        isEditing: {
+            type: Boolean,
+            default: false
         }
     },
     watch: {
@@ -61,7 +79,9 @@ export default {
         return {
             criteria: [],
             showAddCriteriaForm: false,
-            newCriterionDescription: ''
+            newCriterionDescription: '',
+            editedDescription: '',
+            editedCriterion: '',
         };
     },
     computed: {
@@ -141,6 +161,24 @@ export default {
         },
         showInfo() {
             this.$emit('hideGameDetails');
+        },
+        editDescription() {
+            this.editedDescription = this.questDesciption;
+            this.isEditing = true;
+        },
+        saveDescriptionChanges() {
+            this.quest.description = this.editedDescription;
+            this.isEditing = false;
+            // Hier kun je een API-aanroep doen om de wijzigingen op te slaan
+        },
+        editCriterion(criterion) {
+            this.editedCriterion = criterion.description;
+            this.isEditing = true;
+        },
+        saveCriterionChanges(criterion) {
+            criterion.description = this.editedCriterion;
+            this.isEditing = false;
+            // Hier kun je een API-aanroep doen om de wijzigingen op te slaan
         }
 
     }

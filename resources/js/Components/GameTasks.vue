@@ -22,7 +22,7 @@
             </li>
         </ul>
     </article>
-    <GameQuestDetails ref="questDetails" v-if="showQuestDetailsModal" :quest="selectedQuest"
+    <GameQuestDetails ref="questDetails" v-if="showQuestDetailsModal" :isEditing="isEditing" :quest="selectedQuest"
         @showGameDetails="showQuestDetails" @hideGameDetails="hideQuestDetails"
         @gameQuestDetailsShown="$emit('gameQuestDetailsShown', $event)" />
 </template>
@@ -61,6 +61,10 @@ export default {
         quest: {
             type: Object,
             required: true
+        },
+        isEditing: {
+            type: Boolean,
+            default: false
         }
     },
     methods: {

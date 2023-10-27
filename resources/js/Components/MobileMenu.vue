@@ -33,7 +33,7 @@
             </button>
 
             <button v-show="isGameQuestDetailsShown" :class="{ 'criterion-edit join-add-button': true, 'clicked': isSave }"
-                @click="toggleCriterionButton()">
+                @click="toggleCriterionButton();">
                 <span v-show="!isSave"><i class="fa-solid fa-pen"></i></span>
                 <spa v-show="isSave"><i class="fa-regular fa-floppy-disk"></i></spa>
             </button>
@@ -106,6 +106,7 @@ export default {
         },
         toggleCriterionButton() {
             this.isSave = !this.isSave;
+            this.$emit('isEditing');
         }
 
     }

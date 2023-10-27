@@ -20,13 +20,13 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
 
     <AuthenticatedLayout @showJoin="handleJoinGame" @showTaskCheck="handleQuestCheck" :show-player-info="showPlayerInfo"
         :showTaskCheck="showTaskCheck" :showAddJoin="showAddJoin" @showQuestCheck="toggleQuestCheckMenu"
-        :isGameQuestDetailsShown="isGameQuestDetailsShown">
+        :isGameQuestDetailsShown="isGameQuestDetailsShown" @isEditing="toggleEdit">
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails"
             @handleGame="toggleGames" @refreshTasks="refreshTasks" @hideButton="toggleQuestCheck" />
 
         <GameTasks v-if="gameQuestVisible && gameData" :initialTasks="tasks" :gameId="gameData.id" :user="user"
-            :key="gameData.id" :isUserOwner="gameData.isUserOwner" @hideAll="hideAll"
+            :key="gameData.id" :isUserOwner="gameData.isUserOwner" :isEditing="isEditing" @hideAll="hideAll"
             @togglePlayerInfo="showPlayerInfo = !showPlayerInfo" @gameQuestDetailsShown="handleGameQuestDetailsShown" />
 
         <article v-show="showGames" class="games-overview">
@@ -102,6 +102,7 @@ export default {
             showCheckpoint: false,
             showPlayerInfo: true,
             isGameQuestDetailsShown: false,
+            isEditing: false
         }
     },
 
@@ -239,6 +240,9 @@ export default {
         },
         hideAll() {
             this.gameDetailsVisible = !this.gameDetailsVisible;
+        },
+        toggleEdit() {
+            this.isEditing = !this.isEditing;
         }
     }
 }

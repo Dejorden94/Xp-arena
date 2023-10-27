@@ -66,8 +66,8 @@ const showingNavigationDropdown = ref(false);
             </header>
 
             <MobileMenu @showJoin="$emit('showJoin')" @showQuestCheck="$emit('showQuestCheck')"
-                @showTaskCheck="$emit('showTaskCheck')" :showTaskCheck="showTaskCheck" :showAddJoin="showAddJoin"
-                :isGameQuestDetailsShown="isGameQuestDetailsShown" />
+                @showTaskCheck="$emit('showTaskCheck')" @isEditing="$emit('isEditing')" :showTaskCheck="showTaskCheck"
+                :showAddJoin="showAddJoin" :isGameQuestDetailsShown="isGameQuestDetailsShown" />
 
 
             <PlayerInformation v-show="showPlayerInfo" />
