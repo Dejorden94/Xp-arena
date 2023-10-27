@@ -210,8 +210,6 @@ article {
     text-align: center;
 }
 
-.star:nth-of-type(2) {}
-
 .quest-info {
     height: 20rem;
     background: var(--background-super-dark);
