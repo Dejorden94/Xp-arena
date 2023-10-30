@@ -8,7 +8,7 @@
         <section class="quest-info">
             <img src="images/info-imgs/levelup-bg1.png" alt="Quest background chosen by user.">
             <template v-if="isEditing">
-                <textarea v-model="editedDescription">{{ questDesciption }}</textarea>
+                <textarea v-if="isEditing" v-model="editedDescription">{{ questDesciption }}</textarea>
                 <button @click="saveDescriptionChanges">Opslaan</button>
             </template>
             <template v-else>
@@ -32,12 +32,12 @@
 
         <ul>
             <li class="criterion" :class="criterion.is_met ? 'gold-background' : 'gray-background'"
-                v-for="criterion in criteria" :key="criterion.id">
+                v-for="(criterion, index) in criteria" :key="criterion.id">
                 <span class="star" :class="criterion.is_met ? 'gold-star' : 'gray-star'"
                     @click="toggleCriterionMet(criterion)">&#9733;</span>
                 <template v-if="isEditing">
-                    <input v-model="editedCriterion" placeholder="Bewerk criterium">
-                    <button @click="saveCriterionChanges(criterion)">Opslaan</button>
+                    <input v-model="editedCriteria[index]" placeholder="Bewerk criterium">
+                    <button @click="saveCriterionChanges(criterion, index)">Opslaan</button>
                 </template>
                 <template v-else>
                     <span>{{ criterion.description }}</span>
@@ -73,7 +73,14 @@ export default {
                     this.fetchCriteria();
                 }
             }
-        }
+        },
+        isEditing(newVal) {
+            if (newVal) { // Als isEditing verandert naar true
+                this.startEditing();
+                this.editedDescription = this.questDesciption;
+
+            }
+        },
     },
     data() {
         return {
@@ -82,6 +89,7 @@ export default {
             newCriterionDescription: '',
             editedDescription: '',
             editedCriterion: '',
+            editedCriteria: [],
         };
     },
     computed: {
@@ -111,6 +119,9 @@ export default {
         this.$emit('gameQuestDetailsShown', false);
     },
     methods: {
+        startEditing() {
+            this.editedCriteria = this.criteria.map(criterion => criterion.description);
+        },
         async addCriteria() {
             try {
                 const response = await axios.post(`/task/${this.quest.id}/add-criteria`, {
@@ -175,11 +186,13 @@ export default {
             this.editedCriterion = criterion.description;
             this.isEditing = true;
         },
-        saveCriterionChanges(criterion) {
-            criterion.description = this.editedCriterion;
-            this.isEditing = false;
+        saveCriterionChanges(criterion, index) {
+            criterion.description = this.editedCriteria[index];
             // Hier kun je een API-aanroep doen om de wijzigingen op te slaan
-        }
+        },
+        setEditedCriterion(criterion) {
+            this.editedCriterion = criterion.description;
+        },
 
     }
 }
