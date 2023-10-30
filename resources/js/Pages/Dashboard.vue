@@ -116,6 +116,9 @@ export default {
         this.fetchFollowedGames();
     },
     methods: {
+        test() {
+            console.log("Doet het");
+        },
         async fetchUnverifiedTasks() {
             try {
                 const response = await axios.get(`/unverified-tasks`);

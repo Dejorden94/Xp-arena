@@ -215,4 +215,38 @@ class TaskController extends Controller
 
         return response()->json(['success' => true, 'is_met' => $criterion->is_met]);
     }
+    public function updateTask(Request $request, $taskId)
+    {
+        // Zoek de taak op basis van het gegeven ID
+        $task = Task::find($taskId);
+
+        // Als de taak niet wordt gevonden, retourneer een foutmelding
+        if (!$task) {
+            return response()->json(['error' => 'Task not found'], 404);
+        }
+
+        // Update de velden van de taak met de waarden uit het verzoek
+        $task->name = $request->input('name', $task->name); // Als er geen nieuwe naam wordt gegeven, behoud dan de oude naam
+        $task->description = $request->input('description', $task->description); // Als er geen nieuwe beschrijving wordt gegeven, behoud dan de oude beschrijving
+        $task->experience = $request->input('experience', $task->experience); // Als er geen nieuwe ervaring wordt gegeven, behoud dan de oude ervaring
+
+        // Sla de wijzigingen op
+        $task->save();
+
+        // Update de bijbehorende criteria als ze zijn meegegeven in het verzoek
+        if ($request->has('criteria')) {
+            foreach ($request->input('criteria') as $updatedCriterion) {
+                $criterion = $task->criteria->where('id', $updatedCriterion['id'])->first();
+
+                if ($criterion) {
+                    $criterion->description = $updatedCriterion['description'];
+                    $criterion->is_met = $updatedCriterion['is_met'];
+                    $criterion->save();
+                }
+            }
+        }
+
+        // Retourneer een succesbericht
+        return response()->json(['message' => 'Task and associated criteria updated successfully']);
+    }
 }

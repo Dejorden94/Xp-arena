@@ -9,7 +9,7 @@
             <img src="images/info-imgs/levelup-bg1.png" alt="Quest background chosen by user.">
             <template v-if="isEditing">
                 <textarea v-if="isEditing" v-model="editedDescription">{{ questDesciption }}</textarea>
-                <button @click="saveDescriptionChanges">Opslaan</button>
+                <span>{{ quest.experience }}</span>
             </template>
             <template v-else>
                 <p>{{ questDesciption }}</p>
@@ -37,7 +37,6 @@
                     @click="toggleCriterionMet(criterion)">&#9733;</span>
                 <template v-if="isEditing">
                     <input v-model="editedCriteria[index]" placeholder="Bewerk criterium">
-                    <button @click="saveCriterionChanges(criterion, index)">Opslaan</button>
                 </template>
                 <template v-else>
                     <span>{{ criterion.description }}</span>
@@ -75,12 +74,14 @@ export default {
             }
         },
         isEditing(newVal) {
-            if (newVal) { // Als isEditing verandert naar true
+            if (newVal === true) { // Als isEditing verandert naar true
                 this.startEditing();
                 this.editedDescription = this.questDesciption;
-
             }
-        },
+            else {
+                this.updateTask();
+            }
+        }
     },
     data() {
         return {
@@ -167,6 +168,35 @@ export default {
                 console.error("Er is een fout opgetreden bij het bijwerken van de criterion:", error);
             }
         },
+        async updateTask() {
+            try {
+                // Verzamel de gegevens die je wilt bijwerken
+                const updatedTaskData = {
+                    name: this.quest.name,
+                    description: this.editedDescription,
+                    experience: this.quest.experience, // Je kunt dit veld bijwerken als je een ervaringsveld in je component hebt
+                    criteria: this.criteria.map(criterion => ({
+                        id: criterion.id,
+                        description: criterion.description,
+                        is_met: criterion.is_met
+                    }))
+                };
+
+                // Stuur een PUT-verzoek naar de server
+                const response = await axios.put(`/task/${this.quest.id}`, updatedTaskData);
+
+                // Verwerk het antwoord (bijvoorbeeld het bijwerken van de lokale gegevens of het tonen van een melding aan de gebruiker)
+                if (response.data.message === 'Task and associated criteria updated successfully') {
+                    this.$emit('taskUpdated', true);
+                    console.log('Taak en bijbehorende criteria succesvol bijgewerkt!');
+                } else {
+                    console.log('Er is een fout opgetreden bij het bijwerken van de taak.');
+                }
+            } catch (error) {
+                console.error("Er is een fout opgetreden bij het bijwerken van de taak:", error);
+                console.log('Er is een fout opgetreden bij het bijwerken van de taak.');
+            }
+        },
         toggleAddCriteria() {
             this.showAddCriteriaForm = !this.showAddCriteriaForm;
         },
@@ -232,7 +262,6 @@ textarea {
 }
 
 .quest-info {
-    height: 20rem;
     background: var(--background-super-dark);
     border: 2px solid var(--background-lighter);
     border-radius: 1rem;
