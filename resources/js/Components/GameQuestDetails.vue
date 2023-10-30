@@ -202,6 +202,14 @@ article {
     margin: 0 auto 15rem auto;
 }
 
+input,
+textarea {
+    color: black;
+    background: var(--background-super-light);
+    border-radius: 1rem;
+    border: 1px solid var(--font-color-normal);
+}
+
 .progress-star:nth-of-type(2) {
     font-size: 350%;
 }
