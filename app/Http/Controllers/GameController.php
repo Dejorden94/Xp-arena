@@ -7,6 +7,7 @@ use App\Models\Game;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\FollowerTask;
+use App\Models\FollowerCriterion;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Log;
@@ -58,8 +59,6 @@ class GameController extends Controller
 
         $userId = Auth::id();
 
-        Log::info('User ID:', ['userId' => $userId]);
-
         // Controleren of de gebruiker al bestaat
         $user = User::find($userId);
         if (!$user) {
@@ -84,7 +83,8 @@ class GameController extends Controller
         $tasks = $game->tasks;
 
         foreach ($tasks as $task) {
-            FollowerTask::create([
+            // Maak een nieuwe FollowerTask
+            $followerTask = FollowerTask::create([
                 'name' => $task->name,
                 'description' => $task->description,
                 'experience' => $task->experience,
@@ -92,11 +92,19 @@ class GameController extends Controller
                 'task_id' => $task->id,
                 'game_id' => $game->id,
             ]);
+
+            // Kopieer de criteria van de originele taak naar de nieuwe FollowerTask
+            foreach ($task->criteria as $criterion) {
+                FollowerCriterion::create([
+                    'description' => $criterion->description,
+                    'is_met' => $criterion->is_met,
+                    'follower_task_id' => $followerTask->id,
+                ]);
+            }
         }
 
         return response()->json(['message' => 'Game followed successfully']);
     }
-
 
     public function followedGames()
     {
