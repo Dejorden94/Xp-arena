@@ -59,7 +59,7 @@ Route::delete('/criteria/{criterionId}/delete', [TaskController::class, 'deleteC
 Route::get('/task/{taskId}/check-criteria', [TaskController::class, 'checkCriteria']);
 // Toggle the is_met value for a criterion
 Route::post('/task/{taskId}/criterion/{criterionId}/toggle-met', [TaskController::class, 'toggleCriterionMet']);
-
+Route::get('/task/{taskId}', [TaskController::class, 'getTaskDescription']);
 Route::put('/task/{taskId}', [TaskController::class, 'updateTask']);
 
 

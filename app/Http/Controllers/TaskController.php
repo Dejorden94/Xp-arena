@@ -249,4 +249,13 @@ class TaskController extends Controller
         // Retourneer een succesbericht
         return response()->json(['message' => 'Task and associated criteria updated successfully']);
     }
+
+    public function getTaskDescription($taskId)
+    {
+        $task = Task::find($taskId);
+        if (!$task) {
+            return response()->json(['error' => 'Task not found'], 404);
+        }
+        return response()->json(['description' => $task->description]);
+    }
 }

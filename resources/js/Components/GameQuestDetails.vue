@@ -170,27 +170,40 @@ export default {
         },
         async updateTask() {
             try {
-                // Verzamel de gegevens die je wilt bijwerken
+                const taskId = this.quest.id;
                 const updatedTaskData = {
                     name: this.quest.name,
                     description: this.editedDescription,
                     experience: this.quest.experience,
                     criteria: this.criteria.map((criterion, index) => ({
                         id: criterion.id,
-                        description: this.editedCriteria[index], // Gebruik de bijgewerkte beschrijving
+                        description: this.editedCriteria[index],
                         is_met: criterion.is_met
                     }))
                 };
-                console.log(updatedTaskData.criteria);
 
-                // Stuur een PUT-verzoek naar de server
-                const response = await axios.put(`/task/${this.quest.id}`, updatedTaskData);
+                const response = await axios.put(`/task/${taskId}`, updatedTaskData);
 
-                // Verwerk het antwoord
-                // ...
+                // Aanname: de server stuurt een bericht terug bij succes
+                if (response.data.message === 'Task and associated criteria updated successfully') {
+                    console.log('Taak en bijbehorende criteria succesvol bijgewerkt!');
+
+                    // Haal de bijgewerkte gegevens opnieuw op
+                    this.fetchCriteria();
+                    this.fetchQuestDescription();
+                } else {
+                    console.log('Er is een fout opgetreden bij het bijwerken van de taak.');
+                }
             } catch (error) {
                 console.error("Er is een fout opgetreden bij het bijwerken van de taak:", error);
-                console.log('Er is een fout opgetreden bij het bijwerken van de taak.');
+            }
+        },
+        async fetchQuestDescription() {
+            try {
+                const response = await axios.get(`/task/${this.quest.id}`);
+                this.quest.description = response.data.description;
+            } catch (error) {
+                console.error("Er is een fout opgetreden bij het ophalen van de taakbeschrijving:", error);
             }
         },
 
