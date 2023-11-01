@@ -7,8 +7,8 @@
                 <!-- Niet de eigenaar van de game  -->
                 <button v-if="!isUserOwner" @click="showQuestDetails(task)">Toon Details</button>
 
-                <input v-if="task.status === 'pending' && !isUserOwner || task.status === 'rejected'" type="checkbox"
-                    v-model="task.completed" @change="toggleTaskCompletion(task.id)" />
+                <!-- <input v-if="task.status === 'pending' && !isUserOwner || task.status === 'rejected'" type="checkbox"
+                    v-model="task.completed" @change="toggleTaskCompletion(task.id)" /> -->
                 <p v-if="!isUserOwner">{{ task.name }} - {{ task.description }} - {{ task.experience }} - {{ task.status
                 }}</p>
                 <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
@@ -22,9 +22,9 @@
             </li>
         </ul>
     </article>
-    <GameQuestDetails ref="questDetails" v-if="showQuestDetailsModal" :isEditing="isEditing" :quest="selectedQuest"
-        @showGameDetails="showQuestDetails" @hideGameDetails="hideQuestDetails"
-        @gameQuestDetailsShown="$emit('gameQuestDetailsShown', $event)" />
+    <GameQuestDetails ref="questDetails" v-if="showQuestDetailsModal" :gameId="gameId" :isUserOwner="isUserOwner"
+        :isEditing="isEditing" :quest="selectedQuest" @showGameDetails="showQuestDetails"
+        @hideGameDetails="hideQuestDetails" @gameQuestDetailsShown="$emit('gameQuestDetailsShown', $event)" />
 </template>
 
 <script>

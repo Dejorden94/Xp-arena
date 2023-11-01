@@ -7,7 +7,7 @@
 
         <section class="quest-info">
             <img src="images/info-imgs/levelup-bg1.png" alt="Quest background chosen by user.">
-            <template v-if="isEditing">
+            <template v-if="isEditing && isUserOwner">
                 <textarea v-if="isEditing" v-model="editedDescription">{{ questDesciption }}</textarea>
                 <textarea>{{ quest.experience }}</textarea>
             </template>
@@ -35,7 +35,7 @@
                 v-for="(criterion, index) in criteria" :key="criterion.id">
                 <span class="star" :class="criterion.is_met ? 'gold-star' : 'gray-star'"
                     @click="toggleCriterionMet(criterion)">&#9733;</span>
-                <template v-if="isEditing">
+                <template v-if="isEditing && isUserOwner">
                     <textarea v-model="editedCriteria[index]" placeholder="Bewerk criterium"></textarea>
                 </template>
                 <template v-else>
@@ -61,7 +61,15 @@ export default {
         isEditing: {
             type: Boolean,
             default: false
-        }
+        },
+        gameId: {
+            type: Object,
+            default: false
+        },
+        isUserOwner: {
+            type: Boolean,
+            default: false,
+        },
     },
     watch: {
         quest: {
