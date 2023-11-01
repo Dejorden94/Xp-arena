@@ -9,7 +9,7 @@
             <img src="images/info-imgs/levelup-bg1.png" alt="Quest background chosen by user.">
             <template v-if="isEditing">
                 <textarea v-if="isEditing" v-model="editedDescription">{{ questDesciption }}</textarea>
-                <span>{{ quest.experience }}</span>
+                <textarea>{{ quest.experience }}</textarea>
             </template>
             <template v-else>
                 <p>{{ questDesciption }}</p>
@@ -36,7 +36,7 @@
                 <span class="star" :class="criterion.is_met ? 'gold-star' : 'gray-star'"
                     @click="toggleCriterionMet(criterion)">&#9733;</span>
                 <template v-if="isEditing">
-                    <input v-model="editedCriteria[index]" placeholder="Bewerk criterium">
+                    <textarea v-model="editedCriteria[index]" placeholder="Bewerk criterium"></textarea>
                 </template>
                 <template v-else>
                     <span>{{ criterion.description }}</span>
@@ -174,29 +174,26 @@ export default {
                 const updatedTaskData = {
                     name: this.quest.name,
                     description: this.editedDescription,
-                    experience: this.quest.experience, // Je kunt dit veld bijwerken als je een ervaringsveld in je component hebt
-                    criteria: this.criteria.map(criterion => ({
+                    experience: this.quest.experience,
+                    criteria: this.criteria.map((criterion, index) => ({
                         id: criterion.id,
-                        description: criterion.description,
+                        description: this.editedCriteria[index], // Gebruik de bijgewerkte beschrijving
                         is_met: criterion.is_met
                     }))
                 };
+                console.log(updatedTaskData.criteria);
 
                 // Stuur een PUT-verzoek naar de server
                 const response = await axios.put(`/task/${this.quest.id}`, updatedTaskData);
 
-                // Verwerk het antwoord (bijvoorbeeld het bijwerken van de lokale gegevens of het tonen van een melding aan de gebruiker)
-                if (response.data.message === 'Task and associated criteria updated successfully') {
-                    this.$emit('taskUpdated', true);
-                    console.log('Taak en bijbehorende criteria succesvol bijgewerkt!');
-                } else {
-                    console.log('Er is een fout opgetreden bij het bijwerken van de taak.');
-                }
+                // Verwerk het antwoord
+                // ...
             } catch (error) {
                 console.error("Er is een fout opgetreden bij het bijwerken van de taak:", error);
                 console.log('Er is een fout opgetreden bij het bijwerken van de taak.');
             }
         },
+
         toggleAddCriteria() {
             this.showAddCriteriaForm = !this.showAddCriteriaForm;
         },
