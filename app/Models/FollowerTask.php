@@ -27,4 +27,8 @@ class FollowerTask extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function criteria()
+    {
+        return $this->hasMany(FollowerCriterion::class);
+    }
 }
