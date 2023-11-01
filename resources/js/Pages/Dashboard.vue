@@ -46,7 +46,7 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
             <h2>Followed Games</h2>
             <ul>
                 <li class="game" v-for="game in followedGames" :key="game.id"
-                    @click="loadGameDetails(game.id); toggleGames();">
+                    @click="loadGameDetails(game.id); toggleGames(); toggleQuestCheck();">
                     {{ game.name }}
                 </li>
             </ul>
