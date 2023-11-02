@@ -8,7 +8,7 @@
         <h2>Create game</h2>
         <form @submit.prevent="createGame">
             <input placeholder="Enter game name" type="text" id="name" v-model="name" required>
-            <button type="submit" @click="$emit('reloadGames')">Save</button>
+            <button type="submit">Save</button>
         </form>
     </article>
 </template>
@@ -31,6 +31,7 @@ export default {
             })
                 .then(response => {
                     this.name = ''; // Leeg het invoerveld voor de naam van de game
+                    this.$emit('reloadGames');
                     this.refreshGames(); // Laad de lijst met games opnieuw
                 })
                 .catch(error => {

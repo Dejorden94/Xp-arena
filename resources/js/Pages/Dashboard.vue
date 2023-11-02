@@ -116,9 +116,6 @@ export default {
         this.fetchFollowedGames();
     },
     methods: {
-        test() {
-            console.log("Doet het");
-        },
         async fetchUnverifiedTasks() {
             try {
                 const response = await axios.get(`/unverified-tasks`);
@@ -130,6 +127,7 @@ export default {
         async refreshGames() {
             try {
                 const response = await axios.get(`/users/${this.user.id}/games`);
+                console.log(response.data);
                 this.games = response.data;
             } catch (error) {
                 console.log(error);
@@ -218,7 +216,6 @@ export default {
             this.showAddGame = false;
             this.createGame = false;
             this.showAddQuesTaskMenu = false;
-            this.AddQuest = false;
         },
         toggleGames() {
             this.showGames = !this.showGames;
