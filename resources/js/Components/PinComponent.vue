@@ -6,7 +6,7 @@
         <h2>Join game</h2>
         <form @submit.prevent="submitPincode">
             <input placeholder="Enter game pin" type="text" id="pincode" v-model="pincode" required>
-            <button type="submit" @click="$emit('reloadJoinedGames')">GO</button>
+            <button type="submit">GO</button>
         </form>
     </article>
 </template>
@@ -26,8 +26,9 @@ export default {
                 pincode: this.pincode
             })
                 .then(response => {
-                    this.pincode = '';
-                    this.fetchFollowedGames(); // Leeg het invoerveld voor de pincode
+                    this.pincode = '';// Leeg het invoerveld voor de pincode
+                    this.fetchFollowedGames();
+                    this.$emit('reloadJoinedGames');
                 })
                 .catch(error => {
                     console.log(error);
