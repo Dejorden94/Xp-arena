@@ -127,7 +127,6 @@ export default {
         async refreshGames() {
             try {
                 const response = await axios.get(`/users/${this.user.id}/games`);
-                console.log(response.data);
                 this.games = response.data;
             } catch (error) {
                 console.log(error);

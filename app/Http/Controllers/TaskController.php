@@ -200,10 +200,12 @@ class TaskController extends Controller
         // Geef alle criteria terug als JSON
         return response()->json($task->criteria);
     }
+
     public function toggleCriterionMet($taskId, $criterionId)
     {
         // Vind het criterium in de database
         $criterion = TaskCriterion::where('id', $criterionId)->where('task_id', $taskId)->first();
+
 
         if (!$criterion) {
             return response()->json(['error' => 'Criterium niet gevonden'], 404);
@@ -215,6 +217,7 @@ class TaskController extends Controller
 
         return response()->json(['success' => true, 'is_met' => $criterion->is_met]);
     }
+
     public function updateTask(Request $request, $taskId)
     {
         // Zoek de taak op basis van het gegeven ID

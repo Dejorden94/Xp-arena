@@ -162,20 +162,28 @@ export default {
         },
         async toggleCriterionMet(criterion) {
             try {
-                // Update de waarde van is_met
                 const updatedValue = !criterion.is_met;
-
-                // Doe een API-aanroep om de waarde in de database bij te werken
                 const response = await axios.post(`/task/${this.quest.id}/criterion/${criterion.id}/toggle-met`, {
                     is_met: updatedValue
                 });
-
-                // Update de waarde in de lokale data
                 criterion.is_met = updatedValue;
             } catch (error) {
                 console.error("Er is een fout opgetreden bij het bijwerken van de criterion:", error);
+                if (error.response) {
+                    // Het verzoek is gemaakt en de server heeft een statuscode geretourneerd die buiten het bereik van 2xx valt
+                    console.error('Response data:', error.response.data);
+                    console.error('Response status:', error.response.status);
+                    console.error('Response headers:', error.response.headers);
+                } else if (error.request) {
+                    // Het verzoek is gemaakt, maar er is geen antwoord ontvangen
+                    console.error('Request data:', error.request);
+                } else {
+                    // Iets anders is misgegaan bij het instellen van het verzoek
+                    console.error('Error message:', error.message);
+                }
             }
         },
+
         async updateTask() {
             try {
                 const taskId = this.quest.id;

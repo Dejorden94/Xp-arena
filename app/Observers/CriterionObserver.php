@@ -21,7 +21,7 @@ class CriterionObserver
     public function updated(TaskCriterion $criterion): void
     {
         // Update de FollowerCriteria wanneer de originele Criterion wordt bijgewerkt
-        FollowerCriterion::where('criterion_id', $criterion->id)->update([
+        FollowerCriterion::where('id', $criterion->id)->update([
             'description' => $criterion->description,
             'is_met' => $criterion->is_met,
         ]);
