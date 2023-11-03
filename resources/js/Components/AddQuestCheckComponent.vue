@@ -8,7 +8,7 @@
             <h1 @click="$emit('showQuest')">Quest</h1>
         </section>
         <section class="add-checkpoint">
-            <h1 @click="$emit('showCreate')">Checkpoint</h1>
+            <h1 @click="$emit('showCheck')">Checkpoint</h1>
         </section>
     </article>
 </template>

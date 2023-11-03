@@ -63,7 +63,7 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
             @showJoin="handleShowJoin" />
 
         <div v-if="showAddQuesTaskMenu" class="overlay"></div>
-        <AddQuestCheckComponent v-show="showAddQuesTaskMenu" @showQuest="toggleAddQuest" />
+        <AddQuestCheckComponent v-show="showAddQuesTaskMenu" @showQuest="toggleAddQuest" @showCheck="toggleCheck" />
 
         <div v-if="showAddQuest" class="overlay"></div>
         <AddQuest v-show="showAddQuest" :gameData="gameData" @refreshTasks="refreshTasks(); setFalseQuestCheck();" />
@@ -242,6 +242,10 @@ export default {
         },
         toggleEdit() {
             this.isEditing = !this.isEditing;
+        },
+        toggleCheck() {
+            this.showCheckpoint = !this.showCheckpoint;
+            this.showAddQuesTaskMenu = false;
         }
     }
 }

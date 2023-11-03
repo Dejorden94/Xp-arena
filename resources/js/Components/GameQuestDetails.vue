@@ -23,8 +23,6 @@
             <span class="star progress-star" :class="starsStatus[2] ? 'gold-star' : 'gray-star'">&#9733;</span>
         </section>
 
-
-
         <section v-if="showAddCriteriaForm">
             <input v-model="newCriterionDescription" placeholder="Omschrijving van criterium">
             <button @click="addCriteria">Opslaan</button>
