@@ -69,7 +69,7 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
         <AddQuest v-show="showAddQuest" :gameData="gameData" @refreshTasks="refreshTasks(); setFalseQuestCheck();" />
 
         <div v-if="showCheckpoint" class="overlay"></div>
-        <AddCheckpoint v-show="showCheckpoint" />
+        <AddCheckpoint v-show="showCheckpoint" :gameData="gameData" />
 
     </AuthenticatedLayout>
 </template>

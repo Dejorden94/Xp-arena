@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\CheckpointController;
 
 
 
@@ -61,6 +62,11 @@ Route::get('/task/{taskId}/check-criteria', [TaskController::class, 'checkCriter
 Route::post('/task/{taskId}/criterion/{criterionId}/toggle-met', [TaskController::class, 'toggleCriterionMet']);
 Route::get('/task/{taskId}', [TaskController::class, 'getTaskDescription']);
 Route::put('/task/{taskId}', [TaskController::class, 'updateTask']);
+
+// Checkpoint Routes
+Route::resource('checkpoints', CheckpointController::class);
+Route::post('tasks/{task}/complete', [TaskController::class, 'complete']);
+Route::post('/checkpoints', [CheckpointController::class, 'store']);
 
 
 

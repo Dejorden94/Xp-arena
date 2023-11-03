@@ -1,22 +1,48 @@
 <template>
     <section>
         <form @submit.prevent="addCheck">
-            <input class="task-input" type="text" placeholder="Titel" required>
-
+            <input class="task-input" type="text" v-model="title" placeholder="Titel" required>
             <button type="submit">Toevoegen</button>
         </form>
+
     </section>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
+    props: {
+        gameData: {
+            type: Object,
+            required: true
+        }
+    },
+    data() {
+        return {
+            title: ''
+        };
+    },
     methods: {
-        addCheck() {
-            console.log("doet het ");
+        async addCheck() {
+            try {
+                // Aanpassen aan uw API-endpoint en datastructuur
+                const response = await axios.post('/checkpoints', {
+                    title: this.title,
+                    game_id: this.gameData.id
+                });
+                console.log('Checkpoint toegevoegd:', response.data);
+                this.title = '';  // Reset het invoerveld
+            } catch (error) {
+                console.error('Er is een fout opgetreden:', error);
+            }
         }
     }
 }
 </script>
+
+<!-- ... uw stijlen ... -->
+
 
 <style scoped>
 section {

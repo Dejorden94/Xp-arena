@@ -31,4 +31,10 @@ class FollowerTask extends Model
     {
         return $this->hasMany(FollowerCriterion::class);
     }
+    public function hasCompletedAllTasks($checkpointId)
+    {
+        $tasks = Task::where('checkpoint_id', $checkpointId)->pluck('id');
+        $completedTasks = $this->tasks()->whereIn('task_id', $tasks)->count();
+        return $completedTasks === $tasks->count();
+    }
 }
