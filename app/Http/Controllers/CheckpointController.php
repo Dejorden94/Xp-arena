@@ -12,6 +12,7 @@ class CheckpointController extends Controller
         // Valideer de request data
         $request->validate([
             'title' => 'required|string|max:255',
+            'game_id' => 'required|integer|exists:games,id',
             // Voeg hier eventuele andere validatieregels toe
         ]);
 
