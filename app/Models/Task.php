@@ -50,4 +50,8 @@ class Task extends Model
     {
         return $this->hasMany(TaskCriterion::class);
     }
+    public function checkpoint()
+    {
+        return $this->belongsTo(Checkpoint::class);
+    }
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
             $table->string('name');
             $table->text('description');
+            $table->foreignId('checkpoint_id')->nullable()->constrained();
             $table->timestamps();
         });
     }
