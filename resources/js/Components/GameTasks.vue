@@ -4,6 +4,11 @@
         <h3>Quests</h3>
         <ul>
             <li v-for="task in initialTasks" :key="task.id">
+                <button v-if="isUserOwner" @click="assignTaskToCheckpoint(task.id)">Assign Checkpoint</button>
+
+                <select v-model="selectedCheckpointId">
+                    <option v-for="checkpoint in checkpoints" :value="checkpoint.id">{{ checkpoint.name }}</option>
+                </select>
                 <!-- Niet de eigenaar van de game  -->
                 <button v-if="!isUserOwner" @click="showQuestDetails(task)">Toon Details</button>
 
@@ -16,6 +21,7 @@
                 <span v-else-if="task.status === 'rejected'" class="task-status rejected">Afgewezen</span>
 
                 <!-- Eigenaar van game  -->
+
                 <button v-if="isUserOwner" @click="showQuestDetails(task)">Toon Details</button>
                 <p v-if="isUserOwner">{{ task.name }} - {{ task.description }} - {{ task.experience }}</p>
                 <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
@@ -39,6 +45,8 @@ export default {
             currenTaskId: null,
             showQuestDetailsModal: false,
             selectedQuest: null,
+            checkpoints: [],
+            selectedCheckpointId: null,
         }
     },
     props: {
@@ -67,7 +75,34 @@ export default {
             default: false
         }
     },
+    mounted() {
+        this.fetchCheckpoints();
+    },
     methods: {
+        fetchCheckpoints() {
+            axios.get(`/games/${this.gameId}/checkpoints`)
+                .then(response => {
+                    this.checkpoints = response.data;
+                })
+                .catch(error => {
+                    console.error('Error fetching checkpoints:', error);
+                });
+        },
+        assignTaskToCheckpoint(taskId) {
+            if (!this.selectedCheckpointId) {
+                alert('Selecteer een checkpoint.');
+                return;
+            }
+
+            axios.post(`/checkpoints/${this.selectedCheckpointId}/assign-task`, { task_id: taskId })
+                .then(response => {
+                    console.log('Task assigned to checkpoint:', response.data);
+                    // U kunt hier de UI bijwerken om de wijziging te reflecteren
+                })
+                .catch(error => {
+                    console.error('Error assigning task to checkpoint:', error);
+                });
+        },
         deleteTask(taskId) {
             axios
                 .delete(`/api/games/${this.gameId}/tasks/${taskId}`)
@@ -139,6 +174,11 @@ export default {
 .rejected {
     background-color: red;
     color: white;
+}
+
+select {
+    color: var(--font-color-normal);
+    background: var(--background-lighter);
 }
 
 h3 {

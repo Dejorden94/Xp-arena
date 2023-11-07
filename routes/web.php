@@ -69,6 +69,11 @@ Route::post('tasks/{task}/complete', [TaskController::class, 'complete']);
 Route::post('/checkpoints', [CheckpointController::class, 'store']);
 Route::post('/checkpoints/{checkpointId}/add-task', [CheckpointController::class, 'addTaskToCheckpoint']);
 
+// Route om alle checkpoints voor een specifieke game op te halen
+Route::get('/games/{game}/checkpoints', [CheckpointController::class, 'index']);
+
+// Route om een taak toe te wijzen aan een checkpoint
+Route::post('/checkpoints/{checkpoint}/assign-task', [CheckpointController::class, 'assignTask']);
 
 
 Route::get('/dashboard', function () {
