@@ -1,7 +1,7 @@
 <template>
     <article>
         <h1>{{ questName }}</h1>
-        <button v-if="criteria.length < 3" @click="toggleAddCriteria">Voeg criteria toe</button>
+        <button v-show="isUserOwner" v-if="criteria.length < 3" @click="toggleAddCriteria">Voeg criteria toe</button>
 
         <button @click="showInfo">Terug</button>
 
@@ -28,7 +28,7 @@
             <button @click="addCriteria">Opslaan</button>
         </section>
 
-        <ul>
+        <ul v-if="isUserOwner">
             <li class="criterion" :class="criterion.is_met ? 'gold-background' : 'gray-background'"
                 v-for="(criterion, index) in criteria" :key="criterion.id">
                 <span class="star" :class="criterion.is_met ? 'gold-star' : 'gray-star'"
@@ -39,6 +39,12 @@
                 <template v-else>
                     <span>{{ criterion.description }}</span>
                 </template>
+            </li>
+        </ul>
+
+        <ul v-if="!isUserOwner">
+            <li>
+                Niet de eigenaar.
             </li>
         </ul>
 

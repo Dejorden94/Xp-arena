@@ -8,6 +8,7 @@ use App\Models\Game;
 use App\Models\User;
 use App\Models\FollowerTask;
 use App\Models\TaskCriterion;
+use App\Models\FollowerCriterion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -165,18 +166,51 @@ class TaskController extends Controller
     // Criteria functions 
     public function addCriteria(Request $request, $taskId)
     {
-
+        // Vind de taak en controleer of deze bestaat
         $task = Task::with('criteria')->findOrFail($taskId);
 
+        // Maak het nieuwe criterium voor de taak
         $criterion = new TaskCriterion([
             'description' => $request->input('description'),
             'is_met' => false
         ]);
 
+        // Sla het criterium op gekoppeld aan de taak
         $task->criteria()->save($criterion);
 
-        return redirect()->back()->with('success', 'Criterium toegevoegd!');
+        $followerTask = $this->findFollowerTask($task);
+
+        // Controleer of de 'follower_task' bestaat
+        if ($followerTask) {
+            $followerCriterion = new FollowerCriterion([
+                'follower_task_id' => $followerTask->id,
+                'description' => $request->input('description'),
+                'is_met' => false
+            ]);
+
+            // Sla het nieuwe criterium op in de 'follower_criteria' tabel
+            $followerCriterion->save();
+        }
+
+        // Redirect terug met een succesbericht
+        return redirect()->back()->with('success', 'Criterium toegevoegd aan zowel taak als volger!');
     }
+
+    /**
+     * Een voorbeeldmethode om de overeenkomstige 'follower_task' te vinden.
+     * Je moet deze methode implementeren op basis van je applicatielogica.
+     */
+    protected function findFollowerTask(Task $task)
+    {
+        // Implementeer de logica om de overeenkomstige 'follower_task' te vinden
+        // Dit kan een relatie zijn of een andere manier om de gekoppelde 'follower_task' te identificeren
+        // Voorbeeld:
+        // return FollowerTask::where('original_task_id', $task->id)->first();
+
+        // Dummy return om de structuur te laten zien, vervang dit door echte logica
+        return FollowerTask::where('task_id', $task->id)->first();
+    }
+
     public function editCriteria(Request $request, $criterionId)
     {
         $criterion = TaskCriterion::findOrFail($criterionId);

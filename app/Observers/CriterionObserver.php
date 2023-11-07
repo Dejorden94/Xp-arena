@@ -23,7 +23,6 @@ class CriterionObserver
         // Update de FollowerCriteria wanneer de originele Criterion wordt bijgewerkt
         FollowerCriterion::where('id', $criterion->id)->update([
             'description' => $criterion->description,
-            'is_met' => $criterion->is_met,
         ]);
     }
 
