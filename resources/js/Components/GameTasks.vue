@@ -23,7 +23,9 @@
                 <!-- Eigenaar van game  -->
 
                 <button v-if="isUserOwner" @click="showQuestDetails(task)">Toon Details</button>
-                <p v-if="isUserOwner">{{ task.name }} - {{ task.description }} - {{ task.experience }}</p>
+                <p v-if="isUserOwner">{{ task.name }} - {{ task.description }} - {{ task.experience }}
+                    <span v-if="task.checkpoint_id">Assigned to: {{ getCheckpointNameById(task.checkpoint_id) }}</span>
+                </p>
                 <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
             </li>
         </ul>
@@ -88,6 +90,10 @@ export default {
                     console.error('Error fetching checkpoints:', error);
                 });
         },
+        getCheckpointNameById(checkpointId) {
+            const checkpoint = this.checkpoints.find(c => c.id === checkpointId);
+            return checkpoint ? checkpoint.name : 'Not assigned';
+        },
         assignTaskToCheckpoint(taskId) {
             if (!this.selectedCheckpointId) {
                 alert('Selecteer een checkpoint.');
@@ -96,13 +102,19 @@ export default {
 
             axios.post(`/checkpoints/${this.selectedCheckpointId}/assign-task`, { task_id: taskId })
                 .then(response => {
-                    console.log('Task assigned to checkpoint:', response.data);
-                    // U kunt hier de UI bijwerken om de wijziging te reflecteren
+                    // Vind de taak in initialTasks en update de checkpoint_id
+                    const task = this.initialTasks.find(t => t.id === taskId);
+                    if (task) {
+                        task.checkpoint_id = this.selectedCheckpointId; // Directe toewijzing
+                        // Reset de geselecteerde checkpoint ID na toewijzing
+                        this.selectedCheckpointId = null;
+                    }
                 })
                 .catch(error => {
                     console.error('Error assigning task to checkpoint:', error);
                 });
         },
+
         deleteTask(taskId) {
             axios
                 .delete(`/api/games/${this.gameId}/tasks/${taskId}`)
@@ -216,5 +228,3 @@ li {
     }
 }
 </style>
-
-  
