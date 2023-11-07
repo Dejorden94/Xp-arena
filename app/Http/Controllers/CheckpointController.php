@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Checkpoint;
+use App\Models\Task;
 
 class CheckpointController extends Controller
 {
@@ -25,5 +26,17 @@ class CheckpointController extends Controller
 
         // Stuur een response terug
         return response()->json($checkpoint);
+    }
+    public function addTaskToCheckpoint(Request $request, $checkpointId)
+    {
+        $request->validate([
+            'task_id' => 'required|integer|exists:tasks,id',
+        ]);
+
+        $task = Task::find($request->task_id);
+        $task->checkpoint_id = $checkpointId;
+        $task->save();
+
+        return response()->json(['message' => 'Task successfully added to checkpoint']);
     }
 }

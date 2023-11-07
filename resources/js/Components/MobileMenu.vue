@@ -103,6 +103,9 @@ export default {
         },
         toggleQuestMenu() {
             this.isQuestButtonClicked = !this.isQuestButtonClicked;
+            if (this.isGameQuestDetailsShown === true) {
+                this.showCheckpoint = false;
+            }
         },
         toggleCriterionButton() {
             this.isSave = !this.isSave;

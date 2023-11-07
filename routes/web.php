@@ -67,6 +67,7 @@ Route::put('/task/{taskId}', [TaskController::class, 'updateTask']);
 Route::resource('checkpoints', CheckpointController::class);
 Route::post('tasks/{task}/complete', [TaskController::class, 'complete']);
 Route::post('/checkpoints', [CheckpointController::class, 'store']);
+Route::post('/checkpoints/{checkpointId}/add-task', [CheckpointController::class, 'addTaskToCheckpoint']);
 
 
 

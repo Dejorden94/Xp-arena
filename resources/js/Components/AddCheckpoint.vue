@@ -33,6 +33,7 @@ export default {
                 });
                 console.log('Checkpoint toegevoegd:', response.data);
                 this.title = '';  // Reset het invoerveld
+                this.$emit('hideAddCheck');
             } catch (error) {
                 console.error('Er is een fout opgetreden:', error);
             }

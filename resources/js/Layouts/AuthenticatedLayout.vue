@@ -9,7 +9,7 @@ import { Link } from '@inertiajs/vue3';
 
 import { ref } from 'vue';
 
-const props = defineProps(['showTaskCheck', 'showAddJoin', 'showPlayerInfo', 'isGameQuestDetailsShown']);
+const props = defineProps(['showTaskCheck', 'showAddJoin', 'showPlayerInfo', 'isGameQuestDetailsShown', 'showCheckpoint']);
 
 
 const showingNavigationDropdown = ref(false);
