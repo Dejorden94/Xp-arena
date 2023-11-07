@@ -28,7 +28,7 @@
             <button @click="addCriteria">Opslaan</button>
         </section>
 
-        <ul v-if="isUserOwner">
+        <ul>
             <li class="criterion" :class="criterion.is_met ? 'gold-background' : 'gray-background'"
                 v-for="(criterion, index) in criteria" :key="criterion.id">
                 <span class="star" :class="criterion.is_met ? 'gold-star' : 'gray-star'"
@@ -39,12 +39,6 @@
                 <template v-else>
                     <span>{{ criterion.description }}</span>
                 </template>
-            </li>
-        </ul>
-
-        <ul v-if="!isUserOwner">
-            <li>
-                Niet de eigenaar.
             </li>
         </ul>
 
@@ -158,7 +152,13 @@ export default {
             }
 
             try {
-                const response = await axios.get(`/task/${this.quest.id}/check-criteria`);
+                let response;
+                if (this.isUserOwner) {
+                    response = await axios.get(`/task/${this.quest.id}/check-criteria`);
+                } else {
+                    // Aanname: er is een endpoint /follower-task/{id}/check-criteria
+                    response = await axios.get(`/follower-task/${this.quest.id}/check-criteria`);
+                }
                 this.criteria = response.data;
             } catch (error) {
                 console.error("Er is een fout opgetreden bij het ophalen van de criteria:", error);

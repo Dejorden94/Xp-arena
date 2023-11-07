@@ -211,6 +211,12 @@ class TaskController extends Controller
         return FollowerTask::where('task_id', $task->id)->first();
     }
 
+    public function checkFollowerCriteria($followerTaskId)
+    {
+        $followerTask = FollowerTask::with('criteria')->findOrFail($followerTaskId);
+        return response()->json($followerTask->criteria);
+    }
+
     public function editCriteria(Request $request, $criterionId)
     {
         $criterion = TaskCriterion::findOrFail($criterionId);

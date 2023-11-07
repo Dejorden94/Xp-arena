@@ -68,7 +68,7 @@ Route::resource('checkpoints', CheckpointController::class);
 Route::post('tasks/{task}/complete', [TaskController::class, 'complete']);
 Route::post('/checkpoints', [CheckpointController::class, 'store']);
 Route::post('/checkpoints/{checkpointId}/add-task', [CheckpointController::class, 'addTaskToCheckpoint']);
-
+Route::get('/follower-task/{followerTaskId}/check-criteria', [TaskController::class, 'checkFollowerCriteria']);
 // Route om alle checkpoints voor een specifieke game op te halen
 Route::get('/games/{game}/checkpoints', [CheckpointController::class, 'index']);
 
