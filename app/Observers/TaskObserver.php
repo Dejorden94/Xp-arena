@@ -24,6 +24,7 @@ class TaskObserver
             'name' => $task->name,
             'description' => $task->description,
             'experience' => $task->experience,
+            'checkpoint_id' => $task->checkpoint_id,
         ]);
     }
 

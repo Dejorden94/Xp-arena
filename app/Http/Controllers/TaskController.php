@@ -232,6 +232,7 @@ class TaskController extends Controller
         $task->name = $request->input('name', $task->name); // Als er geen nieuwe naam wordt gegeven, behoud dan de oude naam
         $task->description = $request->input('description', $task->description); // Als er geen nieuwe beschrijving wordt gegeven, behoud dan de oude beschrijving
         $task->experience = $request->input('experience', $task->experience); // Als er geen nieuwe ervaring wordt gegeven, behoud dan de oude ervaring
+        $task->checkpoint_id = $request->input('checkpoint_id', $task->checkpoint_id);
 
         // Sla de wijzigingen op
         $task->save();

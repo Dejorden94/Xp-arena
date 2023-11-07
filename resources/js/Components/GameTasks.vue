@@ -6,7 +6,7 @@
             <li v-for="task in initialTasks" :key="task.id">
                 <button v-if="isUserOwner" @click="assignTaskToCheckpoint(task.id)">Assign Checkpoint</button>
 
-                <select v-model="selectedCheckpointId">
+                <select v-if="isUserOwner" v-model="selectedCheckpointId">
                     <option v-for="checkpoint in checkpoints" :value="checkpoint.id">{{ checkpoint.name }}</option>
                 </select>
                 <!-- Niet de eigenaar van de game  -->
@@ -15,7 +15,7 @@
                 <!-- <input v-if="task.status === 'pending' && !isUserOwner || task.status === 'rejected'" type="checkbox"
                     v-model="task.completed" @change="toggleTaskCompletion(task.id)" /> -->
                 <p v-if="!isUserOwner">{{ task.name }} - {{ task.description }} - {{ task.experience }} - {{ task.status
-                }}</p>
+                }} - {{ task.checkpoint_id }}</p>
                 <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
                 <span v-if="task.status === 'completed'" class="task-status reviewd">Reviewd</span>
                 <span v-else-if="task.status === 'rejected'" class="task-status rejected">Afgewezen</span>
