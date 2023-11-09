@@ -30,7 +30,7 @@
             </li>
             <li v-for="checkpoint in checkpoints" :key="checkpoint.id">
                 <!-- ... andere details van de checkpoint ... -->
-                <p>{{ checkpoint.name }}</p>
+                <p>{{ checkpoint.name }} - {{ checkpoint.order }}</p>
                 <!-- Voeg een numeriek invoerveld toe voor de nieuwe volgorde -->
                 <input v-if="isUserOwner" type="number" v-model="checkpoint.new_order" placeholder="Nieuwe Volgorde">
                 <button v-if="isUserOwner" @click="updateCheckpointOrder(checkpoint.id, checkpoint.new_order)">
