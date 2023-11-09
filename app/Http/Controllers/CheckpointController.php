@@ -76,4 +76,30 @@ class CheckpointController extends Controller
             'task' => $task
         ]);
     }
+    public function updateOrder(Request $request, $checkpointId)
+    {
+        $request->validate([
+            'new_order' => 'required|integer',
+        ]);
+
+        $newOrder = $request->input('new_order');
+        $checkpoint = Checkpoint::findOrFail($checkpointId);
+        $gameId = $checkpoint->game_id;
+
+        // Check if another checkpoint in the same game already has this order
+        $orderExists = Checkpoint::where('game_id', $gameId)
+            ->where('id', '!=', $checkpointId)
+            ->where('order', $newOrder)
+            ->exists();
+
+        if ($orderExists) {
+            return response()->json(['error' => 'Another checkpoint in this game already has this order.'], 400);
+        }
+
+        // Update the order of the checkpoint
+        $checkpoint->order = $newOrder;
+        $checkpoint->save();
+
+        return response()->json(['message' => 'Checkpoint order updated successfully.']);
+    }
 }

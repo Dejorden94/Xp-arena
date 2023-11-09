@@ -28,6 +28,15 @@
                 </p>
                 <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
             </li>
+            <li v-for="checkpoint in checkpoints" :key="checkpoint.id">
+                <!-- ... andere details van de checkpoint ... -->
+                <p>{{ checkpoint.name }}</p>
+                <!-- Voeg een numeriek invoerveld toe voor de nieuwe volgorde -->
+                <input v-if="isUserOwner" type="number" v-model="checkpoint.new_order" placeholder="Nieuwe Volgorde">
+                <button v-if="isUserOwner" @click="updateCheckpointOrder(checkpoint.id, checkpoint.new_order)">
+                    Bijwerken Volgorde
+                </button>
+            </li>
         </ul>
     </article>
     <GameQuestDetails ref="questDetails" v-if="showQuestDetailsModal" :gameId="gameId" :isUserOwner="isUserOwner"
@@ -160,7 +169,20 @@ export default {
             this.$emit('hideAll');
             this.showQuestDetailsModal = false;
             this.$emit('togglePlayerInfo');
-        }
+        },
+        updateCheckpointOrder(checkpointId, nieuweVolgorde) {
+            axios.patch(`/checkpoints/${checkpointId}/update-order`, { new_order: nieuweVolgorde }) // Let op de correcte parameter naam
+                .then(response => {
+                    // Verwerk de succesvolle update
+                    this.fetchCheckpoints(); // Haal de checkpoints opnieuw op om de bijgewerkte volgorde te krijgen
+                    alert('Volgorde van checkpoint succesvol bijgewerkt.');
+                })
+                .catch(error => {
+                    // Verwerk eventuele fouten
+                    console.error('Fout bij het bijwerken van de volgorde van checkpoints:', error);
+                    alert('Fout bij het bijwerken van de volgorde.');
+                });
+        },
     }
 };
 </script>
@@ -186,6 +208,11 @@ export default {
 .rejected {
     background-color: red;
     color: white;
+}
+
+input {
+    background: var(--background-dark);
+    color: var(--font-color-normal);
 }
 
 select {

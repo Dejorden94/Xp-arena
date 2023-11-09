@@ -7,8 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\CheckpointController;
-
-
+use App\Models\Checkpoint;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +70,8 @@ Route::post('/checkpoints/{checkpointId}/add-task', [CheckpointController::class
 Route::get('/follower-task/{followerTaskId}/check-criteria', [TaskController::class, 'checkFollowerCriteria']);
 // Route om alle checkpoints voor een specifieke game op te halen
 Route::get('/games/{game}/checkpoints', [CheckpointController::class, 'index']);
+
+Route::patch('/checkpoints/{checkpointId}/update-order', [CheckpointController::class, 'updateOrder']);
 
 // Route om een taak toe te wijzen aan een checkpoint
 Route::post('/checkpoints/{checkpoint}/assign-task', [CheckpointController::class, 'assignTask']);
