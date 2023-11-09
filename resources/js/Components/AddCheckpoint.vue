@@ -1,7 +1,7 @@
 <template>
     <section>
         <form @submit.prevent="addCheck">
-            <input class="task-input" type="text" v-model="title" placeholder="Titel" required>
+            <input class="task-input" type="text" v-model="name" placeholder="Name" required>
             <button type="submit">Toevoegen</button>
         </form>
 
@@ -20,7 +20,7 @@ export default {
     },
     data() {
         return {
-            title: ''
+            name: ''
         };
     },
     methods: {
@@ -28,7 +28,7 @@ export default {
             try {
                 // Aanpassen aan uw API-endpoint en datastructuur
                 const response = await axios.post('/checkpoints', {
-                    title: this.title,
+                    name: this.name,
                     game_id: this.gameData.id
                 });
                 console.log('Checkpoint toegevoegd:', response.data);
