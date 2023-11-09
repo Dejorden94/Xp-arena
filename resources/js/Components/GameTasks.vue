@@ -3,7 +3,7 @@
 
         <h3>Quests</h3>
         <ul>
-            <li v-for="task in initialTasks" :key="task.id">
+            <li v-for="task in sortedTasks" :key="task.id">
                 <button v-if="isUserOwner" @click="assignTaskToCheckpoint(task.id)">Assign Checkpoint</button>
 
                 <select v-if="isUserOwner" v-model="selectedCheckpointId">
@@ -89,6 +89,17 @@ export default {
     mounted() {
         this.fetchCheckpoints();
     },
+    computed: {
+        sortedTasks() {
+            // Controleer of initialTasks een array is voordat je verder gaat
+            if (!Array.isArray(this.initialTasks)) {
+                return []; // Terugkeer van een lege array als initialTasks geen array is
+            }
+            // Ga verder met de logica als initialTasks wel een array is
+            return this.initialTasks.filter(task => task.checkpoint_id !== null)
+                .sort((a, b) => a.order - b.order);
+        }
+    },
     methods: {
         fetchCheckpoints() {
             axios.get(`/games/${this.gameId}/checkpoints`)
@@ -111,10 +122,15 @@ export default {
 
             axios.post(`/checkpoints/${this.selectedCheckpointId}/assign-task`, { task_id: taskId })
                 .then(response => {
-                    // Vind de taak in initialTasks en update de checkpoint_id
+                    // Vind de taak in initialTasks en update de checkpoint_id en order
                     const task = this.initialTasks.find(t => t.id === taskId);
                     if (task) {
                         task.checkpoint_id = this.selectedCheckpointId; // Directe toewijzing
+                        // Vind het checkpoint om de order te krijgen
+                        const checkpoint = this.checkpoints.find(c => c.id === this.selectedCheckpointId);
+                        if (checkpoint) {
+                            task.order = checkpoint.order; // Wijs de order van het checkpoint toe aan de taak
+                        }
                         // Reset de geselecteerde checkpoint ID na toewijzing
                         this.selectedCheckpointId = null;
                     }

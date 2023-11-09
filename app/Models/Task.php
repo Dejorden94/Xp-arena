@@ -16,6 +16,7 @@ class Task extends Model
         'description',
         'game_id',
         'experience',
+        'order',
     ];
 
     protected static function boot()

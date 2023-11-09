@@ -69,6 +69,7 @@ class CheckpointController extends Controller
 
         // Wijs de taak toe aan het checkpoint
         $task->checkpoint_id = $checkpoint->id;
+        $task->order = $checkpoint->order;
         $task->save();
 
         return response()->json([
