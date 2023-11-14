@@ -2,7 +2,16 @@
     <article class="quest-overview" v-show="!showQuestDetailsModal">
 
         <h3>Quests</h3>
-        <div v-for="checkpoint in checkpoints" :key="checkpoint.id" class="checkpoint-section">
+        <section v-if="isUserOwner" v-for="checkpoint in checkpoints" :key="checkpoint.id">
+            <!-- ... andere details van de checkpoint ... -->
+            <p>{{ checkpoint.name }} - {{ checkpoint.order }}</p>
+            <!-- Voeg een numeriek invoerveld toe voor de nieuwe volgorde -->
+            <input v-if="isUserOwner" type="number" v-model="checkpoint.new_order" placeholder="Nieuwe Volgorde">
+            <button v-if="isUserOwner" @click="updateCheckpointOrder(checkpoint.id, checkpoint.new_order)">
+                Bijwerken Volgorde
+            </button>
+        </section>
+        <article v-for="checkpoint in checkpoints" :key="checkpoint.id" class="checkpoint-section">
             <h4>{{ checkpoint.name }}</h4>
             <ul>
                 <li v-for="task in sortedTasks.filter(t => t.checkpoint_id === checkpoint.id)" :key="task.id">
@@ -27,18 +36,8 @@
                     <p v-if="isUserOwner">{{ task.name }}</p>
                     <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
                 </li>
-
-                <li v-if="isUserOwner" v-for="checkpoint in checkpoints" :key="checkpoint.id">
-                    <!-- ... andere details van de checkpoint ... -->
-                    <p>{{ checkpoint.name }} - {{ checkpoint.order }}</p>
-                    <!-- Voeg een numeriek invoerveld toe voor de nieuwe volgorde -->
-                    <input v-if="isUserOwner" type="number" v-model="checkpoint.new_order" placeholder="Nieuwe Volgorde">
-                    <button v-if="isUserOwner" @click="updateCheckpointOrder(checkpoint.id, checkpoint.new_order)">
-                        Bijwerken Volgorde
-                    </button>
-                </li>
             </ul>
-        </div>
+        </article>
     </article>
 
     <GameQuestDetails ref="questDetails" v-if="showQuestDetailsModal" :gameId="gameId" :isUserOwner="isUserOwner"
