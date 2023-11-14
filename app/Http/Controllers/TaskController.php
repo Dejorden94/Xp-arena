@@ -138,11 +138,20 @@ class TaskController extends Controller
     {
         $game = Game::findOrFail($gameId);
 
+        // Ophalen van de eerste checkpoint van de game
+        $firstCheckpoint = $game->checkpoints()->orderBy('id')->first();
+
+        // Controleer of er een checkpoint bestaat
+        if (!$firstCheckpoint) {
+            return response()->json(['error' => 'Geen checkpoints gevonden voor deze game'], 404);
+        }
+
         // Een nieuwe taak aanmaken voor de maker van het spel
         $task = new Task;
         $task->name = $request->input('name');
         $task->description = $request->input('description');
         $task->experience = $request->input('experience');
+        $task->checkpoint_id = $firstCheckpoint->id;
         $game->tasks()->save($task); // Opslaan van taak voor de maker
 
         // Een nieuwe taak aanmaken voor alle volgers van het spel
@@ -156,6 +165,7 @@ class TaskController extends Controller
                 'follower_id' => $follower->id,
                 'task_id' => $task->id,
                 'game_id' => $game->id,
+                'checkpoint_id' => $task->checkpoint_id,
             ];
         }
         FollowerTask::insert($followerTasksData); // Opslaan van taken voor volgers
@@ -207,7 +217,6 @@ class TaskController extends Controller
         // Voorbeeld:
         // return FollowerTask::where('original_task_id', $task->id)->first();
 
-        // Dummy return om de structuur te laten zien, vervang dit door echte logica
         return FollowerTask::where('task_id', $task->id)->first();
     }
 

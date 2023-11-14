@@ -26,6 +26,11 @@ class Game extends Model
         return $this->hasMany(Task::class);
     }
 
+    public function checkpoints()
+    {
+        return $this->hasMany(Checkpoint::class);
+    }
+
     public function followers()
     {
         return $this->belongsToMany(User::class, 'followers', 'game_id', 'user_id');

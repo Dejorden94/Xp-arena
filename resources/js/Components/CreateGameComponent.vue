@@ -24,19 +24,41 @@ export default {
         this.refreshGames(this.user.id);
     },
     methods: {
-        createGame() {
-            axios.post('/games', {
-                name: this.name,
-                user_id: this.user.id
-            })
-                .then(response => {
-                    this.name = ''; // Leeg het invoerveld voor de naam van de game
-                    this.$emit('reloadGames');
-                    this.refreshGames(); // Laad de lijst met games opnieuw
-                })
-                .catch(error => {
-                    console.log(error);
+        async createGame() {
+            try {
+                const gameResponse = await axios.post('/games', {
+                    name: this.name,
+                    user_id: this.user.id
                 });
+
+                // Reset het invoerveld voor de naam van de game
+                this.name = '';
+
+                // Haal de ID van de nieuw aangemaakte game op
+                const gameId = gameResponse.data.id;
+
+                // Maak automatisch een standaard checkpoint aan
+                await this.createDefaultCheckpoint(gameId);
+
+                // Herlaad de games en sluit het formulier
+                this.$emit('reloadGames');
+                this.refreshGames();
+
+            } catch (error) {
+                console.error('Fout bij het aanmaken van de game:', error);
+            }
+        },
+
+        async createDefaultCheckpoint(gameId) {
+            try {
+                await axios.post('/checkpoints', {
+                    name: 'Checkpoint 1',
+                    game_id: gameId
+                });
+                console.log('Standaard checkpoint aangemaakt voor game ID:', gameId);
+            } catch (error) {
+                console.error('Fout bij het aanmaken van het standaard checkpoint:', error);
+            }
         },
         async refreshGames() {
             try {
@@ -48,6 +70,7 @@ export default {
         },
     }
 }
+
 </script>
 
 <style scoped>

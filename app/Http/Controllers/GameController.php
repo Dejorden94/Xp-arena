@@ -91,6 +91,7 @@ class GameController extends Controller
                 'follower_id' => $userId,
                 'task_id' => $task->id,
                 'game_id' => $game->id,
+                'checkpoint_id' => $task->checkpoint_id,
             ]);
 
             // Kopieer de criteria van de originele taak naar de nieuwe FollowerTask
