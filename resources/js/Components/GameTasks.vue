@@ -2,43 +2,45 @@
     <article class="quest-overview" v-show="!showQuestDetailsModal">
 
         <h3>Quests</h3>
-        <ul>
-            <li v-for="task in sortedTasks" :key="task.id">
-                <button v-if="isUserOwner" @click="assignTaskToCheckpoint(task.id)">Assign Checkpoint</button>
+        <div v-for="checkpoint in checkpoints" :key="checkpoint.id" class="checkpoint-section">
+            <h4>{{ checkpoint.name }}</h4>
+            <ul>
+                <li v-for="task in sortedTasks.filter(t => t.checkpoint_id === checkpoint.id)" :key="task.id">
+                    <button v-if="isUserOwner" @click="assignTaskToCheckpoint(task.id)">Assign Checkpoint</button>
 
-                <select v-if="isUserOwner" v-model="selectedCheckpointId">
-                    <option v-for="checkpoint in checkpoints" :value="checkpoint.id">{{ checkpoint.name }}</option>
-                </select>
-                <!-- Niet de eigenaar van de game  -->
-                <button v-if="!isUserOwner" @click="showQuestDetails(task)">Toon Details</button>
+                    <select v-if="isUserOwner" v-model="selectedCheckpointId">
+                        <option v-for="checkpoint in checkpoints" :value="checkpoint.id">{{ checkpoint.name }}</option>
+                    </select>
+                    <!-- Niet de eigenaar van de game  -->
+                    <button v-if="!isUserOwner" @click="showQuestDetails(task)">Toon Details</button>
 
-                <!-- <input v-if="task.status === 'pending' && !isUserOwner || task.status === 'rejected'" type="checkbox"
+                    <!-- <input v-if="task.status === 'pending' && !isUserOwner || task.status === 'rejected'" type="checkbox"
                     v-model="task.completed" @change="toggleTaskCompletion(task.id)" /> -->
-                <p v-if="!isUserOwner">{{ task.name }} - {{ task.description }} - {{ task.experience }} - {{ task.status
-                }} - {{ task.checkpoint_id }}</p>
-                <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
-                <span v-if="task.status === 'completed'" class="task-status reviewd">Reviewd</span>
-                <span v-else-if="task.status === 'rejected'" class="task-status rejected">Afgewezen</span>
+                    <p v-if="!isUserOwner">{{ task.name }} - {{ task.status }}</p>
+                    <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
+                    <span v-if="task.status === 'completed'" class="task-status reviewd">Reviewd</span>
+                    <span v-else-if="task.status === 'rejected'" class="task-status rejected">Afgewezen</span>
 
-                <!-- Eigenaar van game  -->
+                    <!-- Eigenaar van game  -->
 
-                <button v-if="isUserOwner" @click="showQuestDetails(task)">Toon Details</button>
-                <p v-if="isUserOwner">{{ task.name }} - {{ task.description }} - {{ task.experience }}
-                    <span v-if="task.checkpoint_id">Assigned to: {{ getCheckpointNameById(task.checkpoint_id) }}</span>
-                </p>
-                <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
-            </li>
-            <li v-for="checkpoint in checkpoints" :key="checkpoint.id">
-                <!-- ... andere details van de checkpoint ... -->
-                <p>{{ checkpoint.name }} - {{ checkpoint.order }}</p>
-                <!-- Voeg een numeriek invoerveld toe voor de nieuwe volgorde -->
-                <input v-if="isUserOwner" type="number" v-model="checkpoint.new_order" placeholder="Nieuwe Volgorde">
-                <button v-if="isUserOwner" @click="updateCheckpointOrder(checkpoint.id, checkpoint.new_order)">
-                    Bijwerken Volgorde
-                </button>
-            </li>
-        </ul>
+                    <button v-if="isUserOwner" @click="showQuestDetails(task)">Toon Details</button>
+                    <p v-if="isUserOwner">{{ task.name }}</p>
+                    <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
+                </li>
+
+                <li v-if="isUserOwner" v-for="checkpoint in checkpoints" :key="checkpoint.id">
+                    <!-- ... andere details van de checkpoint ... -->
+                    <p>{{ checkpoint.name }} - {{ checkpoint.order }}</p>
+                    <!-- Voeg een numeriek invoerveld toe voor de nieuwe volgorde -->
+                    <input v-if="isUserOwner" type="number" v-model="checkpoint.new_order" placeholder="Nieuwe Volgorde">
+                    <button v-if="isUserOwner" @click="updateCheckpointOrder(checkpoint.id, checkpoint.new_order)">
+                        Bijwerken Volgorde
+                    </button>
+                </li>
+            </ul>
+        </div>
     </article>
+
     <GameQuestDetails ref="questDetails" v-if="showQuestDetailsModal" :gameId="gameId" :isUserOwner="isUserOwner"
         :isEditing="isEditing" :quest="selectedQuest" @showGameDetails="showQuestDetails"
         @hideGameDetails="hideQuestDetails" @gameQuestDetailsShown="$emit('gameQuestDetailsShown', $event)" />
@@ -98,6 +100,13 @@ export default {
             // Ga verder met de logica als initialTasks wel een array is
             return this.initialTasks.filter(task => task.checkpoint_id !== null)
                 .sort((a, b) => a.order - b.order);
+        },
+        tasksPerCheckpoint() {
+            let groupedTasks = {};
+            this.checkpoints.forEach(checkpoint => {
+                groupedTasks[checkpoint.id] = this.initialTasks.filter(task => task.checkpoint_id === checkpoint.id);
+            });
+            return groupedTasks;
         }
     },
     methods: {
