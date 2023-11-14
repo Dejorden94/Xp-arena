@@ -22,6 +22,7 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
         :showTaskCheck="showTaskCheck" :showAddJoin="showAddJoin" @showQuestCheck="toggleQuestCheckMenu"
         :isGameQuestDetailsShown="isGameQuestDetailsShown" @isEditing="toggleEdit">
 
+
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails"
             @handleGame="toggleGames" @refreshTasks="refreshTasks" @hideButton="toggleQuestCheck" />
 
@@ -32,8 +33,7 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
         <article v-show="showGames" class="games-overview">
             <h2>Je games</h2>
             <ul>
-                <li class="game" @click="loadGameDetails(game.id); toggleGames(); toggleQuestCheck();" v-for="game in games"
-                    :key="game.id">
+                <li class="game" @click="loadGameDetails(game.id); toggleGames();" v-for="game in games" :key="game.id">
                     {{ game.name }}
                 </li>
 
@@ -46,7 +46,7 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
             <h2>Followed Games</h2>
             <ul>
                 <li class="game" v-for="game in followedGames" :key="game.id"
-                    @click="loadGameDetails(game.id); toggleGames(); toggleQuestCheck();">
+                    @click="loadGameDetails(game.id); toggleGames();">
                     {{ game.name }}
                 </li>
             </ul>
@@ -102,7 +102,7 @@ export default {
             showCheckpoint: false,
             showPlayerInfo: true,
             isGameQuestDetailsShown: false,
-            isEditing: false
+            isEditing: false,
         }
     },
 
@@ -148,6 +148,7 @@ export default {
 
                     this.gameDetailsVisible = true;
                     this.gameQuestVisible = true;
+                    this.toggleQuestCheck();
                 } else {
                     console.error("Geen data ontvangen van de API.");
                 }
@@ -220,9 +221,16 @@ export default {
             this.showGames = !this.showGames;
         },
         toggleQuestCheck() {
-            this.showTaskCheck = !this.showTaskCheck;
+            if (this.gameData && this.gameData.isUserOwner) {
+                this.showTaskCheck = !this.showTaskCheck;
+                console.log("is wel de owner");
+            } else {
+                this.showTaskCheck = false;
+                console.log("is niet de owner");
+            }
             this.showAddJoin = !this.showAddJoin;
         },
+
         toggleQuestCheckMenu() {
             this.showAddQuesTaskMenu = !this.showAddQuesTaskMenu;
             this.showCheckpoint = false;

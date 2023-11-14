@@ -4,6 +4,7 @@
             <span class="hamburger-stroke"></span>
             <span class="hamburger-stroke"></span>
             <span class="hamburger-stroke"></span>
+
         </button>
 
         <template v-if="$page.props.auth.user">
@@ -19,7 +20,6 @@
                     <Link class="mobile-link" href="/">Home</Link>
                 </template>
             </div>
-
             <button v-show="!isGameQuestDetailsShown && showAddJoin && $page.component === 'Dashboard'"
                 :class="{ 'join-add-button': true, 'clicked': isButtonClicked }"
                 @click="$emit('showJoin'); toggleAddMenu()">
@@ -65,7 +65,7 @@ import { ref } from 'vue';
 
 import { defineProps } from 'vue';
 
-const props = defineProps(['showTaskCheck', 'showAddJoin', 'isGameQuestDetailsShown']);
+const props = defineProps(['showTaskCheck', 'showAddJoin', 'isGameQuestDetailsShown', 'gameData']);
 
 export default {
     data() {
@@ -84,6 +84,7 @@ export default {
         showTaskCheck: Boolean,
         showAddJoin: Boolean,
         isGameQuestDetailsShown: Boolean,
+        gameData: Object,
     },
     setup() {
         const showMenu = ref(false);
