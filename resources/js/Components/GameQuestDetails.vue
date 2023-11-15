@@ -165,12 +165,27 @@ export default {
             }
         },
         async toggleCriterionMet(criterion) {
+
             try {
                 const updatedValue = !criterion.is_met;
-                const response = await axios.post(`/task/${this.quest.id}/criterion/${criterion.id}/toggle-met`, {
-                    is_met: updatedValue
-                });
-                criterion.is_met = updatedValue;
+                let response;
+
+                if (this.isUserOwner) {
+                    // Als de gebruiker de eigenaar is, update de criteria in de 'task' tabel
+                    response = await axios.post(`/task/${this.quest.id}/criterion/${criterion.id}/toggle-met`, {
+                        is_met: updatedValue
+                    });
+                } else {
+                    // Als de gebruiker geen eigenaar is, update de criteria in een andere tabel, bijvoorbeeld 'follower-task'
+                    response = await axios.post(`/follower-task/${this.quest.id}/criterion/${criterion.id}/toggle-met`, {
+                        is_met: updatedValue
+                    });
+                }
+
+                // Update de lokale status van de criterion
+                if (response && response.data) {
+                    criterion.is_met = updatedValue;
+                }
             } catch (error) {
                 console.error("Er is een fout opgetreden bij het bijwerken van de criterion:", error);
                 if (error.response) {

@@ -59,6 +59,8 @@ Route::delete('/criteria/{criterionId}/delete', [TaskController::class, 'deleteC
 Route::get('/task/{taskId}/check-criteria', [TaskController::class, 'checkCriteria']);
 // Toggle the is_met value for a criterion
 Route::post('/task/{taskId}/criterion/{criterionId}/toggle-met', [TaskController::class, 'toggleCriterionMet']);
+Route::post('/follower-task/{taskId}/criterion/{criterionId}/toggle-met', [TaskController::class, 'toggleFollowerCriterionMet']);
+
 Route::get('/task/{taskId}', [TaskController::class, 'getTaskDescription']);
 Route::put('/task/{taskId}', [TaskController::class, 'updateTask']);
 
@@ -67,6 +69,7 @@ Route::resource('checkpoints', CheckpointController::class);
 Route::post('tasks/{task}/complete', [TaskController::class, 'complete']);
 Route::post('/checkpoints', [CheckpointController::class, 'store']);
 Route::post('/checkpoints/{checkpointId}/add-task', [CheckpointController::class, 'addTaskToCheckpoint']);
+
 Route::get('/follower-task/{followerTaskId}/check-criteria', [TaskController::class, 'checkFollowerCriteria']);
 // Route om alle checkpoints voor een specifieke game op te halen
 Route::get('/games/{game}/checkpoints', [CheckpointController::class, 'index']);

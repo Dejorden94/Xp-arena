@@ -267,6 +267,22 @@ class TaskController extends Controller
         return response()->json(['success' => true, 'is_met' => $criterion->is_met]);
     }
 
+    public function toggleFollowerCriterionMet($taskId, $criterionId)
+    {
+        // Vind het criterium in de database
+        $criterion = FollowerCriterion::where('id', $criterionId)->where('follower_task_id', $taskId)->first();
+
+        if (!$criterion) {
+            return response()->json(['error' => 'Criterium niet gevonden'], 404);
+        }
+
+        // Toggle de is_met waarde
+        $criterion->is_met = !$criterion->is_met;
+        $criterion->save();
+
+        return response()->json(['success' => true, 'is_met' => $criterion->is_met]);
+    }
+
     public function updateTask(Request $request, $taskId)
     {
         // Zoek de taak op basis van het gegeven ID
