@@ -16,7 +16,7 @@
             </template>
         </section>
 
-
+        {{ isUserOwner }}
         <section class="stars-section">
             <span class="star progress-star" :class="starsStatus[0] ? 'gold-star' : 'gray-star'">&#9733;</span>
             <span class="star progress-star" :class="starsStatus[1] ? 'gold-star' : 'gray-star'">&#9733;</span>
@@ -119,11 +119,12 @@ export default {
         }
     },
     mounted() {
-        this.$emit('gameQuestDetailsShown', true);
+        this.$emit('gameQuestDetailsShown', true, this.isUserOwner);
         this.fetchCriteria();
     },
+
     beforeUnmount() {
-        this.$emit('gameQuestDetailsShown', false);
+        this.$emit('gameQuestDetailsShown', false, this.isUserOwner);
     },
     methods: {
         startEditing() {
@@ -147,7 +148,6 @@ export default {
         async fetchCriteria() {
             this.criteria = [];
             if (!this.quest || !this.quest.id) {
-                console.log("Quest of quest.id is niet beschikbaar");
                 return;
             }
 

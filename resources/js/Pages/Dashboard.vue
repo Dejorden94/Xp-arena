@@ -191,8 +191,13 @@ export default {
         refreshTasks() {
             this.loadGameDetails(this.gameData.id);
         },
-        handleGameQuestDetailsShown(isShown) {
-            this.isGameQuestDetailsShown = isShown;
+        handleGameQuestDetailsShown(isShown, isUserOwner) {
+            console.log(isUserOwner);
+            if (isUserOwner) {
+                this.isGameQuestDetailsShown = isShown;
+            } else {
+                this.isGameQuestDetailsShown = false;
+            }
         },
         handleJoinGame() {
             this.showAddGame = !this.showAddGame;
@@ -223,10 +228,8 @@ export default {
         toggleQuestCheck() {
             if (this.gameData && this.gameData.isUserOwner) {
                 this.showTaskCheck = !this.showTaskCheck;
-                console.log("is wel de owner");
             } else {
                 this.showTaskCheck = false;
-                console.log("is niet de owner");
             }
             this.showAddJoin = !this.showAddJoin;
         },

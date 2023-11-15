@@ -42,7 +42,7 @@
 
     <GameQuestDetails ref="questDetails" v-if="showQuestDetailsModal" :gameId="gameId" :isUserOwner="isUserOwner"
         :isEditing="isEditing" :quest="selectedQuest" @showGameDetails="showQuestDetails"
-        @hideGameDetails="hideQuestDetails" @gameQuestDetailsShown="$emit('gameQuestDetailsShown', $event)" />
+        @hideGameDetails="hideQuestDetails" @gameQuestDetailsShown="$emit('gameQuestDetailsShown', $event, isUserOwner)" />
 </template>
 
 <script>
