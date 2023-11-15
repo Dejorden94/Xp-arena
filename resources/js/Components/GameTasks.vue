@@ -2,7 +2,7 @@
     <article class="quest-overview" v-show="!showQuestDetailsModal">
 
         <h3>Quests</h3>
-        <section v-if="isUserOwner" v-for="checkpoint in checkpoints" :key="checkpoint.id">
+        <section v-if="isUserOwner" v-for="checkpoint in sortedCheckpoints" :key="checkpoint.id">
             <!-- ... andere details van de checkpoint ... -->
             <p>{{ checkpoint.name }} - {{ checkpoint.order }}</p>
             <!-- Voeg een numeriek invoerveld toe voor de nieuwe volgorde -->
@@ -11,7 +11,7 @@
                 Bijwerken Volgorde
             </button>
         </section>
-        <article v-for="checkpoint in checkpoints" :key="checkpoint.id" class="checkpoint-section">
+        <article v-for="checkpoint in sortedCheckpoints" :key="checkpoint.id" class="checkpoint-section">
             <h4>{{ checkpoint.name }}</h4>
             <ul>
                 <li v-for="task in sortedTasks.filter(t => t.checkpoint_id === checkpoint.id)" :key="task.id">
@@ -105,7 +105,10 @@ export default {
                 groupedTasks[checkpoint.id] = this.initialTasks.filter(task => task.checkpoint_id === checkpoint.id);
             });
             return groupedTasks;
-        }
+        },
+        sortedCheckpoints() {
+            return this.checkpoints.slice().sort((a, b) => a.order - b.order);
+        },
     },
     methods: {
         fetchCheckpoints() {
