@@ -98,7 +98,6 @@ export default {
             }
             // Ga verder met de logica als initialTasks wel een array is
             return this.initialTasks.filter(task => task.checkpoint_id !== null)
-                .sort((a, b) => a.order - b.order);
         },
         tasksPerCheckpoint() {
             let groupedTasks = {};

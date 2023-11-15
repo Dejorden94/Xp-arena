@@ -16,7 +16,6 @@
             </template>
         </section>
 
-        {{ isUserOwner }}
         <section class="stars-section">
             <span class="star progress-star" :class="starsStatus[0] ? 'gold-star' : 'gray-star'">&#9733;</span>
             <span class="star progress-star" :class="starsStatus[1] ? 'gold-star' : 'gray-star'">&#9733;</span>
@@ -119,12 +118,12 @@ export default {
         }
     },
     mounted() {
-        this.$emit('gameQuestDetailsShown', true, this.isUserOwner);
+        this.$emit('gameQuestDetailsShown', true);
         this.fetchCriteria();
     },
 
     beforeUnmount() {
-        this.$emit('gameQuestDetailsShown', false, this.isUserOwner);
+        this.$emit('gameQuestDetailsShown', false);
     },
     methods: {
         startEditing() {
