@@ -18,8 +18,6 @@
                     <p v-if="currentTaskDetails">Is voldaan: {{ critertion.is_met }}</p>
                 </li>
             </ul>
-            <!-- <p v-if="currentTaskDetails">Criteria: {{ currentTaskDetails.criteria }}</p>
-            <p v-if="currentTaskDetails">Is voldaan: {{ currentTaskDetails.is_met }}</p> -->
             <button @click="isDetailsModalOpen = false">Sluiten</button>
         </section>
     </article>
