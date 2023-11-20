@@ -1,17 +1,27 @@
-// UnverifiedTasks.vue
-
 <template>
     <article>
         <h2>Te verifiëren taken</h2>
         <ul>
             <li v-for="(task, index) in unverifiedTasks" :key="task.id">
+                <button @click="showTaskDetails(task.id)">Toon Details</button>
                 {{ userNames[task.follower_id] || 'Laden...' }}
                 {{ task.name }}
                 <button @click="acceptTask(task.id, index)">Accepteren</button>
                 <button @click="declineTask(task.id, index)">Afwijzen</button>
             </li>
-
         </ul>
+        <section v-if="isDetailsModalOpen" class="modal">
+            <h3>Taakdetails</h3>
+            <ul>
+                <li v-for="(critertion, index) in currentTaskDetails">
+                    <p v-if="currentTaskDetails">Criteria: {{ critertion.description }}</p>
+                    <p v-if="currentTaskDetails">Is voldaan: {{ critertion.is_met }}</p>
+                </li>
+            </ul>
+            <!-- <p v-if="currentTaskDetails">Criteria: {{ currentTaskDetails.criteria }}</p>
+            <p v-if="currentTaskDetails">Is voldaan: {{ currentTaskDetails.is_met }}</p> -->
+            <button @click="isDetailsModalOpen = false">Sluiten</button>
+        </section>
     </article>
 </template>
 
@@ -26,6 +36,8 @@ export default {
     data() {
         return {
             userNames: {},
+            currentTaskDetails: null,
+            isDetailsModalOpen: false,
         }
     },
     mounted() {
@@ -40,6 +52,15 @@ export default {
                 } catch (error) {
                     console.error('Fout bij het ophalen van gebruikersnaam:', error);
                 }
+            }
+        },
+        async showTaskDetails(taskId) {
+            try {
+                const response = await axios.get(`/follower-tasks/${taskId}/details`);
+                this.currentTaskDetails = response.data;
+                this.isDetailsModalOpen = true;
+            } catch (error) {
+                console.error('Fout bij het ophalen van taakdetails:', error);
             }
         },
         async acceptTask(taskId, index) {

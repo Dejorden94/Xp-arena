@@ -66,6 +66,9 @@ Route::post('/follower-task/{taskId}/criterion/{criterionId}/toggle-met', [TaskC
 Route::get('/task/{taskId}', [TaskController::class, 'getTaskDescription']);
 Route::put('/task/{taskId}', [TaskController::class, 'updateTask']);
 
+Route::get('/follower-tasks/{followerTaskId}/details', [TaskController::class, 'getFollowerTaskCriteria']);
+
+
 // Checkpoint Routes
 Route::resource('checkpoints', CheckpointController::class);
 Route::post('tasks/{task}/complete', [TaskController::class, 'complete']);

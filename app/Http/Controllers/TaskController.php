@@ -173,6 +173,23 @@ class TaskController extends Controller
         return response()->json(['id' => $game->id]);
     }
 
+    public function getFollowerTaskCriteria($followerTaskId)
+    {
+        // Zoek de FollowerTask op basis van het ID
+        $followerTask = FollowerTask::with('criteria')->find($followerTaskId);
+
+        // Controleer of de FollowerTask bestaat
+        if (!$followerTask) {
+            return response()->json(['error' => 'FollowerTask not found'], 404);
+        }
+
+        // Haal de criteria op die geassocieerd zijn met de FollowerTask
+        $criteria = $followerTask->criteria;
+
+        // Retourneer de criteria als JSON
+        return response()->json($criteria);
+    }
+
     // Criteria functions 
     public function addCriteria(Request $request, $taskId)
     {
