@@ -65,6 +65,8 @@ Route::post('/follower-task/{taskId}/criterion/{criterionId}/toggle-met', [TaskC
 
 Route::get('/task/{taskId}', [TaskController::class, 'getTaskDescription']);
 Route::put('/task/{taskId}', [TaskController::class, 'updateTask']);
+Route::put('/tasks/{taskId}/update-experience', [TaskController::class, 'updateTaskExperience']);
+
 
 Route::get('/follower-tasks/{followerTaskId}/details', [TaskController::class, 'getFollowerTaskCriteria']);
 

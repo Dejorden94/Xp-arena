@@ -64,6 +64,29 @@ class TaskController extends Controller
 
         return response()->json(['message' => 'Task marked as complete']);
     }
+    public function updateTaskExperience($taskId, Request $request)
+    {
+        $task = FollowerTask::find($taskId);
+        if (!$task) {
+            return response()->json(['error' => 'Task not found'], 404);
+        }
+
+        $newExperience = $request->input('experience');
+
+        // Bereken het verschil in ervaring gebaseerd op de nieuwe ervaring
+        $difference = $newExperience - $task->experience;
+
+        // Update de ervaring van de volger
+        $follower = User::find($task->follower_id);
+        if ($follower) {
+            $follower->experience += $difference;
+            $follower->save();
+            return response()->json(['message' => 'Follower experience updated successfully']);
+        } else {
+            return response()->json(['error' => 'Follower not found'], 404);
+        }
+    }
+
 
     public function getUnverifiedTasks()
     {

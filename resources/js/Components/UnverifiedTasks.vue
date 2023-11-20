@@ -8,12 +8,16 @@
                 {{ task.name }}
                 <button @click="acceptTask(task.id, index)">Accepteren</button>
                 <button @click="declineTask(task.id, index)">Afwijzen</button>
+                <p>Bewerk punten: {{ task.experience }}</p>
+                <input type="number" v-model="task.experience">
+                <button @click="updateTaskExperience(task.id, task.experience)">Punten Bijwerken</button>
+
             </li>
         </ul>
         <section v-if="isDetailsModalOpen" class="modal">
             <h3>Taakdetails</h3>
             <ul>
-                <li v-for="(critertion, index) in currentTaskDetails">
+                <li v-for="critertion in currentTaskDetails">
                     <p v-if="currentTaskDetails">Criteria: {{ critertion.description }}</p>
                     <p v-if="currentTaskDetails">Is voldaan: {{ critertion.is_met }}</p>
                 </li>
@@ -36,6 +40,23 @@ export default {
             userNames: {},
             currentTaskDetails: null,
             isDetailsModalOpen: false,
+        }
+    },
+    watch: {
+        unverifiedTasks: {
+            deep: true,
+            handler(newVal) {
+                // Verwerk de wijzigingen hier
+            }
+        }
+    },
+
+    computed: {
+        tasksWithExperience() {
+            return this.unverifiedTasks.map(task => ({
+                ...task,
+                experience: task.experience || 0 // Zorgt ervoor dat experience altijd een waarde heeft
+            }));
         }
     },
     mounted() {
@@ -61,7 +82,20 @@ export default {
                 console.error('Fout bij het ophalen van taakdetails:', error);
             }
         },
+        async updateTaskExperience(taskId, newExperience) {
+            try {
+                const response = await axios.put(`/tasks/${taskId}/update-experience`, { experience: newExperience });
+                if (response.status === 200) {
+                    console.log('Ervaringspunten bijgewerkt');
+                } else {
+                    console.error('Fout bij het bijwerken van ervaringspunten');
+                }
+            } catch (error) {
+                console.error('Fout bij het bijwerken van ervaringspunten:', error);
+            }
+        },
         async acceptTask(taskId, index) {
+            console.log("Hallo?");
             try {
                 // Doe een API-aanroep om de taak te verwijderen
                 const response = await axios.delete(`/follower-tasks/${taskId}`);
@@ -93,7 +127,7 @@ export default {
                 console.error('Fout bij het afwijzen van de taak:', error);
             }
         },
-    },
+    }
 };
 </script>
 
@@ -118,5 +152,9 @@ ul {
 li {
     margin-bottom: 0.5rem;
     cursor: pointer;
+}
+
+input {
+    color: black;
 }
 </style>
