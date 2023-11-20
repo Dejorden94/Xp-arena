@@ -132,7 +132,7 @@ export default {
                 console.log(error);
             }
         },
-        async loadGameDetails(gameId) {
+        async loadGameDetails(gameId, preserveTaskCheck = false) {
             try {
                 const response = await axios.get(`/api/games/${gameId}`);
                 if (response.data) {
@@ -148,7 +148,9 @@ export default {
 
                     this.gameDetailsVisible = true;
                     this.gameQuestVisible = true;
-                    this.toggleQuestCheck();
+                    if (!preserveTaskCheck) {
+                        this.toggleQuestCheck();
+                    }
                 } else {
                     console.error("Geen data ontvangen van de API.");
                 }
@@ -177,6 +179,9 @@ export default {
         hideGameDetails() {
             this.gameDetailsVisible = false;
             this.gameQuestVisible = false;
+            this.showTaskCheck = false;
+            this.showAddJoin = true;
+            this.is
         },
 
         fetchFollowedGames() {
@@ -189,10 +194,10 @@ export default {
                 });
         },
         refreshTasks() {
-            this.loadGameDetails(this.gameData.id);
+            this.loadGameDetails(this.gameData.id, true);
+            this.showTaskCheck = true;
         },
         handleGameQuestDetailsShown(isShown, isUserOwner) {
-            console.log(isUserOwner);
             if (isUserOwner) {
                 this.isGameQuestDetailsShown = isShown;
             } else {
@@ -226,12 +231,18 @@ export default {
             this.showGames = !this.showGames;
         },
         toggleQuestCheck() {
-            if (this.gameData && this.gameData.isUserOwner) {
-                this.showTaskCheck = !this.showTaskCheck;
+            if (this.gameData) {
+                if (this.gameData.isUserOwner) {
+                    this.showTaskCheck = !this.showTaskCheck;
+                    this.showAddJoin = !this.showAddJoin;
+                } else {
+                    this.showTaskCheck = false;
+                    this.showAddJoin = false;
+                }
             } else {
                 this.showTaskCheck = false;
+                this.showAddJoin = true;
             }
-            this.showAddJoin = !this.showAddJoin;
         },
 
         toggleQuestCheckMenu() {

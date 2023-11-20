@@ -38,7 +38,6 @@
                 <spa v-show="isSave"><i class="fa-regular fa-floppy-disk"></i></spa>
             </button>
 
-
         </template>
 
         <template v-else>

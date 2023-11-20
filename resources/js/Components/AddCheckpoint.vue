@@ -42,9 +42,6 @@ export default {
 }
 </script>
 
-<!-- ... uw stijlen ... -->
-
-
 <style scoped>
 section {
     position: fixed;

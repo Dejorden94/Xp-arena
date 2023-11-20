@@ -27,9 +27,6 @@ export default {
         }
     },
     methods: {
-        hideGameDetails() {
-            this.$emit('hide');
-        },
         fetchTasks() {
             if (this.gameData.id) {
                 axios.get(`/api/games/${this.gameData.id}/tasks`)
@@ -55,9 +52,9 @@ export default {
                 });
         },
         handleButtonClick() {
-            this.hideGameDetails();
+            this.$emit('hide');
             this.$emit('handleGame');
-            this.$emit('hideButton');
+            // this.$emit('hideButton');
         }
     },
     created() {
