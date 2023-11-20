@@ -40,6 +40,10 @@
                 </template>
             </li>
         </ul>
+        <button v-if="allCriteriaMet && !isUserOwner" @click="sendTaskForReview">
+            Verzend Taak voor Controle
+        </button>
+
 
         <section>
             <h2>Attachments</h2>
@@ -99,6 +103,9 @@ export default {
         };
     },
     computed: {
+        allCriteriaMet() {
+            return this.criteria.every(criterion => criterion.is_met);
+        },
         questName() {
             return this.quest && this.quest.name ? this.quest.name : 'Loading...';
         },
@@ -238,6 +245,25 @@ export default {
                 this.quest.description = response.data.description;
             } catch (error) {
                 console.error("Er is een fout opgetreden bij het ophalen van de taakbeschrijving:", error);
+            }
+        },
+
+        async sendTaskForReview() {
+            try {
+                const taskId = this.quest.id; // Zorg ervoor dat dit het juiste ID van de taak is
+                const response = await axios.post(`/tasks/${taskId}/completeTask`);
+
+                if (response.status === 200) {
+                    // Verwerk de succesvolle reactie
+                    console.log('Taak succesvol verzonden voor beoordeling:', response.data);
+                    // U kunt hier ook een bericht of notificatie aan de gebruiker tonen
+                } else {
+                    // Verwerk andere statuscodes
+                    console.error('Er is iets misgegaan:', response);
+                }
+            } catch (error) {
+                console.error('Fout bij het verzenden van de taak voor beoordeling:', error);
+                // Toon een foutmelding aan de gebruiker
             }
         },
 

@@ -5,6 +5,7 @@
         <h2>Te verifiëren taken</h2>
         <ul>
             <li v-for="(task, index) in unverifiedTasks" :key="task.id">
+                {{ userNames[task.follower_id] || 'Laden...' }}
                 {{ task.name }}
                 <button @click="acceptTask(task.id, index)">Accepteren</button>
                 <button @click="declineTask(task.id, index)">Afwijzen</button>
@@ -22,7 +23,25 @@ export default {
             required: true,
         },
     },
+    data() {
+        return {
+            userNames: {},
+        }
+    },
+    mounted() {
+        this.fetchUserNames();
+    },
     methods: {
+        async fetchUserNames() {
+            for (let task of this.unverifiedTasks) {
+                try {
+                    const response = await axios.get(`/users/${task.follower_id}`);
+                    this.userNames[task.follower_id] = response.data.user.name;
+                } catch (error) {
+                    console.error('Fout bij het ophalen van gebruikersnaam:', error);
+                }
+            }
+        },
         async acceptTask(taskId, index) {
             try {
                 // Doe een API-aanroep om de taak te verwijderen
@@ -62,15 +81,14 @@ export default {
 <style scoped>
 /* Stijlen voor het UnverifiedTasks-component */
 article {
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    background-color: var(--background-super-dark);
+    border-radius: 1rem;
     padding: 1rem;
     margin-bottom: 2rem;
+    color: var(--font-color-normal);
 }
 
 h2 {
-    color: #333;
     margin-bottom: 1rem;
 }
 

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
-    public function completeTask($taskId)
+    public function completeTask($taskId, Request $request)
     {
         //Zoek de huidige user
         $user = Auth::user();

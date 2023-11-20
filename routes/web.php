@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\CheckpointController;
+use App\Http\Controllers\UserController;
 use App\Models\Checkpoint;
 
 /*
@@ -49,6 +50,7 @@ Route::put('/follower-tasks/{id}', [TaskController::class, 'updateStatus']);
 Route::post('/games/follow', [GameController::class, 'followGame']);
 Route::get('/dashboard/games', [GameController::class, 'followedGames'])->middleware('auth');
 Route::get('/users/{userId}/games/{gameId}/followed-tasks', [GameController::class, 'getFollowedGameTasks']);
+Route::get('/users/{userId}', [UserController::class, 'getUserById']);
 
 Route::post('/games/{gameId}/add-task', [TaskController::class, 'addTask'])->middleware('auth');
 
