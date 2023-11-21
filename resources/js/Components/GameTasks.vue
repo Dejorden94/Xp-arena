@@ -13,6 +13,8 @@
         </section>
         <article v-for="checkpoint in sortedCheckpoints" :key="checkpoint.id" class="checkpoint-section">
             <h4>{{ checkpoint.name }}</h4>
+            <span v-if="!isUserOwner && checkpoint.isLocked">🔒</span>
+            <!-- Toon een slot-icoon voor vergrendelde checkpoints -->
             <ul>
                 <li v-for="task in sortedTasks.filter(t => t.checkpoint_id === checkpoint.id)" :key="task.id"
                     :class="{ 'inactive-task': task.status === 'completed' }">
@@ -22,8 +24,11 @@
                         <option v-for="checkpoint in checkpoints" :value="checkpoint.id">{{ checkpoint.name }}</option>
                     </select>
                     <!-- Niet de eigenaar van de game  -->
-                    <button v-if="!isUserOwner && task.status !== 'completed'" @click="showQuestDetails(task)">Toon
-                        Details</button>
+                    <button v-if="isUserOwner || (!isUserOwner && !isTaskInLockedCheckpoint(task.id))"
+                        @click="showQuestDetails(task)">
+                        Toon Details
+                    </button>
+
 
                     <p v-if="!isUserOwner">{{ task.name }} - {{ task.status }}</p>
                     <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
@@ -33,7 +38,6 @@
 
                     <!-- Eigenaar van game  -->
 
-                    <button v-if="isUserOwner" @click="showQuestDetails(task)">Toon Details</button>
                     <p v-if="isUserOwner">{{ task.name }}</p>
                     <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
                 </li>
@@ -90,6 +94,7 @@ export default {
     },
     mounted() {
         this.fetchCheckpoints();
+        this.checkCheckpointsStatus();
     },
     computed: {
         sortedTasks() {
@@ -115,12 +120,18 @@ export default {
         fetchCheckpoints() {
             axios.get(`/games/${this.gameId}/checkpoints`)
                 .then(response => {
-                    this.checkpoints = response.data;
+                    this.checkpoints = response.data.map((checkpoint, index) => ({
+                        ...checkpoint,
+                        isLocked: index !== 0 // De eerste checkpoint is niet vergrendeld, de rest wel
+                    }));
+                    this.checkCheckpointsStatus(); // Controleer en update de status na het ophalen
                 })
                 .catch(error => {
                     console.error('Error fetching checkpoints:', error);
                 });
         },
+
+
         getCheckpointNameById(checkpointId) {
             const checkpoint = this.checkpoints.find(c => c.id === checkpointId);
             return checkpoint ? checkpoint.name : 'Not assigned';
@@ -150,7 +161,23 @@ export default {
                     console.error('Error assigning task to checkpoint:', error);
                 });
         },
+        checkCheckpointsStatus() {
+            // Controleer de status van elke checkpoint en update de status
+            this.checkpoints.forEach((checkpoint, index) => {
+                const tasks = this.tasksPerCheckpoint[checkpoint.id];
+                checkpoint.isCompleted = tasks.every(task => task.status === 'completed');
 
+                // Ontgrendel de volgende checkpoint als deze voltooid is
+                if (checkpoint.isCompleted && this.checkpoints[index + 1]) {
+                    this.checkpoints[index + 1].isLocked = false;
+                }
+            });
+        },
+        isTaskInLockedCheckpoint(taskId) {
+            const task = this.initialTasks.find(t => t.id === taskId);
+            const checkpoint = this.checkpoints.find(c => c.id === task.checkpoint_id);
+            return checkpoint && checkpoint.isLocked;
+        },
         deleteTask(taskId) {
             axios
                 .delete(`/api/games/${this.gameId}/tasks/${taskId}`)
@@ -164,6 +191,11 @@ export default {
                 .catch((error) => {
                     console.error(error);
                 });
+        },
+        onTaskCompletion(taskId) {
+            // Update de taakstatus en controleer de checkpointstatus
+            this.toggleTaskCompletion(taskId);
+            this.checkCheckpointsStatus();
         },
         toggleTaskCompletion(taskId) {
             axios.post(`tasks/${taskId}/completeTask`)
