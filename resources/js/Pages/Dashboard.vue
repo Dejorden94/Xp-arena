@@ -28,7 +28,8 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
 
         <GameTasks v-if="gameQuestVisible && gameData" :initialTasks="tasks" :gameId="gameData.id" :user="user"
             :key="gameData.id" :isUserOwner="gameData.isUserOwner" :isEditing="isEditing" @hideAll="hideAll"
-            @togglePlayerInfo="showPlayerInfo = !showPlayerInfo" @gameQuestDetailsShown="handleGameQuestDetailsShown" />
+            @togglePlayerInfo="showPlayerInfo = !showPlayerInfo" @gameQuestDetailsShown="handleGameQuestDetailsShown"
+            @reloadGames="loadGameDetails" />
 
         <article v-show="showGames" class="games-overview">
             <h2>Je games</h2>

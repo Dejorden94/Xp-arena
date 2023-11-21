@@ -257,6 +257,7 @@ export default {
                     // Verwerk de succesvolle reactie
                     console.log('Taak succesvol verzonden voor beoordeling:', response.data);
                     // U kunt hier ook een bericht of notificatie aan de gebruiker tonen
+                    window.location.reload();
                 } else {
                     // Verwerk andere statuscodes
                     console.error('Er is iets misgegaan:', response);
