@@ -96,31 +96,32 @@ export default {
             }
         },
         async acceptTask(taskId, index) {
-            console.log("Hallo?");
             try {
                 // Doe een API-aanroep om de taak te verwijderen
-                const response = await axios.delete(`/follower-tasks/${taskId}`);
+                const response = await axios.put(`/follower-tasks/${taskId}`);
 
                 if (response.status === 200) {
                     // Taak succesvol verwijderd, bijwerken van de weergave
                     this.unverifiedTasks.splice(index, 1);
-                    console.log(`Taak geaccepteerd en verwijderd: ${taskId}`);
+                    console.log(`Quest geaccepteerd: ${taskId}`);
+                    console.log(response);
                 } else {
-                    console.error('Fout bij het verwijderen van de taak');
+                    console.error('Fout bij het accepteren van de quest');
                 }
             } catch (error) {
-                console.error('Fout bij het verwijderen van de taak:', error);
+                console.error('Fout bij het accepteren van de quest:', error);
             }
         },
         async declineTask(taskId, index) {
             try {
                 // Doe een API-aanroep om de taak af te wijzen
-                const response = await axios.put(`/follower-tasks/${taskId}`);
+                const response = await axios.put(`/follower-tasks/decline/${taskId}`);
 
                 if (response.status === 200) {
                     // Taak succesvol afgewezen, bijwerken van de weergave
                     this.unverifiedTasks.splice(index, 1);
                     console.log(`Taak afgewezen: ${taskId}`);
+                    console.log(response);
                 } else {
                     console.error('Fout bij het afwijzen van de taak');
                 }

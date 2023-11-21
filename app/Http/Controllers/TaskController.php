@@ -58,7 +58,7 @@ class TaskController extends Controller
         }
 
         // Pas de status van de bestaande taak aan naar 'completed'
-        $completedTask->status = 'completed';
+        $completedTask->status = 'reviewing';
         $completedTask->save();
 
 
@@ -100,27 +100,27 @@ class TaskController extends Controller
 
         // Haal de taken op die nog niet zijn geverifieerd en niet zijn afgewezen
         $tasks = FollowerTask::where('game_id', $game->id)
-            ->where('status', 'completed')
+            ->where('status', 'reviewing')
             ->get();
 
 
         return response()->json($tasks);
     }
 
-    public function deleteFollowerTask($taskId)
+    public function acceptFollowerTask($taskId)
     {
         try {
             // Zoek de FollowerTask op basis van het ID
+
             $followerTask = FollowerTask::findOrFail($taskId);
 
-            // Voer eventuele extra logica uit voordat je de FollowerTask verwijdert
+            // zet status naar completed van de  FollowerTask
+            $followerTask->status = 'completed';
+            $followerTask->save();
 
-            // Verwijder de FollowerTask
-            $followerTask->delete();
-
-            return response()->json(['message' => 'FollowerTask succesvol verwijderd'], 200);
+            return response()->json(['message' => 'Quest goedgekeurd'], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Fout bij het verwijderen van de FollowerTask'], 500);
+            return response()->json(['error' => 'Fout bij het goedkeuren van de Quest'], 500);
         }
     }
 
@@ -143,10 +143,7 @@ class TaskController extends Controller
         // Hier kun je eventueel de ervaringspunten van de volger aanpassen.
         $follower = User::find($followerId);
 
-
-
         if ($follower) {
-            Log::info('Value of $follower:', ['follower' => $follower]);
             // Trek de experience points van de taak af van de follower user experience points
             $follower->experience -= $followerTask->experience;
             $follower->save();

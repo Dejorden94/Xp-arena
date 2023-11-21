@@ -44,8 +44,8 @@ Route::post('/games', [GameController::class, 'store']);
 
 Route::post('/tasks/{taskId}/completeTask', [TaskController::class, 'completeTask']);
 Route::get('/unverified-tasks', [TaskController::class, 'getUnverifiedTasks']);
-Route::delete('/follower-tasks/{taskId}', [TaskController::class, 'deleteFollowerTask']);
-Route::put('/follower-tasks/{id}', [TaskController::class, 'updateStatus']);
+Route::put('/follower-tasks/{taskId}', [TaskController::class, 'acceptFollowerTask']);
+Route::put('/follower-tasks/decline/{id}', [TaskController::class, 'updateStatus']);
 
 Route::post('/games/follow', [GameController::class, 'followGame']);
 Route::get('/dashboard/games', [GameController::class, 'followedGames'])->middleware('auth');

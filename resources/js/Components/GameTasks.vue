@@ -14,20 +14,21 @@
         <article v-for="checkpoint in sortedCheckpoints" :key="checkpoint.id" class="checkpoint-section">
             <h4>{{ checkpoint.name }}</h4>
             <ul>
-                <li v-for="task in sortedTasks.filter(t => t.checkpoint_id === checkpoint.id)" :key="task.id">
+                <li v-for="task in sortedTasks.filter(t => t.checkpoint_id === checkpoint.id)" :key="task.id"
+                    :class="{ 'inactive-task': task.status === 'completed' }">
                     <button v-if="isUserOwner" @click="assignTaskToCheckpoint(task.id)">Assign Checkpoint</button>
 
                     <select v-if="isUserOwner" v-model="selectedCheckpointId">
                         <option v-for="checkpoint in checkpoints" :value="checkpoint.id">{{ checkpoint.name }}</option>
                     </select>
                     <!-- Niet de eigenaar van de game  -->
-                    <button v-if="!isUserOwner" @click="showQuestDetails(task)">Toon Details</button>
+                    <button v-if="!isUserOwner && task.status !== 'completed'" @click="showQuestDetails(task)">Toon
+                        Details</button>
 
-                    <!-- <input v-if="task.status === 'pending' && !isUserOwner || task.status === 'rejected'" type="checkbox"
-                    v-model="task.completed" @change="toggleTaskCompletion(task.id)" /> -->
                     <p v-if="!isUserOwner">{{ task.name }} - {{ task.status }}</p>
                     <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
-                    <span v-if="task.status === 'completed'" class="task-status reviewd">Reviewd</span>
+                    <span v-if="task.status === 'completed'" class="task-status complete">Completed</span>
+                    <span v-if="task.status === 'reviewing'" class="task-status reviewing">Send for review</span>
                     <span v-else-if="task.status === 'rejected'" class="task-status rejected">Afgewezen</span>
 
                     <!-- Eigenaar van game  -->
@@ -165,21 +166,19 @@ export default {
                 });
         },
         toggleTaskCompletion(taskId) {
-            // Stuur een verzoek om de voltooiingsstatus van de taak te wijzigen
-
-            axios
-                .post(`tasks/${taskId}/completeTask`)
+            axios.post(`tasks/${taskId}/completeTask`)
                 .then((response) => {
                     // Update de voltooide status van de taak in de lijst
                     const task = this.initialTasks.find((t) => t.id === taskId);
                     if (task) {
-                        task.status = 'completed'; // Je kunt de status aanpassen op basis van de serverreactie
+                        task.status = 'completed'; // Update de status naar 'completed'
                     }
                 })
                 .catch((error) => {
                     console.error(error);
                 });
         },
+
         showQuestDetails(task) {
             this.selectedQuest = task;
             this.showQuestDetailsModal = true;
@@ -223,16 +222,21 @@ export default {
 }
 
 .completed {
-    background-color: green;
+    background-color: orange;
     color: white;
 }
 
-.reviewd {
-    background-color: orange;
+.complete {
+    background-color: green;
 }
 
 .rejected {
     background-color: red;
+    color: white;
+}
+
+.reviewing {
+    background-color: purple;
     color: white;
 }
 
@@ -272,6 +276,11 @@ li {
     width: 50%;
     margin-bottom: 0.5rem;
     padding: 0.5rem;
+}
+
+.inactive-task {
+    color: grey;
+    pointer-events: none;
 }
 
 
