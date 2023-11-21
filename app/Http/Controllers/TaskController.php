@@ -16,6 +16,15 @@ use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
+    protected function calculateLevelFromXP($xp)
+    {
+        $level = 0;
+        while ($xp >= (5 * $level * $level + 50 * $level + 100)) {
+            $level++;
+        }
+        return $level;
+    }
+
     public function completeTask($taskId, Request $request)
     {
         //Zoek de huidige user
@@ -50,6 +59,9 @@ class TaskController extends Controller
         $taskExperience = $completedTask->experience;
 
         $user->experience += $taskExperience;
+        // Bereken het nieuwe level en update het in de database
+        $newLevel = $this->calculateLevelFromXP($user->experience);
+        $user->level = $newLevel;
         $user->save();
 
         if (!$completedTask) {
@@ -80,6 +92,8 @@ class TaskController extends Controller
         $follower = User::find($task->follower_id);
         if ($follower) {
             $follower->experience += $difference;
+            $newLevel = $this->calculateLevelFromXP($follower->experience);
+            $follower->level = $newLevel;
             $follower->save();
             return response()->json(['message' => 'Follower experience updated successfully']);
         } else {
