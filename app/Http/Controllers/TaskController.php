@@ -67,14 +67,6 @@ class TaskController extends Controller
             ->where('follower_id', $followerId)
             ->first();
 
-        $taskExperience = $completedTask->experience;
-
-        $user->experience += $taskExperience;
-        // Bereken het nieuwe level en update het in de database
-        $newLevel = $this->calculateLevelFromXP($user->experience);
-        $user->level = $newLevel;
-        $user->save();
-
         if (!$completedTask) {
             // Als de taak nog niet is voltooid door de huidige volger, retourneer een foutmelding
             return response()->json(['message' => 'Task not yet completed'], 400);
