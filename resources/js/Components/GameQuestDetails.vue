@@ -250,7 +250,7 @@ export default {
 
         async sendTaskForReview() {
             try {
-                const taskId = this.quest.id; // Zorg ervoor dat dit het juiste ID van de taak is
+                const taskId = this.quest.task_id; // Zorg ervoor dat dit het juiste ID van de taak is
                 const response = await axios.post(`/tasks/${taskId}/completeTask`);
 
                 if (response.status === 200) {

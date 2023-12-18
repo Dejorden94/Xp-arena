@@ -34,7 +34,7 @@ class TaskController extends Controller
         $task = Task::find($taskId);
 
         if (!$task) {
-            return response()->json(['error' => 'Task not found'], 404);
+            return response()->json(['error' => 'Quest not found'], 404);
         }
 
         // Zoek de game waar de taak bij hoort
@@ -46,7 +46,7 @@ class TaskController extends Controller
 
         // Controleer of de huidige gebruiker de eigenaar van de game is
         if (Auth::id() === $game->user_id) {
-            return response()->json(['error' => 'Cannot complete your own task'], 400);
+            return response()->json(['error' => 'Cannot complete your own quest'], 400);
         }
 
         // Controleer of de taak al is voltooid door de gebruiker
