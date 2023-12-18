@@ -16,19 +16,30 @@ use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
+    // protected function calculateLevelFromXP($xp)
+    // {
+    //     $level = 0;
+    //     while ($xp >= (5 * $level * $level + 50 * $level + 100)) {
+    //         $level++;
+    //     }
+    //     return $level;
+    // }
+
     protected function calculateLevelFromXP($xp)
     {
         $level = 0;
-        while ($xp >= (5 * $level * $level + 50 * $level + 100)) {
+        while ($xp >= pow($level, 3) * 1000) {
             $level++;
         }
-        return $level;
+        return $level - 1; // Aftrekken van 1 omdat het level met 1 verhoogt wordt na de laatste voldoening aan de voorwaarde
     }
+
 
     public function completeTask($taskId, Request $request)
     {
         //Zoek de huidige user
         $user = Auth::user();
+
 
         // Zoek de taak
         $task = Task::find($taskId);
@@ -73,9 +84,20 @@ class TaskController extends Controller
         $completedTask->status = 'reviewing';
         $completedTask->save();
 
+        if ($user->level < 100) {
+            $taskExperience = $completedTask->experience;
+
+            $user->experience += $taskExperience;
+            // Bereken het nieuwe level en update het in de database
+            $newLevel = $this->calculateLevelFromXP($user->experience);
+            $user->level = $newLevel;
+            $user->save();
+        }
+
 
         return response()->json(['message' => 'Task marked as complete']);
     }
+
     public function updateTaskExperience($taskId, Request $request)
     {
         $task = FollowerTask::find($taskId);
@@ -90,14 +112,14 @@ class TaskController extends Controller
 
         // Update de ervaring van de volger
         $follower = User::find($task->follower_id);
-        if ($follower) {
+        if ($follower && $follower->level < 100) {
             $follower->experience += $difference;
             $newLevel = $this->calculateLevelFromXP($follower->experience);
             $follower->level = $newLevel;
             $follower->save();
             return response()->json(['message' => 'Follower experience updated successfully']);
         } else {
-            return response()->json(['error' => 'Follower not found'], 404);
+            return response()->json(['error' => 'Follower not found or already at max level'], 404);
         }
     }
 
