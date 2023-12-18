@@ -168,19 +168,23 @@ class TaskController extends Controller
         $followerTask->status = 'rejected';
         $followerTask->save();
 
-        // Hier kun je eventueel de ervaringspunten van de volger aanpassen.
+        // Haal de gebruiker op
         $follower = User::find($followerId);
 
         if ($follower) {
             // Trek de experience points van de taak af van de follower user experience points
-            $follower->experience -= $followerTask->experience;
-            $follower->save();
+            // Alleen als de gebruiker niet level 100 is
+            if ($follower->level < 100) {
+                $follower->experience -= $followerTask->experience;
+                $follower->save();
+            }
 
             return response()->json(['message' => 'Follower task status updated to rejected'], 200);
         } else {
             return response()->json(['message' => 'Follower not found'], 404);
         }
     }
+
 
     public function addTask(Request $request, $gameId)
     {
