@@ -121,7 +121,6 @@ export default {
         levelCheck() {
             const response = axios.get(`user/${this.user.id}/checkLevel`)
                 .then(response => {
-                    console.log('Level check done.', response);
                 })
                 .catch(error => {
                     console.log('Error during level check', error);

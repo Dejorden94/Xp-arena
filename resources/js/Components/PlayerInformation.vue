@@ -6,9 +6,12 @@ export default {
         Link
     },
     methods: {
-        calculateExperienceForNextLevel(currentLevel) {
-            // Gebruik de formule om de ervaringspunten voor het volgende level te berekenen
-            return Math.pow(currentLevel + 1, 3) * (0.04 * (currentLevel + 1) + 0.06) + 0.5;
+        calculateExperienceForNextLevel(currentLevel, currentExperience) {
+            // Bereken de totale ervaring nodig voor het volgende level
+            const nextLevelExperience = Math.pow(currentLevel + 1, 3) * 1000;
+
+            // Bereken het verschil tussen de huidige ervaring en de ervaring nodig voor het volgende level
+            return Math.max(0, nextLevelExperience - currentExperience);
         }
     }
 };
@@ -32,7 +35,7 @@ export default {
         </section>
         <section class="experience-section">
             <p> {{ $page.props.auth.user.experience }} / {{
-                Math.round(calculateExperienceForNextLevel($page.props.auth.user.level)) }}</p>
+                calculateExperienceForNextLevel($page.props.auth.user.level, $page.props.auth.user.experience) }}</p>
             <figure></figure>
             <p>exp until next level</p>
         </section>
