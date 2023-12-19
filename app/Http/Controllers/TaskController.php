@@ -114,7 +114,27 @@ class TaskController extends Controller
             return response()->json(['error' => 'Follower not found or already at max level'], 404);
         }
     }
+    public function updateUserLevel($userId)
+    {
+        $user = User::find($userId);
 
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Bereken het nieuwe level op basis van de huidige XP van de gebruiker
+        $newLevel = $this->calculateLevelFromXP($user->experience);
+
+        // Update het level van de gebruiker als het is veranderd
+        if ($user->level != $newLevel) {
+            $user->level = $newLevel;
+            $user->save();
+
+            return response()->json(['message' => 'User level updated successfully', 'newLevel' => $newLevel]);
+        }
+
+        return response()->json(['message' => 'No level change required']);
+    }
 
     public function getUnverifiedTasks()
     {

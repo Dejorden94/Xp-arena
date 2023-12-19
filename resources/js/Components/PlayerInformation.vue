@@ -1,5 +1,17 @@
-<script setup>
+<script>
 import { Link } from '@inertiajs/vue3';
+
+export default {
+    components: {
+        Link
+    },
+    methods: {
+        calculateExperienceForNextLevel(currentLevel) {
+            // Gebruik de formule om de ervaringspunten voor het volgende level te berekenen
+            return Math.pow(currentLevel + 1, 3) * (0.04 * (currentLevel + 1) + 0.06) + 0.5;
+        }
+    }
+};
 </script>
 
 <template>
@@ -19,7 +31,8 @@ import { Link } from '@inertiajs/vue3';
             <h2 class="level"> {{ $page.props.auth.user.level }}</h2>
         </section>
         <section class="experience-section">
-            <p> {{ $page.props.auth.user.experience }} / 1000</p>
+            <p> {{ $page.props.auth.user.experience }} / {{
+                Math.round(calculateExperienceForNextLevel($page.props.auth.user.level)) }}</p>
             <figure></figure>
             <p>exp until next level</p>
         </section>

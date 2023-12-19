@@ -115,8 +115,18 @@ export default {
     },
     mounted() {
         this.fetchFollowedGames();
+        this.levelCheck();
     },
     methods: {
+        levelCheck() {
+            const response = axios.get(`user/${this.user.id}/checkLevel`)
+                .then(response => {
+                    console.log('Level check done.', response);
+                })
+                .catch(error => {
+                    console.log('Error during level check', error);
+                });
+        },
         async fetchUnverifiedTasks() {
             try {
                 const response = await axios.get(`/unverified-tasks`);

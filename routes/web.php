@@ -39,6 +39,8 @@ Route::get('/about', function () {
     ]);
 })->name('about');
 
+Route::get('user/{userId}/checkLevel', [TaskController::class, 'updateUserLevel']);
+
 Route::get('/games', [GameController::class, 'index']);
 Route::post('/games', [GameController::class, 'store']);
 
