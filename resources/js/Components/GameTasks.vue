@@ -17,17 +17,20 @@
             <!-- Toon een slot-icoon voor vergrendelde checkpoints -->
             <ul>
                 <li v-for="task in sortedTasks.filter(t => t.checkpoint_id === checkpoint.id)" :key="task.id"
-                    :class="{ 'inactive-task': task.status === 'completed' }">
+                    :class="{ 'inactive-task': task.status === 'completed' || (checkpoint.isLocked && task.status !== 'rejected') }">
                     <button v-if="isUserOwner" @click="assignTaskToCheckpoint(task.id)">Assign Checkpoint</button>
 
                     <select v-if="isUserOwner" v-model="selectedCheckpointId">
                         <option v-for="checkpoint in checkpoints" :value="checkpoint.id">{{ checkpoint.name }}</option>
                     </select>
                     <!-- Niet de eigenaar van de game  -->
-                    <button v-if="isUserOwner || (!isUserOwner && !isTaskInLockedCheckpoint(task.id))"
+                    <button
+                        v-if="task.status === 'rejected' || (isUserOwner || (!isUserOwner && !isTaskInLockedCheckpoint(task.id)))"
                         @click="showQuestDetails(task)">
                         Toon Details
                     </button>
+
+
 
 
                     <p v-if="!isUserOwner">{{ task.name }} - {{ task.status }}</p>
@@ -165,19 +168,36 @@ export default {
             // Controleer de status van elke checkpoint en update de status
             this.checkpoints.forEach((checkpoint, index) => {
                 const tasks = this.tasksPerCheckpoint[checkpoint.id];
-                checkpoint.isCompleted = tasks.every(task => task.status === 'completed');
+                const isCompletedOrReviewing = tasks.every(task => task.status === 'completed' || task.status === 'reviewing');
+                const isRejected = tasks.some(task => task.status === 'rejected');
 
-                // Ontgrendel de volgende checkpoint als deze voltooid is
-                if (checkpoint.isCompleted && this.checkpoints[index + 1]) {
+                checkpoint.isCompleted = isCompletedOrReviewing;
+                checkpoint.isLocked = isRejected;
+
+                // Ontgrendel de volgende checkpoint als de huidige voltooid is en geen afgewezen quests heeft
+                if (checkpoint.isCompleted && !isRejected && this.checkpoints[index + 1]) {
                     this.checkpoints[index + 1].isLocked = false;
                 }
             });
         },
         isTaskInLockedCheckpoint(taskId) {
             const task = this.initialTasks.find(t => t.id === taskId);
-            const checkpoint = this.checkpoints.find(c => c.id === task.checkpoint_id);
-            return checkpoint && checkpoint.isLocked;
+            const checkpointIndex = this.checkpoints.findIndex(c => c.id === task.checkpoint_id);
+
+            if (checkpointIndex === -1) return false;
+
+            // Controleer of er een afgewezen quest in de huidige of eerdere checkpoints is
+            for (let i = 0; i <= checkpointIndex; i++) {
+                const isRejectedInCheckpoint = this.tasksPerCheckpoint[this.checkpoints[i].id].some(t => t.status === 'rejected');
+                if (isRejectedInCheckpoint) {
+                    return true; // Vergrendel alle volgende checkpoints als er een afgewezen quest is
+                }
+            }
+
+            return this.checkpoints[checkpointIndex].isLocked;
         },
+
+
         deleteTask(taskId) {
             axios
                 .delete(`/api/games/${this.gameId}/tasks/${taskId}`)
