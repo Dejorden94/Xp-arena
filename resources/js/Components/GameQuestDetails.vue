@@ -30,6 +30,12 @@
         <ul>
             <li class="criterion" :class="criterion.is_met ? 'gold-background' : 'gray-background'"
                 v-for="(criterion, index) in criteria" :key="criterion.id">
+
+                <select v-if="isEditing && isUserOwner" v-model="selectedDifficulty">
+                    <option value="makkelijk">Makkelijk</option>
+                    <option value="normaal">Normaal</option>
+                    <option value="moeilijk">Moeilijk</option>
+                </select>
                 <span class="star" :class="criterion.is_met ? 'gold-star' : 'gray-star'"
                     @click="toggleCriterionMet(criterion)">&#9733;</span>
                 <template v-if="isEditing && isUserOwner">
@@ -100,6 +106,7 @@ export default {
             editedDescription: '',
             editedCriterion: '',
             editedCriteria: [],
+            selectedDifficulty: 'normaal'
         };
     },
     computed: {
@@ -144,10 +151,12 @@ export default {
         async addCriteria() {
             try {
                 const response = await axios.post(`/task/${this.quest.id}/add-criteria`, {
-                    description: this.newCriterionDescription
+                    description: this.newCriterionDescription,
+                    difficulty: this.selectedDifficulty
                 });
                 this.criteria.push(response.data);  // Voeg het nieuwe criterium toe aan de lijst
                 this.newCriterionDescription = '';  // Reset het invoerveld
+                this.selectedDifficulty = ''; // Reset de geselecteerde moeilijkheidsgraad
                 this.showAddCriteriaForm = false;  // Verberg het formulier
 
                 // Haal de criteria opnieuw op
@@ -156,6 +165,7 @@ export default {
                 console.warn("Er is een fout opgetreden bij het toevoegen van het criterium:", error);
             }
         },
+
         async fetchCriteria() {
             this.criteria = [];
             if (!this.quest || !this.quest.id) {
@@ -224,13 +234,13 @@ export default {
                     criteria: this.criteria.map((criterion, index) => ({
                         id: criterion.id,
                         description: this.editedCriteria[index],
+                        difficulty: this.selectedDifficulty,
                         is_met: criterion.is_met
                     }))
                 };
 
                 const response = await axios.put(`/task/${taskId}`, updatedTaskData);
 
-                // Aanname: de server stuurt een bericht terug bij succes
                 if (response.data.message === 'Task and associated criteria updated successfully') {
                     console.log('Taak en bijbehorende criteria succesvol bijgewerkt!');
 

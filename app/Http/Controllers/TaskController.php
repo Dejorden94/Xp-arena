@@ -265,14 +265,22 @@ class TaskController extends Controller
     // Criteria functions 
     public function addCriteria(Request $request, $taskId)
     {
+        // Valideer de request
+        $validatedData = $request->validate([
+            'description' => 'required|string|max:255',
+            'difficulty' => 'required|in:makkelijk,normaal,moeilijk'
+        ]);
+
         // Vind de taak en controleer of deze bestaat
         $task = Task::with('criteria')->findOrFail($taskId);
 
         // Maak het nieuwe criterium voor de taak
         $criterion = new TaskCriterion([
-            'description' => $request->input('description'),
-            'is_met' => false
+            'description' => $validatedData['description'],
+            'is_met' => false,
+            'difficulty' => $validatedData['difficulty']
         ]);
+
 
         // Sla het criterium op gekoppeld aan de taak
         $task->criteria()->save($criterion);
@@ -284,7 +292,8 @@ class TaskController extends Controller
             $followerCriterion = new FollowerCriterion([
                 'follower_task_id' => $followerTask->id,
                 'description' => $request->input('description'),
-                'is_met' => false
+                'is_met' => false,
+                'difficulty' => $request->input('difficulty')
             ]);
 
             // Sla het nieuwe criterium op in de 'follower_criteria' tabel
@@ -294,18 +303,8 @@ class TaskController extends Controller
         // Redirect terug met een succesbericht
         return redirect()->back()->with('success', 'Criterium toegevoegd aan zowel taak als volger!');
     }
-
-    /**
-     * Een voorbeeldmethode om de overeenkomstige 'follower_task' te vinden.
-     * Je moet deze methode implementeren op basis van je applicatielogica.
-     */
     protected function findFollowerTask(Task $task)
     {
-        // Implementeer de logica om de overeenkomstige 'follower_task' te vinden
-        // Dit kan een relatie zijn of een andere manier om de gekoppelde 'follower_task' te identificeren
-        // Voorbeeld:
-        // return FollowerTask::where('original_task_id', $task->id)->first();
-
         return FollowerTask::where('task_id', $task->id)->first();
     }
 
@@ -319,6 +318,7 @@ class TaskController extends Controller
     {
         $criterion = TaskCriterion::findOrFail($criterionId);
         $criterion->description = $request->input('description');
+        $criterion->difficulty = $request->input('difficulty');
         $criterion->save();
 
         return redirect()->back()->with('success', 'Criterium bijgewerkt!');
@@ -394,11 +394,17 @@ class TaskController extends Controller
         // Update de bijbehorende criteria als ze zijn meegegeven in het verzoek
         if ($request->has('criteria')) {
             foreach ($request->input('criteria') as $updatedCriterion) {
-                $criterion = $task->criteria->where('id', $updatedCriterion['id'])->first();
+                $criterion = TaskCriterion::where('id', $updatedCriterion['id'])->where('task_id', $taskId)->first();
 
                 if ($criterion) {
                     $criterion->description = $updatedCriterion['description'];
                     $criterion->is_met = $updatedCriterion['is_met'];
+
+                    // Controleer of 'difficulty' key bestaat
+                    if (isset($updatedCriterion['difficulty'])) {
+                        $criterion->difficulty = $updatedCriterion['difficulty'];
+                    }
+
                     $criterion->save();
                 }
             }
