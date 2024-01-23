@@ -116,12 +116,17 @@ export default {
             return this.criteria.filter(criterion => criterion.is_met).length;
         },
         starsStatus() {
-            const checkedCount = this.criteria.filter(criterion => criterion.is_met).length;
-            return [
-                checkedCount > 0,  // Eerste ster (links)
-                checkedCount > 2,  // Middelste ster
-                checkedCount > 1   // Laatste ster (rechts)
-            ];
+            const totalCrtiteria = this.criteria.length;
+            const checkedCriteria = this.criteria.filter(criterion => criterion.is_met).length;
+
+            switch (totalCrtiteria) {
+                case 1:
+                    return [checkedCriteria >= 1, checkedCriteria >= 1, checkedCriteria >= 1];
+                case 2:
+                    return [checkedCriteria >= 1, checkedCriteria >= 2, checkedCriteria >= 2];
+                default:
+                    return [checkedCriteria >= 1, checkedCriteria >= 2, checkedCriteria >= 3];
+            }
         }
     },
     mounted() {
