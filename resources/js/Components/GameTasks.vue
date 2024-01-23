@@ -16,8 +16,8 @@
             <span v-if="!isUserOwner && checkpoint.isLocked">🔒</span>
             <!-- Toon een slot-icoon voor vergrendelde checkpoints -->
             <ul>
-                <li v-for="task in sortedTasks.filter(t => t.checkpoint_id === checkpoint.id)" :key="task.id"
-                    :class="{ 'inactive-task': task.status === 'completed' || (checkpoint.isLocked && task.status !== 'rejected') }">
+                <li v-for="task in accessibleTasks[checkpoint.id]" :key="task.id"
+                    :class="{ 'inactive-task': !task.isAccessible && !isUserOwner }">
                     <button v-if="isUserOwner" @click="assignTaskToCheckpoint(task.id)">Assign Checkpoint</button>
 
                     <select v-if="isUserOwner" v-model="selectedCheckpointId">
@@ -100,6 +100,21 @@ export default {
         this.checkCheckpointsStatus();
     },
     computed: {
+        accessibleTasks() {
+            const accessibleTasks = {};
+            let allPreviousCompleted = true;
+
+            this.sortedCheckpoints.forEach(checkpoint => {
+                accessibleTasks[checkpoint.id] = this.tasksPerCheckpoint[checkpoint.id].map(task => {
+                    const isAccessible = allPreviousCompleted;
+                    if (task.status !== 'completed') {
+                        allPreviousCompleted = false;
+                    }
+                    return { ...task, isAccessible };
+                });
+            })
+            return accessibleTasks;
+        },
         sortedTasks() {
             // Controleer of initialTasks een array is voordat je verder gaat
             if (!Array.isArray(this.initialTasks)) {
