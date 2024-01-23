@@ -107,7 +107,7 @@ export default {
             this.sortedCheckpoints.forEach(checkpoint => {
                 accessibleTasks[checkpoint.id] = this.tasksPerCheckpoint[checkpoint.id].map(task => {
                     const isAccessible = allPreviousCompleted;
-                    if (task.status !== 'completed') {
+                    if (task.status !== 'completed' && task.status !== 'reviewing') {
                         allPreviousCompleted = false;
                     }
                     return { ...task, isAccessible };
