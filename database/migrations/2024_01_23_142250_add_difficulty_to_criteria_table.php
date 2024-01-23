@@ -12,7 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('task_criteria', function (Blueprint $table) {
-            $table->enum('difficulty', ['makkelijk', 'normaal', 'moeilijk'])->default('normaal');
+            $table->string('difficulty')->nullable();
+        });
+
+        Schema::table('follower_criteria', function (Blueprint $table) {
+            $table->string('difficulty')->nullable();
         });
     }
 
@@ -22,7 +26,11 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('task_criteria', function (Blueprint $table) {
-            $table->dropColumn(('difficulty'));
+            $table->dropColumn('difficulty');
+        });
+
+        Schema::table('follower_criteria', function (Blueprint $table) {
+            $table->dropColumn('difficulty');
         });
     }
 };

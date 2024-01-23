@@ -293,7 +293,7 @@ class TaskController extends Controller
                 'follower_task_id' => $followerTask->id,
                 'description' => $request->input('description'),
                 'is_met' => false,
-                'difficulty' => $request->input('difficulty')
+                'difficulty' => $request->input('difficulty'),
             ]);
 
             // Sla het nieuwe criterium op in de 'follower_criteria' tabel

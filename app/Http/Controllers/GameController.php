@@ -100,6 +100,7 @@ class GameController extends Controller
                     'description' => $criterion->description,
                     'is_met' => $criterion->is_met,
                     'follower_task_id' => $followerTask->id,
+                    'difficulty' => $criterion->difficulty
                 ]);
             }
         }
