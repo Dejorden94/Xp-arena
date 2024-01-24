@@ -47,7 +47,7 @@ export default {
         unverifiedTasks: {
             deep: true,
             handler(newVal) {
-                // Verwerk de wijzigingen hier
+
             }
         }
     },
@@ -84,6 +84,7 @@ export default {
             }
         },
         async updateTaskExperience(taskId, newExperience) {
+            console.log(newExperience);
             try {
                 const response = await axios.put(`/tasks/${taskId}/update-experience`, { experience: newExperience });
                 if (response.status === 200) {

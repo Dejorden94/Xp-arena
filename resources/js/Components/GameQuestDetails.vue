@@ -105,13 +105,12 @@ export default {
             newCriterionDescription: '',
             editedDescription: '',
             editedCriterion: '',
-            editedCriteria: [],
-            selectedDifficulty: 'normaal'
+            editedCriteria: []
         };
     },
     computed: {
         allCriteriaMet() {
-            return this.criteria.every(criterion => criterion.is_met);
+            return this.criteria.length > 0 && this.criteria.every(criterion => criterion.is_met);
         },
         questName() {
             return this.quest && this.quest.name ? this.quest.name : 'Loading...';
@@ -152,7 +151,7 @@ export default {
             try {
                 const response = await axios.post(`/task/${this.quest.id}/add-criteria`, {
                     description: this.newCriterionDescription,
-                    difficulty: this.selectedDifficulty
+                    difficulty: 'normaal'
                 });
                 this.criteria.push(response.data);  // Voeg het nieuwe criterium toe aan de lijst
                 this.newCriterionDescription = '';  // Reset het invoerveld

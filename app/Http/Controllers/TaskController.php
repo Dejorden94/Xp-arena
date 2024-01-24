@@ -98,22 +98,25 @@ class TaskController extends Controller
         }
 
         $newExperience = $request->input('experience');
+        $experienceDifference = $newExperience - $task->experience;
 
-        // Bereken het verschil in ervaring gebaseerd op de nieuwe ervaring
-        $difference = $newExperience - $task->experience;
-
-        // Update de ervaring van de volger
         $follower = User::find($task->follower_id);
         if ($follower && $follower->level < 100) {
-            $follower->experience += $difference;
+            $follower->experience = max(0, $follower->experience + $experienceDifference);
             $newLevel = $this->calculateLevelFromXP($follower->experience);
             $follower->level = $newLevel;
             $follower->save();
+
+            // Update de ervaringspunten van de taak om te voorkomen dat ze opnieuw worden toegevoegd
+            $task->experience = $newExperience;
+            $task->save();
+
             return response()->json(['message' => 'Follower experience updated successfully']);
         } else {
             return response()->json(['error' => 'Follower not found or already at max level'], 404);
         }
     }
+
     public function updateUserLevel($userId)
     {
         $user = User::find($userId);
@@ -241,7 +244,7 @@ class TaskController extends Controller
             $followerTasksData[] = [
                 'name' => $request->input('name'),
                 'description' => $request->input('description'),
-                'experience' => $request->input('experience'),
+                'experience' => 0,
                 'follower_id' => $follower->id,
                 'task_id' => $task->id,
                 'game_id' => $game->id,
