@@ -100,19 +100,31 @@ export default {
         this.checkCheckpointsStatus();
     },
     computed: {
+        isCheckpointCompleted() {
+            let checkpointCompletionStatus = {};
+            this.checkpoints.forEach(checkpoint => {
+                const tasks = this.tasksPerCheckpoint[checkpoint.id];
+                checkpointCompletionStatus[checkpoint.id] = tasks.every(task => task.status === 'completed' || task.status === 'reviewing');
+            });
+            return checkpointCompletionStatus;
+        },
         accessibleTasks() {
             const accessibleTasks = {};
-            let allPreviousCompleted = true;
+            let allPreviousCheckpointsCompleted = true;
 
-            this.sortedCheckpoints.forEach(checkpoint => {
+            this.sortedCheckpoints.forEach((checkpoint, index) => {
+                const isCurrentCheckpointAccessible = index === 0 || allPreviousCheckpointsCompleted;
                 accessibleTasks[checkpoint.id] = this.tasksPerCheckpoint[checkpoint.id].map(task => {
-                    const isAccessible = allPreviousCompleted;
-                    if (task.status !== 'completed' && task.status !== 'reviewing') {
-                        allPreviousCompleted = false;
-                    }
-                    return { ...task, isAccessible };
+                    return { ...task, isAccessible: isCurrentCheckpointAccessible };
                 });
-            })
+
+                if (this.isCheckpointCompleted[checkpoint.id]) {
+                    allPreviousCheckpointsCompleted = true;
+                } else {
+                    allPreviousCheckpointsCompleted = false;
+                }
+            });
+
             return accessibleTasks;
         },
         sortedTasks() {
