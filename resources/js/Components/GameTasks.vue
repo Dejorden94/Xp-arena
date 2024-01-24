@@ -104,25 +104,18 @@ export default {
             let checkpointCompletionStatus = {};
             this.checkpoints.forEach(checkpoint => {
                 const tasks = this.tasksPerCheckpoint[checkpoint.id];
-                checkpointCompletionStatus[checkpoint.id] = tasks.every(task => task.status === 'completed' || task.status === 'reviewing');
+                checkpointCompletionStatus[checkpoint.id] = tasks.every(task => task.status === 'completed' || task.status === 'reviewing' || task.status === 'rejected');
             });
             return checkpointCompletionStatus;
         },
         accessibleTasks() {
             const accessibleTasks = {};
-            let allPreviousCheckpointsCompleted = true;
 
             this.sortedCheckpoints.forEach((checkpoint, index) => {
-                const isCurrentCheckpointAccessible = index === 0 || allPreviousCheckpointsCompleted;
+                const isCurrentCheckpointAccessible = index === 0 || this.isCheckpointCompleted[this.checkpoints[index - 1]?.id];
                 accessibleTasks[checkpoint.id] = this.tasksPerCheckpoint[checkpoint.id].map(task => {
                     return { ...task, isAccessible: isCurrentCheckpointAccessible };
                 });
-
-                if (this.isCheckpointCompleted[checkpoint.id]) {
-                    allPreviousCheckpointsCompleted = true;
-                } else {
-                    allPreviousCheckpointsCompleted = false;
-                }
             });
 
             return accessibleTasks;
@@ -213,11 +206,11 @@ export default {
 
             if (checkpointIndex === -1) return false;
 
-            // Controleer of er een afgewezen quest in de huidige of eerdere checkpoints is
-            for (let i = 0; i <= checkpointIndex; i++) {
-                const isRejectedInCheckpoint = this.tasksPerCheckpoint[this.checkpoints[i].id].some(t => t.status === 'rejected');
-                if (isRejectedInCheckpoint) {
-                    return true; // Vergrendel alle volgende checkpoints als er een afgewezen quest is
+            // Controleer of alle vorige checkpoints zijn voltooid
+            for (let i = 0; i < checkpointIndex; i++) {
+                const isCompleted = this.isCheckpointCompleted[this.checkpoints[i].id];
+                if (!isCompleted) {
+                    return true; // Als een vorig checkpoint niet voltooid is, is dit checkpoint vergrendeld
                 }
             }
 
