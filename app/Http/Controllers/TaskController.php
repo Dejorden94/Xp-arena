@@ -221,9 +221,12 @@ class TaskController extends Controller
         // Een nieuwe taak aanmaken voor de maker van het spel
         $task = new Task;
 
-        $totalExperiencePoints = array_sum(array_map(function ($criteria) {
-            return $criteria['experiende_points'];
-        }, $request->input('criteria')));
+        $totalExperiencePoints = 0;
+        if (isset($validatedData['criteria']) && is_array($validatedData['criteria'])) {
+            $totalExperiencePoints = array_sum(array_map(function ($criterion) {
+                return $criterion['experience_points'] ?? 0;
+            }, $validatedData['criteria']));
+        }
 
         $task->name = $request->input('name');
         $task->description = $request->input('description');
@@ -285,8 +288,8 @@ class TaskController extends Controller
 
         // Vind de taak en controleer of deze bestaat
         $task = Task::with('criteria')->findOrFail($taskId);
-        $difficulty = $request->input('difficulty');
-        $experiencePoints = $difficultyExperienceMap[$difficulty] ?? 0;
+        $difficulty = $difficultyExperienceMap['normaal'];
+        $experiencePoints = $difficultyExperienceMap['normaal'] ?? 0;
 
         // Maak het nieuwe criterium voor de taak
         $criterion = new TaskCriterion([
@@ -309,6 +312,7 @@ class TaskController extends Controller
                 'description' => $request->input('description'),
                 'is_met' => false,
                 'difficulty' => $request->input('difficulty'),
+                'experience_points' => $experiencePoints
             ]);
 
             // Sla het nieuwe criterium op in de 'follower_criteria' tabel
@@ -400,8 +404,6 @@ class TaskController extends Controller
             'moeilijk' => 30
         ];
 
-        $totalExperiencePoints = 0;
-
         if ($request->has('criteria')) {
             foreach ($request->input('criteria') as $updatedCriterion) {
                 $criterion = TaskCriterion::where('id', $updatedCriterion['id'])->where('task_id', $taskId)->first();
@@ -413,12 +415,14 @@ class TaskController extends Controller
                     if (isset($updatedCriterion['difficulty'])) {
                         $criterion->difficulty = $updatedCriterion['difficulty'];
                         $criterion->experience_points = $difficultyExperienceMap[$updatedCriterion['difficulty']] ?? 0;
-                        $totalExperiencePoints += $difficultyExperienceMap[$updatedCriterion['difficulty']] ?? 0;
                     }
                     $criterion->save();
                 }
             }
         }
+
+        // Update de totale ervaringspunten van de taak
+        $totalExperiencePoints = $task->criteria->sum('experience_points');
 
         $task->name = $request->input('name', $task->name);
         $task->description = $request->input('description', $task->description);
@@ -428,6 +432,7 @@ class TaskController extends Controller
 
         return response()->json(['message' => 'Task and associated criteria updated successfully']);
     }
+
 
 
     public function getTaskDescription($taskId)

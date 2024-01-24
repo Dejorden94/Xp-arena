@@ -3,7 +3,6 @@
         <form @submit.prevent="addTask">
             <input class="task-input" v-model="newTaskName" type="text" placeholder="Titel" required>
             <textarea class="task-input" v-model="newTaskDescription" placeholder="Beschrijving" required></textarea>
-            <input class="task-input" v-model="newTaskExperience" type="number" placeholder="Experience" required>
 
             <button type="submit" @click="$emit('refreshTasks')">Toevoegen</button>
         </form>
@@ -22,13 +21,11 @@ export default {
         addTask() {
             axios.post(`/games/${this.gameData.id}/add-task`, { // gebruik de nieuwe route
                 name: this.newTaskName,
-                description: this.newTaskDescription,
-                experience: this.newTaskExperience
+                description: this.newTaskDescription
             })
                 .then(response => {
                     this.newTaskName = "",
-                        this.newTaskDescription = "",
-                        this.newTaskExperience = ""
+                        this.newTaskDescription = ""
                 })
                 .catch(error => {
                     console.error(error);

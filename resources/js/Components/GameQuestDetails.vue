@@ -31,7 +31,7 @@
             <li class="criterion" :class="criterion.is_met ? 'gold-background' : 'gray-background'"
                 v-for="(criterion, index) in criteria" :key="criterion.id">
 
-                <select v-if="isEditing && isUserOwner" v-model="selectedDifficulty">
+                <select v-if="isEditing && isUserOwner" v-model="criterion.difficulty">
                     <option value="makkelijk">Makkelijk</option>
                     <option value="normaal">Normaal</option>
                     <option value="moeilijk">Moeilijk</option>
@@ -231,10 +231,10 @@ export default {
                     name: this.quest.name,
                     description: this.editedDescription,
                     experience: this.quest.experience,
-                    criteria: this.criteria.map((criterion, index) => ({
+                    criteria: this.criteria.map(criterion => ({
                         id: criterion.id,
-                        description: this.editedCriteria[index],
-                        difficulty: this.selectedDifficulty,
+                        description: criterion.description,
+                        difficulty: criterion.difficulty,
                         is_met: criterion.is_met
                     }))
                 };
