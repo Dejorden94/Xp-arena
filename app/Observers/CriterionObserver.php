@@ -24,6 +24,7 @@ class CriterionObserver
         FollowerCriterion::where('id', $criterion->id)->update([
             'description' => $criterion->description,
             'difficulty' => $criterion->difficulty,
+            'experience_points' => $criterion->experience_points
         ]);
     }
 

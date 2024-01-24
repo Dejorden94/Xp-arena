@@ -265,6 +265,13 @@ class TaskController extends Controller
     // Criteria functions 
     public function addCriteria(Request $request, $taskId)
     {
+        //Punten voor moeilijkheidsgraden.
+        $difficultyExperienceMap = [
+            'makkelijk' => 10,
+            'normaal' => 20,
+            'moeilijk' => 30
+        ];
+
         // Valideer de request
         $validatedData = $request->validate([
             'description' => 'required|string|max:255',
@@ -273,12 +280,15 @@ class TaskController extends Controller
 
         // Vind de taak en controleer of deze bestaat
         $task = Task::with('criteria')->findOrFail($taskId);
+        $difficulty = $request->input('difficulty');
+        $experiencePoints = $difficultyExperienceMap[$difficulty] ?? 0;
 
         // Maak het nieuwe criterium voor de taak
         $criterion = new TaskCriterion([
             'description' => $validatedData['description'],
             'is_met' => false,
-            'difficulty' => $validatedData['difficulty']
+            'difficulty' => $validatedData['difficulty'],
+            'experience_points' => $experiencePoints
         ]);
 
 
@@ -374,24 +384,23 @@ class TaskController extends Controller
 
     public function updateTask(Request $request, $taskId)
     {
-        // Zoek de taak op basis van het gegeven ID
         $task = Task::find($taskId);
-
-        // Als de taak niet wordt gevonden, retourneer een foutmelding
         if (!$task) {
             return response()->json(['error' => 'Task not found'], 404);
         }
 
-        // Update de velden van de taak met de waarden uit het verzoek
-        $task->name = $request->input('name', $task->name); // Als er geen nieuwe naam wordt gegeven, behoud dan de oude naam
-        $task->description = $request->input('description', $task->description); // Als er geen nieuwe beschrijving wordt gegeven, behoud dan de oude beschrijving
-        $task->experience = $request->input('experience', $task->experience); // Als er geen nieuwe ervaring wordt gegeven, behoud dan de oude ervaring
+        $task->name = $request->input('name', $task->name);
+        $task->description = $request->input('description', $task->description);
+        $task->experience = $request->input('experience', $task->experience);
         $task->checkpoint_id = $request->input('checkpoint_id', $task->checkpoint_id);
-
-        // Sla de wijzigingen op
         $task->save();
 
-        // Update de bijbehorende criteria als ze zijn meegegeven in het verzoek
+        $difficultyExperienceMap = [
+            'makkelijk' => 10,
+            'normaal' => 20,
+            'moeilijk' => 30
+        ];
+
         if ($request->has('criteria')) {
             foreach ($request->input('criteria') as $updatedCriterion) {
                 $criterion = TaskCriterion::where('id', $updatedCriterion['id'])->where('task_id', $taskId)->first();
@@ -400,9 +409,9 @@ class TaskController extends Controller
                     $criterion->description = $updatedCriterion['description'];
                     $criterion->is_met = $updatedCriterion['is_met'];
 
-                    // Controleer of 'difficulty' key bestaat
                     if (isset($updatedCriterion['difficulty'])) {
                         $criterion->difficulty = $updatedCriterion['difficulty'];
+                        $criterion->experience_points = $difficultyExperienceMap[$updatedCriterion['difficulty']] ?? 0;
                     }
 
                     $criterion->save();
@@ -410,9 +419,9 @@ class TaskController extends Controller
             }
         }
 
-        // Retourneer een succesbericht
         return response()->json(['message' => 'Task and associated criteria updated successfully']);
     }
+
 
     public function getTaskDescription($taskId)
     {

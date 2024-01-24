@@ -9,7 +9,7 @@ class TaskCriterion extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['task_id', 'description', 'is_met', 'difficulty'];
+    protected $fillable = ['task_id', 'description', 'is_met', 'difficulty', 'experience_points'];
 
     public function task()
     {
