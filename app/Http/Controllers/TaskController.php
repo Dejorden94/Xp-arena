@@ -276,7 +276,7 @@ class TaskController extends Controller
     // Criteria functions 
     public function addCriteria(Request $request, $taskId)
     {
-        //Punten voor moeilijkheidsgraden.
+        // Punten voor moeilijkheidsgraden.
         $difficultyExperienceMap = [
             'makkelijk' => 10,
             'normaal' => 20,
@@ -291,8 +291,9 @@ class TaskController extends Controller
 
         // Vind de taak en controleer of deze bestaat
         $task = Task::with('criteria')->findOrFail($taskId);
-        $difficulty = $difficultyExperienceMap['normaal'];
-        $experiencePoints = $difficultyExperienceMap['normaal'] ?? 0;
+
+        // Bepaal de ervaringspunten gebaseerd op de moeilijkheidsgraad
+        $experiencePoints = $difficultyExperienceMap[$validatedData['difficulty']] ?? 0;
 
         // Maak het nieuwe criterium voor de taak
         $criterion = new TaskCriterion([
@@ -302,9 +303,12 @@ class TaskController extends Controller
             'experience_points' => $experiencePoints
         ]);
 
-
         // Sla het criterium op gekoppeld aan de taak
         $task->criteria()->save($criterion);
+
+        // Update de totale ervaring van de taak
+        $task->experience += $experiencePoints;
+        $task->save();
 
         $followerTask = $this->findFollowerTask($task);
 
@@ -312,9 +316,9 @@ class TaskController extends Controller
         if ($followerTask) {
             $followerCriterion = new FollowerCriterion([
                 'follower_task_id' => $followerTask->id,
-                'description' => $request->input('description'),
+                'description' => $validatedData['description'],
                 'is_met' => false,
-                'difficulty' => $request->input('difficulty'),
+                'difficulty' => $validatedData['difficulty'],
                 'experience_points' => $experiencePoints
             ]);
 
@@ -325,6 +329,7 @@ class TaskController extends Controller
         // Redirect terug met een succesbericht
         return redirect()->back()->with('success', 'Criterium toegevoegd aan zowel taak als volger!');
     }
+
     protected function findFollowerTask(Task $task)
     {
         return FollowerTask::where('task_id', $task->id)->first();

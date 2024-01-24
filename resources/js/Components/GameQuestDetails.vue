@@ -151,7 +151,7 @@ export default {
             try {
                 const response = await axios.post(`/task/${this.quest.id}/add-criteria`, {
                     description: this.newCriterionDescription,
-                    difficulty: 'normaal'
+                    difficulty: 'normaal',
                 });
                 this.criteria.push(response.data);  // Voeg het nieuwe criterium toe aan de lijst
                 this.newCriterionDescription = '';  // Reset het invoerveld
