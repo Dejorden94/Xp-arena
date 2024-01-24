@@ -139,6 +139,7 @@ export default {
     },
     methods: {
         fetchCheckpoints() {
+            console.log('Reload checkpoint');
             axios.get(`/games/${this.gameId}/checkpoints`)
                 .then(response => {
                     this.checkpoints = response.data.map((checkpoint, index) => ({
@@ -146,6 +147,7 @@ export default {
                         isLocked: index !== 0 // De eerste checkpoint is niet vergrendeld, de rest wel
                     }));
                     this.checkCheckpointsStatus(); // Controleer en update de status na het ophalen
+                    console.log("End of checkpoint reload");
                 })
                 .catch(error => {
                     console.error('Error fetching checkpoints:', error);

@@ -26,8 +26,8 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails"
             @handleGame="toggleGames" @refreshTasks="refreshTasks" @hideButton="toggleQuestCheck" />
 
-        <GameTasks v-if="gameQuestVisible && gameData" :initialTasks="tasks" :gameId="gameData.id" :user="user"
-            :key="gameData.id" :isUserOwner="gameData.isUserOwner" :isEditing="isEditing" @hideAll="hideAll"
+        <GameTasks ref="gameTaskComponent" v-if="gameQuestVisible && gameData" :initialTasks="tasks" :gameId="gameData.id"
+            :user="user" :key="gameData.id" :isUserOwner="gameData.isUserOwner" :isEditing="isEditing" @hideAll="hideAll"
             @togglePlayerInfo="showPlayerInfo = !showPlayerInfo" @gameQuestDetailsShown="handleGameQuestDetailsShown"
             @reloadGames="loadGameDetails" />
 
@@ -70,7 +70,8 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
         <AddQuest v-show="showAddQuest" :gameData="gameData" @refreshTasks="refreshTasks(); setFalseQuestCheck();" />
 
         <div v-if="showCheckpoint" class="overlay"></div>
-        <AddCheckpoint v-show="showCheckpoint" :gameData="gameData" @hideAddCheck="showCheckpoint = false" />
+        <AddCheckpoint v-show="showCheckpoint" :gameData="gameData" @hideAddCheck="showCheckpoint = false"
+            @reloadCheck="callCheckpointReload" />
 
     </AuthenticatedLayout>
 </template>
@@ -118,6 +119,10 @@ export default {
         this.levelCheck();
     },
     methods: {
+        callCheckpointReload() {
+            console.log("call checkpoint reload");
+            this.$refs.gameTaskComponent.fetchCheckpoints();
+        },
         levelCheck() {
             const response = axios.get(`user/${this.user.id}/checkLevel`)
                 .then(response => {

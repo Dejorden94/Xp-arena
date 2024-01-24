@@ -54,7 +54,6 @@ export default {
         handleButtonClick() {
             this.$emit('hide');
             this.$emit('handleGame');
-            // this.$emit('hideButton');
         }
     },
     created() {
