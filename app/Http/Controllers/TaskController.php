@@ -220,9 +220,14 @@ class TaskController extends Controller
 
         // Een nieuwe taak aanmaken voor de maker van het spel
         $task = new Task;
+
+        $totalExperiencePoints = array_sum(array_map(function ($criteria) {
+            return $criteria['experiende_points'];
+        }, $request->input('criteria')));
+
         $task->name = $request->input('name');
         $task->description = $request->input('description');
-        $task->experience = $request->input('experience');
+        $task->experience = $totalExperiencePoints;
         $task->checkpoint_id = $firstCheckpoint->id;
         $game->tasks()->save($task); // Opslaan van taak voor de maker
 
@@ -389,17 +394,13 @@ class TaskController extends Controller
             return response()->json(['error' => 'Task not found'], 404);
         }
 
-        $task->name = $request->input('name', $task->name);
-        $task->description = $request->input('description', $task->description);
-        $task->experience = $request->input('experience', $task->experience);
-        $task->checkpoint_id = $request->input('checkpoint_id', $task->checkpoint_id);
-        $task->save();
-
         $difficultyExperienceMap = [
             'makkelijk' => 10,
             'normaal' => 20,
             'moeilijk' => 30
         ];
+
+        $totalExperiencePoints = 0;
 
         if ($request->has('criteria')) {
             foreach ($request->input('criteria') as $updatedCriterion) {
@@ -412,12 +413,18 @@ class TaskController extends Controller
                     if (isset($updatedCriterion['difficulty'])) {
                         $criterion->difficulty = $updatedCriterion['difficulty'];
                         $criterion->experience_points = $difficultyExperienceMap[$updatedCriterion['difficulty']] ?? 0;
+                        $totalExperiencePoints += $difficultyExperienceMap[$updatedCriterion['difficulty']] ?? 0;
                     }
-
                     $criterion->save();
                 }
             }
         }
+
+        $task->name = $request->input('name', $task->name);
+        $task->description = $request->input('description', $task->description);
+        $task->experience = $totalExperiencePoints;
+        $task->checkpoint_id = $request->input('checkpoint_id', $task->checkpoint_id);
+        $task->save();
 
         return response()->json(['message' => 'Task and associated criteria updated successfully']);
     }
