@@ -13,8 +13,6 @@
         </section>
         <article v-for="checkpoint in sortedCheckpoints" :key="checkpoint.id" class="checkpoint-section">
             <h4>{{ checkpoint.name }}</h4>
-            <span v-if="!isUserOwner && checkpoint.isLocked">🔒</span>
-            <!-- Toon een slot-icoon voor vergrendelde checkpoints -->
             <ul>
                 <li v-for="task in accessibleTasks[checkpoint.id]" :key="task.id"
                     :class="{ 'inactive-task': !task.isAccessible && !isUserOwner }">
@@ -24,11 +22,11 @@
                         <option v-for="checkpoint in checkpoints" :value="checkpoint.id">{{ checkpoint.name }}</option>
                     </select>
                     <!-- Niet de eigenaar van de game  -->
-                    <button
-                        v-if="task.status === 'rejected' || (isUserOwner || (!isUserOwner && !isTaskInLockedCheckpoint(task.id)))"
-                        @click="showQuestDetails(task)">
+                    <button v-if="(isUserOwner || (!isUserOwner && !isTaskInLockedCheckpoint(task.id)))"
+                        :class="{ 'inactive-button': task.status === 'completed' }" @click="showQuestDetails(task)">
                         Toon Details
                     </button>
+
 
 
 
@@ -104,7 +102,7 @@ export default {
             let checkpointCompletionStatus = {};
             this.checkpoints.forEach(checkpoint => {
                 const tasks = this.tasksPerCheckpoint[checkpoint.id];
-                checkpointCompletionStatus[checkpoint.id] = tasks.every(task => task.status === 'completed' || task.status === 'reviewing' || task.status === 'rejected');
+                checkpointCompletionStatus[checkpoint.id] = tasks.every(task => task.status === 'reviewing' || task.status === 'rejected');
             });
             return checkpointCompletionStatus;
         },
@@ -311,6 +309,13 @@ export default {
     background-color: purple;
     color: white;
 }
+
+.inactive-button {
+    color: gray;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 
 input {
     background: var(--background-dark);

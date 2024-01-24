@@ -8,10 +8,11 @@
                 {{ task.name }}
                 <button @click="acceptTask(task.id, index)">Accepteren</button>
                 <button @click="declineTask(task.id, index)">Afwijzen</button>
-                <p>Bewerk punten: {{ task.experience }}</p>
+                <!--Functie voor in de toekomst-->
+                <!-- <p>Bewerk punten: {{ task.experience }}</p>
                 <input type="number" v-model="task.experience">
                 <button @click="updateTaskExperience(task.id, task.experience); declineTask(task.id, index)">Punten
-                    Bijwerken</button>
+                    Bijwerken</button> -->
 
             </li>
         </ul>
