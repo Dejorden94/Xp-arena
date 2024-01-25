@@ -36,6 +36,7 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
             <ul>
                 <li class="game" @click="loadGameDetails(game.id); toggleGames();" v-for="game in games" :key="game.id">
                     {{ game.name }}
+                    <img class="game-image" :src="getImageUrl(game.image)" alt="">
                 </li>
 
             </ul>
@@ -119,6 +120,9 @@ export default {
         this.levelCheck();
     },
     methods: {
+        getImageUrl(imagePath) {
+            return imagePath ? `${imagePath}` : '/images/default-game-image/default.webp'
+        },
         callCheckpointReload() {
             this.$refs.gameTaskComponent.fetchCheckpoints();
         },
@@ -360,6 +364,14 @@ li:hover {
     font-weight: 700;
     margin-bottom: 2rem;
     border-radius: 1rem;
+    position: relative;
+}
+
+.game-image {
+    position: absolute;
+    width: 10rem;
+    right: 0;
+    border-radius: 0 1rem 1rem 0;
 }
 
 .games-overview {

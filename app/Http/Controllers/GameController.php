@@ -39,7 +39,7 @@ class GameController extends Controller
         if ($request->hasFile('game_image')) {
             $imageName = time() . '.' . $request->game_image->extension();
             $request->game_image->move(public_path('images/game-images'), $imageName);
-            $game->image = 'images.game-images' . $imageName;
+            $game->image = '/images/game-images/' . $imageName;
         }
 
         $game->save();
