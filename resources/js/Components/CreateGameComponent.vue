@@ -8,11 +8,8 @@
         <h2>Create game</h2>
         <form @submit.prevent="createGame">
             <input placeholder="Enter game name" type="text" id="name" v-model="name" required>
+            <input type="file" @change="handleFileUpload" id="game_image">
             <button type="submit">Save</button>
-            <form method="POST" action="/game-image-upload" enctype="multipart/form-data">
-                <input type="file" name="game_image" id="game_image">
-                <button type="submit">Upload</button>
-            </form>
         </form>
     </article>
 </template>
@@ -22,17 +19,29 @@ export default {
     data() {
         return {
             user: {},
+            name: '',
+            gameImage: null
         }
     },
     created() {
         this.refreshGames(this.user.id);
     },
     methods: {
+        handleFileUpload(event) {
+            this.gameImage = event.target.files[0];
+        },
         async createGame() {
+            let formData = new FormData();
+            formData.append('name', this.name);
+            if (this.gameImage) {
+                console.log(this.gameImage);
+                formData.append('game_image', this.gameImage);
+            }
             try {
-                const gameResponse = await axios.post('/games', {
-                    name: this.name,
-                    user_id: this.user.id
+                const gameResponse = await axios.post('/games', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
                 });
 
                 // Reset het invoerveld voor de naam van de game

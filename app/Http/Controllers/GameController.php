@@ -25,12 +25,22 @@ class GameController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'game_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+
         $game = new Game;
         $game->name = $request->input('name');
         $game->user_id = Auth::id();
-
         // Genereren van een unieke pincode
         $game->pin_code = $this->generateUniquePinCode();
+
+        if ($request->hasFile('game_image')) {
+            $imageName = time() . '.' . $request->game_image->extension();
+            $request->game_image->move(public_path('images/game-images'), $imageName);
+            $game->image = 'images.game-images' . $imageName;
+        }
 
         $game->save();
 
