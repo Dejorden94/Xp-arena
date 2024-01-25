@@ -32,7 +32,7 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
             @reloadGames="loadGameDetails" />
 
         <article v-show="showGames" class="games-overview">
-            <h2>Je games</h2>
+            <h2>Mijn games</h2>
             <ul>
                 <li class="game" @click="loadGameDetails(game.id); toggleGames();" v-for="game in games" :key="game.id">
                     {{ game.name }}
