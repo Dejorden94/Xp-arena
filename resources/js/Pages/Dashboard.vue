@@ -370,8 +370,10 @@ li:hover {
 .game-image {
     position: absolute;
     width: 10rem;
+    height: 10rem;
     right: 0;
     border-radius: 0 1rem 1rem 0;
+    object-fit: cover;
 }
 
 .games-overview {
