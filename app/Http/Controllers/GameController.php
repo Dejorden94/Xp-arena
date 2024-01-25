@@ -46,6 +46,19 @@ class GameController extends Controller
         return $pinCode;
     }
 
+    public function uploadGameImage(Request $request)
+    {
+        $request->validate([
+            'game_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $imageName = time() . '.' . $request->game_image->extension();
+        $request->game_image->move(public_path('images'), $imageName);
+
+        return back()
+            ->with('succes', 'You have successfully uploaded your image.')
+            ->with('image', $imageName);
+    }
 
     public function followGame(Request $request)
     {
