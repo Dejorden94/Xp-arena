@@ -53,7 +53,7 @@ class GameController extends Controller
         ]);
 
         $imageName = time() . '.' . $request->game_image->extension();
-        $request->game_image->move(public_path('images'), $imageName);
+        $request->game_image->move(public_path('images/game-images'), $imageName);
 
         return back()
             ->with('succes', 'You have successfully uploaded your image.')
