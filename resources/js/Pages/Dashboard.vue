@@ -120,7 +120,6 @@ export default {
     },
     methods: {
         callCheckpointReload() {
-            console.log("call checkpoint reload");
             this.$refs.gameTaskComponent.fetchCheckpoints();
         },
         levelCheck() {
