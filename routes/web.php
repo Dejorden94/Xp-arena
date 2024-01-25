@@ -43,6 +43,7 @@ Route::get('user/{userId}/checkLevel', [TaskController::class, 'updateUserLevel'
 
 Route::get('/games', [GameController::class, 'index']);
 Route::post('/games', [GameController::class, 'store']);
+Route::post('/game-image-upload', [GameController::class, 'uploadGameImage']);
 
 Route::post('/tasks/{taskId}/completeTask', [TaskController::class, 'completeTask']);
 Route::get('/unverified-tasks', [TaskController::class, 'getUnverifiedTasks']);

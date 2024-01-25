@@ -9,6 +9,10 @@
         <form @submit.prevent="createGame">
             <input placeholder="Enter game name" type="text" id="name" v-model="name" required>
             <button type="submit">Save</button>
+            <form method="POST" action="/game-image-upload" enctype="multipart/form-data">
+                <input type="file" name="game_image" id="game_image">
+                <button type="submit">Upload</button>
+            </form>
         </form>
     </article>
 </template>
