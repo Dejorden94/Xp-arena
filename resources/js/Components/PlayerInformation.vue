@@ -1,11 +1,27 @@
 <script>
 import { Link } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 
 export default {
     components: {
         Link
     },
+    setup() {
+        const user = usePage().props.auth.user;
+
+        const profilePictureUrl = computed(() => {
+            return user.profile_picture ? `/storage/${user.profile_picture}` : 'images/UI/default-profile-pic.png';
+        });
+        return {
+            user,
+            profilePictureUrl
+        };
+    },
     methods: {
+        test() {
+            return this.user;
+        },
         calculateExperienceForNextLevel(currentLevel, currentExperience) {
             // Bereken de totale ervaring nodig voor het volgende level
             const nextLevelExperience = Math.pow(currentLevel + 1, 3) * 1000;
@@ -21,7 +37,7 @@ export default {
     <article class="player-info">
         <figure class="profile-pic">
             <Link :href="route('profile.edit')">
-            <img src="images/UI/default-profile-pic.png" alt="It's you!">
+            <img :src="profilePictureUrl" alt="It's you!">
             </Link>
         </figure>
         <section class="player-info-section">
