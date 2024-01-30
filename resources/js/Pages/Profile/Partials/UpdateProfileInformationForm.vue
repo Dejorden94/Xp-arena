@@ -1,9 +1,9 @@
 <script setup>
+import { Link, useForm, usePage } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Link, useForm, usePage } from '@inertiajs/vue3';
 
 defineProps({
     mustVerifyEmail: {
@@ -15,58 +15,43 @@ defineProps({
 });
 
 const user = usePage().props.auth.user;
-
 const form = useForm({
     name: user.name,
     email: user.email,
+    profile_picture: null,
 });
+
+const onFileChange = (event) => {
+    const file = event.target.files[0];
+    if (!file) {
+        return;
+    }
+    if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
+        form.errors.profile_picture = 'Only JPEG, PNG, and GIF images are allowed.';
+        return;
+    }
+    if (file.size > 1024 * 1024 * 2) {
+        form.errors.profile_picture = 'The image must be less than 2MB.';
+        return;
+    }
+    form.profile_picture = file;
+};
 
 const onSubmit = () => {
     const data = new FormData();
     data.append('name', form.name);
     data.append('email', form.email);
-    data.append('profile_picture', form.profile_picture);
-
-    // Log de inhoud van de FormData
-    for (let [key, value] of data.entries()) {
-        console.log(key, value);
+    if (form.profile_picture) {
+        data.append('profile_picture', form.profile_picture);
     }
 
-
-    form.patch(route('profile.update'), {
+    form.post(route('profile.update'), {
         onSuccess: () => {
-            form.reset();
+            form.reset('profile_picture');
         },
+        onError: (errors) => console.log(errors),
         data,
     });
-};
-
-
-const onFileChange = (event) => {
-    const file = event.target.files[0];
-
-    if (!file) {
-        return;
-    }
-
-    if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
-        form.errors.profile_picture = 'Only JPEG, PNG, and GIF images are allowed.';
-        return;
-    }
-
-    if (file.size > 1024 * 1024 * 2) {
-        form.errors.profile_picture = 'The image must be less than 2MB.';
-        return;
-    }
-
-    form.profile_picture = file;
-
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onload = () => {
-        form.profile_picture = reader.result;
-    };
 };
 </script>
 
@@ -77,7 +62,7 @@ const onFileChange = (event) => {
             <p>Update your account's profile information and email address.</p>
         </header>
 
-        <form @submit.prevent="onSubmit" enctype="multipart/form-data">
+        <form @submit.prevent="onSubmit">
             <section>
                 <InputLabel for="profile_picture" value="Profile Picture" />
                 <input id="profile_picture" name="profile_picture" type="file" accept="image/*" @change="onFileChange" />

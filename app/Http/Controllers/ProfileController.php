@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
@@ -29,19 +30,14 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-
         $user = $request->user();
 
         $user->fill($request->validated());
 
-        // dd($request->hasFile('profile_picture'), $request->all());
-
         if ($request->hasFile('profile_picture')) {
-            $path = $request->file('profile_picture')->store('public/profile_pictures', 'profile_pictures');
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
             $user->profile_picture = $path;
         }
-
-
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
