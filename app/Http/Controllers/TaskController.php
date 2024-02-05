@@ -226,6 +226,11 @@ class TaskController extends Controller
         $task->description = $request->input('description');
         $task->experience = $totalExperiencePoints;
         $task->checkpoint_id = $firstCheckpoint->id;
+        if ($request->hasFile('quest_image')) {
+            $imageName = time() . '.' . $request->quest_image->extension();
+            $request->quest_image->move(public_path('images/quest-images'), $imageName);
+            $task->image = '/images/quest-images/' . $imageName;
+        }
         $game->tasks()->save($task); // Opslaan van taak voor de maker
 
         // Een nieuwe taak aanmaken voor alle volgers van het spel

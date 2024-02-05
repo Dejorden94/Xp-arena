@@ -3,6 +3,7 @@
         <form @submit.prevent="addTask">
             <input class="task-input" v-model="newTaskName" type="text" placeholder="Titel" required>
             <textarea class="task-input" v-model="newTaskDescription" placeholder="Beschrijving" required></textarea>
+            <input type="file" @change="handleFileUpload" id="quest_image">
 
             <button type="submit" @click="$emit('refreshTasks')">Toevoegen</button>
         </form>
@@ -10,6 +11,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     props: {
         gameData: {
@@ -17,20 +20,33 @@ export default {
             required: true
         }
     },
+    data() {
+        return {
+            questImage: null
+        }
+    },
     methods: {
-        addTask() {
-            axios.post(`/games/${this.gameData.id}/add-task`, { // gebruik de nieuwe route
-                name: this.newTaskName,
-                description: this.newTaskDescription
-            })
-                .then(response => {
-                    this.newTaskName = "",
-                        this.newTaskDescription = ""
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+        handleFileUpload(event) {
+            this.questImage = event.target.files[0];
         },
+        async addTask() {
+            let formData = new FormData();
+            formData.append('name', this.newTaskName);
+            formData.append('description', this.newTaskDescription);
+            if (this.questImage) {
+                formData.append('quest_image', this.questImage)
+            }
+            try {
+                const questResponse = await axios.post(`/games/${this.gameData.id}/add-task`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
+                })
+                console.log(questResponse);
+            } catch (error) {
+                console.log("Fout bij het maken van de quest: ", error);
+            }
+        }
     }
 }
 </script>

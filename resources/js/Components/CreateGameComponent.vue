@@ -34,7 +34,6 @@ export default {
             let formData = new FormData();
             formData.append('name', this.name);
             if (this.gameImage) {
-                console.log(this.gameImage);
                 formData.append('game_image', this.gameImage);
             }
             try {
