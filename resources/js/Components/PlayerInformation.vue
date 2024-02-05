@@ -19,9 +19,6 @@ export default {
         };
     },
     methods: {
-        test() {
-            return this.user;
-        },
         calculateExperienceForNextLevel(currentLevel, currentExperience) {
             // Bereken de totale ervaring nodig voor het volgende level
             const nextLevelExperience = Math.pow(currentLevel + 1, 3) * 1000;
