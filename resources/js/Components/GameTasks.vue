@@ -22,10 +22,14 @@
                         <option v-for="checkpoint in checkpoints" :value="checkpoint.id">{{ checkpoint.name }}</option>
                     </select>
                     <!-- Niet de eigenaar van de game  -->
-                    <button v-if="(isUserOwner || (!isUserOwner && !isTaskInLockedCheckpoint(task.id)))"
+                    <!-- <button v-if="(isUserOwner || (!isUserOwner && !isTaskInLockedCheckpoint(task.id)))"
                         :class="{ 'inactive-button': task.status === 'completed' }" @click="showQuestDetails(task)">
                         Toon Details
-                    </button>
+                    </button> -->
+
+                    <img v-if="(isUserOwner || (!isUserOwner && !isTaskInLockedCheckpoint(task.id)))"
+                        :class="{ 'inactive-button': task.status === 'completed' }" @click="showQuestDetails(task)"
+                        :src="getQuestImageUrl(task.image)" alt="Quest image">
 
                     <p v-if="!isUserOwner">{{ task.name }} - {{ task.status }}</p>
                     <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
@@ -134,6 +138,9 @@ export default {
         },
     },
     methods: {
+        getQuestImageUrl(imagePath) {
+            return imagePath ? `${imagePath}` : '/images/default-game-image/default.webp'
+        },
         fetchCheckpoints() {
             axios.get(`/games/${this.gameId}/checkpoints`)
                 .then(response => {
@@ -312,6 +319,13 @@ export default {
     pointer-events: none;
 }
 
+img {
+    margin: 2rem auto;
+    width: 25rem;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    object-fit: cover;
+}
 
 input {
     background: var(--background-dark);
