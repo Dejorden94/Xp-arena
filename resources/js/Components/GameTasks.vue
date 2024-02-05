@@ -320,6 +320,7 @@ export default {
 }
 
 img {
+    cursor: pointer;
     margin: 2rem auto;
     width: 25rem;
     aspect-ratio: 1/1;
