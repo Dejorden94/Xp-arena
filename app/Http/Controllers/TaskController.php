@@ -16,15 +16,6 @@ use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
-    // protected function calculateLevelFromXP($xp)
-    // {
-    //     $level = 0;
-    //     while ($xp >= (5 * $level * $level + 50 * $level + 100)) {
-    //         $level++;
-    //     }
-    //     return $level;
-    // }
-
     protected function calculateLevelFromXP($xp)
     {
         $level = 0;
