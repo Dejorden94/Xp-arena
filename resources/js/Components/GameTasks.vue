@@ -50,7 +50,7 @@
 
     <GameQuestDetails ref="questDetails" v-if="showQuestDetailsModal" :gameId="gameId" :isUserOwner="isUserOwner"
         :isEditing="isEditing" :quest="selectedQuest" @criteriaUpdated="updateQuestCriteria"
-        @showGameDetails="showQuestDetails" @hideGameDetails="hideQuestDetails"
+        @showGameDetails="showQuestDetails" @hideGameDetails="handleHideGameDetails"
         @gameQuestDetailsShown="$emit('gameQuestDetailsShown', $event, isUserOwner)" />
 </template>
 
@@ -105,13 +105,6 @@ export default {
         this.fetchCheckpoints();
         this.checkCheckpointsStatus();
     },
-    // watch: {
-    //     criteria(newCriteria) {
-    //         console.log(newCriteria); // Dit zou de geüpdatete criteria moeten loggen
-    //         // Voer hier eventuele extra logica uit die afhankelijk is van de bijgewerkte criteria
-    //     }
-    // },
-
     computed: {
         totalGames() {
             return this.criteria.length;
@@ -202,7 +195,6 @@ export default {
                     console.error('Error fetching checkpoints:', error);
                 });
         },
-
 
         getCheckpointNameById(checkpointId) {
             const checkpoint = this.checkpoints.find(c => c.id === checkpointId);
@@ -309,6 +301,10 @@ export default {
             this.$nextTick(() => {
                 this.$refs.questDetails.fetchCriteria();
             });
+        },
+        handleHideGameDetails() {
+            this.hideQuestDetails();
+            this.$emit('reloadCriteria');
         },
         hideQuestDetails() {
             this.$emit('hideAll');

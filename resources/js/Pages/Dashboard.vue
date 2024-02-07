@@ -29,7 +29,7 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
         <GameTasks ref="gameTaskComponent" v-if="gameQuestVisible && gameData" :initialTasks="tasks" :gameId="gameData.id"
             :user="user" :key="gameData.id" :isUserOwner="gameData.isUserOwner" :isEditing="isEditing" @hideAll="hideAll"
             @togglePlayerInfo="showPlayerInfo = !showPlayerInfo" @gameQuestDetailsShown="handleGameQuestDetailsShown"
-            @reloadGames="loadGameDetails" :criteria="criteria" />
+            @reloadGames="loadGameDetails" @reloadCriteria="fetchCriteria(this.tasks)" :criteria="criteria" />
 
         <article v-show="showGames" class="games-overview">
             <h2>Mijn games</h2>
