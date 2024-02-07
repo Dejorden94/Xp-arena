@@ -185,7 +185,6 @@ export default {
             }
         },
         async toggleCriterionMet(criterion) {
-
             try {
                 const updatedValue = !criterion.is_met;
                 let response;
@@ -196,7 +195,7 @@ export default {
                         is_met: updatedValue
                     });
                 } else {
-                    // Als de gebruiker geen eigenaar is, update de criteria in een andere tabel, bijvoorbeeld 'follower-task'
+                    // Als de gebruiker geen eigenaar is, update de criteria in een andere tabel (follower-task)
                     response = await axios.post(`/follower-task/${this.quest.id}/criterion/${criterion.id}/toggle-met`, {
                         is_met: updatedValue
                     });

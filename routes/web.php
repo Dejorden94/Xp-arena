@@ -64,7 +64,7 @@ Route::delete('/criteria/{criterionId}/delete', [TaskController::class, 'deleteC
 Route::get('/task/{taskId}/check-criteria', [TaskController::class, 'checkCriteria']);
 // Toggle the is_met value for a criterion
 Route::post('/task/{taskId}/criterion/{criterionId}/toggle-met', [TaskController::class, 'toggleCriterionMet']);
-Route::post('/follower-task/{taskId}/criterion/{criterionId}/toggle-met', [TaskController::class, 'getFollowerTaskCriteria']);
+Route::post('/follower-task/{taskId}/criterion/{criterionId}/toggle-met', [TaskController::class, 'toggleFollowerCriterionMet']);
 
 
 //Route to get follower_criteria

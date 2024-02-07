@@ -105,12 +105,12 @@ export default {
         this.fetchCheckpoints();
         this.checkCheckpointsStatus();
     },
-    watch: {
-        criteria(newCriteria) {
-            console.log(newCriteria); // Dit zou de geüpdatete criteria moeten loggen
-            // Voer hier eventuele extra logica uit die afhankelijk is van de bijgewerkte criteria
-        }
-    },
+    // watch: {
+    //     criteria(newCriteria) {
+    //         console.log(newCriteria); // Dit zou de geüpdatete criteria moeten loggen
+    //         // Voer hier eventuele extra logica uit die afhankelijk is van de bijgewerkte criteria
+    //     }
+    // },
 
     computed: {
         totalGames() {
