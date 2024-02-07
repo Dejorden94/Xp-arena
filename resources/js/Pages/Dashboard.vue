@@ -29,7 +29,7 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
         <GameTasks ref="gameTaskComponent" v-if="gameQuestVisible && gameData" :initialTasks="tasks" :gameId="gameData.id"
             :user="user" :key="gameData.id" :isUserOwner="gameData.isUserOwner" :isEditing="isEditing" @hideAll="hideAll"
             @togglePlayerInfo="showPlayerInfo = !showPlayerInfo" @gameQuestDetailsShown="handleGameQuestDetailsShown"
-            @reloadGames="loadGameDetails" />
+            @reloadGames="loadGameDetails" :criteria="criteria" />
 
         <article v-show="showGames" class="games-overview">
             <h2>Mijn games</h2>
@@ -106,6 +106,7 @@ export default {
             showPlayerInfo: true,
             isGameQuestDetailsShown: false,
             isEditing: false,
+            criteria: []
         }
     },
 
@@ -189,17 +190,36 @@ export default {
             axios.get(`/users/${this.user.id}/games/${gameId}/followed-tasks`)
                 .then(response => {
                     this.tasks = response.data.tasks;
+                    this.fetchCriteria(this.tasks);
                 })
                 .catch(error => {
                     console.error(error);
                 });
+        },
+        async fetchCriteria(tasks) {
+            const criteriaPromises = tasks.map(task =>
+                axios.get(`/follower-task/${task.id}`).then(response => ({
+                    taskId: task.id,
+                    criteria: response.data,
+                    hasCriteria: response.data.length > 0
+                })).catch(error => {
+                    console.error('Probleem bij het ophalen van criteria voor taak:', task.id, error);
+                    return null;
+                })
+            );
+
+            try {
+                const criteriaResponses = await Promise.all(criteriaPromises);
+                this.criteria = criteriaResponses.filter(response => response !== null);
+            } catch (error) {
+                console.error('Probleem bij het verwerken van criteria:', error);
+            }
         },
         hideGameDetails() {
             this.gameDetailsVisible = false;
             this.gameQuestVisible = false;
             this.showTaskCheck = false;
             this.showAddJoin = true;
-            this.is
         },
 
         fetchFollowedGames() {

@@ -22,10 +22,12 @@
                         <option v-for="checkpoint in checkpoints" :value="checkpoint.id">{{ checkpoint.name }}</option>
                     </select>
                     <!-- Niet de eigenaar van de game  -->
-                    <!-- <button v-if="(isUserOwner || (!isUserOwner && !isTaskInLockedCheckpoint(task.id)))"
-                        :class="{ 'inactive-button': task.status === 'completed' }" @click="showQuestDetails(task)">
-                        Toon Details
-                    </button> -->
+                    <section v-if="!isUserOwner">
+                        <div class="star-section">
+                            <span v-for="(starClass, index) in starClasses(task.id)" :key="index" class="star progress-star"
+                                :class="starClass">&#9733;</span>
+                        </div>
+                    </section>
 
                     <img v-if="(isUserOwner || (!isUserOwner && !isTaskInLockedCheckpoint(task.id)))"
                         :class="{ 'inactive-button': task.status === 'completed' }" @click="showQuestDetails(task)"
@@ -47,8 +49,9 @@
     </article>
 
     <GameQuestDetails ref="questDetails" v-if="showQuestDetailsModal" :gameId="gameId" :isUserOwner="isUserOwner"
-        :isEditing="isEditing" :quest="selectedQuest" @showGameDetails="showQuestDetails"
-        @hideGameDetails="hideQuestDetails" @gameQuestDetailsShown="$emit('gameQuestDetailsShown', $event, isUserOwner)" />
+        :isEditing="isEditing" :quest="selectedQuest" @criteriaUpdated="updateQuestCriteria"
+        @showGameDetails="showQuestDetails" @hideGameDetails="hideQuestDetails"
+        @gameQuestDetailsShown="$emit('gameQuestDetailsShown', $event, isUserOwner)" />
 </template>
 
 <script>
@@ -88,16 +91,51 @@ export default {
             type: Object,
             required: true
         },
+        criteria: {
+            type: Object,
+            required: true
+        },
         isEditing: {
             type: Boolean,
             default: false
-        }
+        },
+
     },
     mounted() {
         this.fetchCheckpoints();
         this.checkCheckpointsStatus();
     },
+    watch: {
+        criteria(newCriteria) {
+            console.log(newCriteria); // Dit zou de geüpdatete criteria moeten loggen
+            // Voer hier eventuele extra logica uit die afhankelijk is van de bijgewerkte criteria
+        }
+    },
+
     computed: {
+        totalGames() {
+            return this.criteria.length;
+        },
+        gamesWithCriteria() {
+            return this.criteria.filter(c => c.hasCriteria).length;
+        },
+        criteriaMetCount() {
+            return this.criteria.filter(criterion => criterion.is_met).length;
+        },
+        starClasses() {
+            return (taskId) => {
+                const taskCriteriaInfo = this.criteria.find(c => c.taskId === taskId);
+                if (!taskCriteriaInfo || taskCriteriaInfo.criteria.length === 0) {
+                    return ['gray-star', 'gray-star', 'gray-star'];
+                }
+                const metCriteriaCount = taskCriteriaInfo.criteria.filter(criterion => criterion.is_met).length;
+                let classes = ['gray-star', 'gray-star', 'gray-star'];
+                for (let i = 0; i < metCriteriaCount; i++) {
+                    classes[i] = 'gold-star'; // Vervang grijze sterren door gouden sterren voor voldane criteria
+                }
+                return classes;
+            };
+        },
         isCheckpointCompleted() {
             let checkpointCompletionStatus = {};
             this.checkpoints.forEach(checkpoint => {
@@ -136,8 +174,18 @@ export default {
         sortedCheckpoints() {
             return this.checkpoints.slice().sort((a, b) => a.order - b.order);
         },
+        checkedCriteriaCount() {
+            return this.criteria.filter(criterion => criterion.is_met).length;
+        },
     },
     methods: {
+        updateQuestCriteria(questId, updatedCriteria) {
+            const quest = this.initialTasks.find(task => task.id === questId);
+            if (quest) {
+                quest.criteria = updatedCriteria;
+                this.$forceUpdate();
+            }
+        },
         getQuestImageUrl(imagePath) {
             return imagePath ? `${imagePath}` : '/images/default-game-image/default.webp'
         },
@@ -258,7 +306,6 @@ export default {
             this.$emit('hideAll');
             this.$emit('togglePlayerInfo');
 
-            // Gebruik nextTick om ervoor te zorgen dat de GameQuestDetails component volledig is gemount
             this.$nextTick(() => {
                 this.$refs.questDetails.fetchCriteria();
             });
@@ -318,6 +365,23 @@ export default {
     cursor: not-allowed;
     pointer-events: none;
 }
+
+.star {
+    font-size: 250%;
+}
+
+.gold-star {
+    color: gold;
+}
+
+.gray-star {
+    color: gray;
+}
+
+.progress-star:nth-of-type(2) {
+    font-size: 350%;
+}
+
 
 img {
     cursor: pointer;

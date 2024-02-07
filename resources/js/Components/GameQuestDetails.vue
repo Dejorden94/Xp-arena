@@ -221,6 +221,7 @@ export default {
                     console.error('Error message:', error.message);
                 }
             }
+            this.$emit('criteriaUpdated', this.quest.id, this.criteria);
         },
 
         async updateTask() {
