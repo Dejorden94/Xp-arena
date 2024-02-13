@@ -37,12 +37,10 @@ section {
     height: 25rem;
     width: 80vw;
     padding: 0;
-    position: absolute;
+    position: sticky;
     bottom: 0;
     left: 50%;
-    transform: translate(-50%, 0);
     z-index: 1;
-    /* Zorg ervoor dat het boven de ::before pseudo-element wordt weergegeven */
 }
 
 .add-quest {
