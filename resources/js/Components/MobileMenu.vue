@@ -19,6 +19,9 @@
                 <template v-if="currentRoute !== '/'">
                     <Link class="mobile-link" href="/">Home</Link>
                 </template>
+                <Link class="mobile-link" :href="route('logout')" method="post">
+                Log Out
+                </Link>
             </div>
             <button v-show="!isGameQuestDetailsShown && showAddJoin && $page.component === 'Dashboard'"
                 :class="{ 'join-add-button': true, 'clicked': isButtonClicked }"
