@@ -50,6 +50,7 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
                 <li class="game" v-for="game in followedGames" :key="game.id"
                     @click="loadGameDetails(game.id); toggleGames();">
                     {{ game.name }}
+                    <img class="game-image" :src="getImageUrl(game.image)" alt="Game image">
                 </li>
             </ul>
         </article>
