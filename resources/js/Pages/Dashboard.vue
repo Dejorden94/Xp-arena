@@ -399,6 +399,11 @@ li:hover {
 .games-overview {
     /* background: var(--background-lighter); */
     color: var(--font-color-normal);
+
+}
+
+.games-overview:nth-child(2) {
+    margin-bottom: 10rem;
 }
 
 .overlay {
