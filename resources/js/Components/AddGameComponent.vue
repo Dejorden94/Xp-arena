@@ -34,10 +34,8 @@ section {
     height: 25rem;
     width: 80vw;
     padding: 0;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: sticky;
+    bottom: 20%;
     z-index: 1;
     /* Zorg ervoor dat het boven de ::before pseudo-element wordt weergegeven */
 }
