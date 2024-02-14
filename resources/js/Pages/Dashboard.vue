@@ -19,8 +19,9 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
     <Head title="Dashboard" />
 
     <AuthenticatedLayout @showJoin="handleJoinGame" @showTaskCheck="handleQuestCheck" :show-player-info="showPlayerInfo"
-        :showTaskCheck="showTaskCheck" :showAddJoin="showAddJoin" @showQuestCheck="toggleQuestCheckMenu"
-        :isGameQuestDetailsShown="isGameQuestDetailsShown" @isEditing="toggleEdit">
+        :showTaskCheck="showTaskCheck" @toggleAddButton="toggleAddButton()" :showAddJoin="showAddJoin"
+        @showQuestCheck="toggleQuestCheckMenu" :isGameQuestDetailsShown="isGameQuestDetailsShown" @isEditing="toggleEdit"
+        :isButtonClicked="isButtonClicked">
 
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails"
@@ -29,7 +30,8 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
         <GameTasks ref="gameTaskComponent" v-if="gameQuestVisible && gameData" :initialTasks="tasks" :gameId="gameData.id"
             :user="user" :key="gameData.id" :isUserOwner="gameData.isUserOwner" :isEditing="isEditing" @hideAll="hideAll"
             @togglePlayerInfo="showPlayerInfo = !showPlayerInfo" @gameQuestDetailsShown="handleGameQuestDetailsShown"
-            @reloadGames="loadGameDetails" @reloadCriteria="fetchCriteria(this.tasks)" :criteria="criteria" />
+            @reloadGames="loadGameDetails" @reloadCriteria="fetchCriteria(this.tasks)" @hideAddButton="togglAddButton"
+            :criteria="criteria" />
 
         <article v-show="showGames" class="games-overview">
             <h2>Mijn games</h2>
@@ -56,10 +58,10 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
         </article>
 
         <div v-if="showJoin" class="overlay"></div>
-        <PinComponent v-show="showJoin" @reloadJoinedGames="fetchFollowedGames(); setFalse();" />
+        <PinComponent v-show="showJoin" @reloadJoinedGames="toggleAddButton(); fetchFollowedGames(); setFalse();" />
 
         <div v-if="createGame" class="overlay"></div>
-        <CreateGameComponent v-show="createGame" @reloadGames="refreshGames(); setFalse();" />
+        <CreateGameComponent v-show="createGame" @reloadGames="toggleAddButton(); refreshGames(); setFalse();" />
 
         <div v-if="showAddGame" class="overlay"></div>
         <AddGameComponent class="add-game-component" v-show="showAddGame" @showCreate="handletoggleCreate"
@@ -107,7 +109,8 @@ export default {
             showPlayerInfo: true,
             isGameQuestDetailsShown: false,
             isEditing: false,
-            criteria: []
+            criteria: [],
+            isButtonClicked: false
         }
     },
 
@@ -122,6 +125,9 @@ export default {
         this.levelCheck();
     },
     methods: {
+        toggleAddButton() {
+            this.isButtonClicked = !this.isButtonClicked;
+        },
         getImageUrl(imagePath) {
             return imagePath ? `${imagePath}` : '/images/default-game-image/default.webp'
         },

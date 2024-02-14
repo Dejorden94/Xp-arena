@@ -9,7 +9,7 @@ import { Link } from '@inertiajs/vue3';
 
 import { ref } from 'vue';
 
-const props = defineProps(['showTaskCheck', 'showAddJoin', 'showPlayerInfo', 'isGameQuestDetailsShown', 'showCheckpoint', 'gameData']);
+const props = defineProps(['showTaskCheck', 'showAddJoin', 'showPlayerInfo', 'isGameQuestDetailsShown', 'showCheckpoint', 'gameData', 'isButtonClicked']);
 
 
 const showingNavigationDropdown = ref(false);
@@ -66,8 +66,9 @@ const showingNavigationDropdown = ref(false);
             </header>
 
             <MobileMenu @showJoin="$emit('showJoin')" @showQuestCheck="$emit('showQuestCheck')"
-                @showTaskCheck="$emit('showTaskCheck')" @isEditing="$emit('isEditing')" :showTaskCheck="showTaskCheck"
-                :showAddJoin="showAddJoin" :isGameQuestDetailsShown="isGameQuestDetailsShown" />
+                @showTaskCheck="$emit('showTaskCheck')" @isEditing="$emit('isEditing')" @toggleAddButton="toggleAddButton()"
+                :showTaskCheck="showTaskCheck" :showAddJoin="showAddJoin" :isGameQuestDetailsShown="isGameQuestDetailsShown"
+                :isButtonClicked="isButtonClicked" />
 
 
             <PlayerInformation v-show="showPlayerInfo" />
@@ -79,6 +80,17 @@ const showingNavigationDropdown = ref(false);
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    methods: {
+        toggleAddButton() {
+            this.$emit('toggleAddButton');
+        }
+    }
+}
+
+</script>
 
 <style>
 .dashboard-hamburger {

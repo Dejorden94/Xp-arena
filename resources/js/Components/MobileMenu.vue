@@ -24,9 +24,9 @@
                 </Link>
             </div>
             <button v-show="!isGameQuestDetailsShown && showAddJoin && $page.component === 'Dashboard'"
-                :class="{ 'join-add-button': true, 'clicked': isButtonClicked }"
+                :class="{ 'join-add-button': true, 'clicked': this.isButtonClicked }"
                 @click="$emit('showJoin'); toggleAddMenu()">
-                {{ isButtonClicked ? 'x' : '+' }}
+                {{ this.isButtonClicked ? 'x' : '+' }}
             </button>
 
             <button v-show="!isGameQuestDetailsShown && showTaskCheck"
@@ -67,12 +67,12 @@ import { ref } from 'vue';
 
 import { defineProps } from 'vue';
 
-const props = defineProps(['showTaskCheck', 'showAddJoin', 'isGameQuestDetailsShown', 'gameData']);
+const props = defineProps(['showTaskCheck', 'showAddJoin', 'isGameQuestDetailsShown', 'gameData', 'isButtonClicked']);
 
 export default {
     data() {
         return {
-            isButtonClicked: false,
+            // isButtonClicked: false,
             isQuestButtonClicked: false,
             isSave: false
         }
@@ -87,6 +87,7 @@ export default {
         showAddJoin: Boolean,
         isGameQuestDetailsShown: Boolean,
         gameData: Object,
+        isButtonClicked: Boolean
     },
     setup() {
         const showMenu = ref(false);
@@ -102,7 +103,8 @@ export default {
     },
     methods: {
         toggleAddMenu() {
-            this.isButtonClicked = !this.isButtonClicked;
+            this.$emit('toggleAddButton');
+            console.log(this.isQuestButtonClicked);
         },
         toggleQuestMenu() {
             this.isQuestButtonClicked = !this.isQuestButtonClicked;
