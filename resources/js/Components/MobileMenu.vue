@@ -67,13 +67,12 @@ import { ref } from 'vue';
 
 import { defineProps } from 'vue';
 
-const props = defineProps(['showTaskCheck', 'showAddJoin', 'isGameQuestDetailsShown', 'gameData', 'isButtonClicked']);
+const props = defineProps(['showTaskCheck', 'showAddJoin', 'isGameQuestDetailsShown', 'gameData', 'isButtonClicked', 'isQuestButtonClicked']);
 
 export default {
     data() {
         return {
-            // isButtonClicked: false,
-            isQuestButtonClicked: false,
+            // isQuestButtonClicked: false,
             isSave: false
         }
     },
@@ -87,7 +86,8 @@ export default {
         showAddJoin: Boolean,
         isGameQuestDetailsShown: Boolean,
         gameData: Object,
-        isButtonClicked: Boolean
+        isButtonClicked: Boolean,
+        isQuestButtonClicked: Boolean
     },
     setup() {
         const showMenu = ref(false);
@@ -104,13 +104,11 @@ export default {
     methods: {
         toggleAddMenu() {
             this.$emit('toggleAddButton');
-            console.log(this.isQuestButtonClicked);
+            console.log(this.isButtonClicked);
         },
         toggleQuestMenu() {
-            this.isQuestButtonClicked = !this.isQuestButtonClicked;
-            if (this.isGameQuestDetailsShown === true) {
-                this.showCheckpoint = false;
-            }
+            this.$emit('toggleQuestAddButton');
+            console.log(this.isQuestButtonClicked);
         },
         toggleCriterionButton() {
             this.isSave = !this.isSave;

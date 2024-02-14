@@ -19,9 +19,9 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
     <Head title="Dashboard" />
 
     <AuthenticatedLayout @showJoin="handleJoinGame" @showTaskCheck="handleQuestCheck" :show-player-info="showPlayerInfo"
-        :showTaskCheck="showTaskCheck" @toggleAddButton="toggleAddButton()" :showAddJoin="showAddJoin"
-        @showQuestCheck="toggleQuestCheckMenu" :isGameQuestDetailsShown="isGameQuestDetailsShown" @isEditing="toggleEdit"
-        :isButtonClicked="isButtonClicked">
+        :showTaskCheck="showTaskCheck" @toggleAddButton="toggleAddButton" @toggleQuestAddButton="toggleQuestAddButton"
+        :showAddJoin="showAddJoin" @showQuestCheck="toggleQuestCheckMenu" :isGameQuestDetailsShown="isGameQuestDetailsShown"
+        @isEditing="toggleEdit" :isButtonClicked="isButtonClicked" :isQuestButtonClicked="isQuestButtonClicked">
 
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails"
@@ -110,7 +110,8 @@ export default {
             isGameQuestDetailsShown: false,
             isEditing: false,
             criteria: [],
-            isButtonClicked: false
+            isButtonClicked: false,
+            isQuestButtonClicked: false
         }
     },
 
@@ -128,11 +129,18 @@ export default {
         toggleAddButton() {
             this.isButtonClicked = !this.isButtonClicked;
         },
+        toggleQuestAddButton() {
+            this.isQuestButtonClicked = !this.isQuestButtonClicked;
+            if (this.isGameQuestDetailsShown === true) {
+                this.showCheckpoint = false;
+            }
+        },
         getImageUrl(imagePath) {
             return imagePath ? `${imagePath}` : '/images/default-game-image/default.webp'
         },
         callCheckpointReload() {
             this.$refs.gameTaskComponent.fetchCheckpoints();
+            this.isQuestButtonClicked = !this.isQuestButtonClicked;
         },
         levelCheck() {
             const response = axios.get(`user/${this.user.id}/checkLevel`)
@@ -240,6 +248,7 @@ export default {
         },
         refreshTasks() {
             this.loadGameDetails(this.gameData.id, true);
+            this.isQuestButtonClicked = !this.isQuestButtonClicked;
             this.showTaskCheck = true;
         },
         handleGameQuestDetailsShown(isShown, isUserOwner) {

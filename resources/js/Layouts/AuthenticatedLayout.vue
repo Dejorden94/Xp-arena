@@ -9,7 +9,7 @@ import { Link } from '@inertiajs/vue3';
 
 import { ref } from 'vue';
 
-const props = defineProps(['showTaskCheck', 'showAddJoin', 'showPlayerInfo', 'isGameQuestDetailsShown', 'showCheckpoint', 'gameData', 'isButtonClicked']);
+const props = defineProps(['showTaskCheck', 'showAddJoin', 'showPlayerInfo', 'isGameQuestDetailsShown', 'showCheckpoint', 'gameData', 'isButtonClicked', 'isQuestButtonClicked']);
 
 
 const showingNavigationDropdown = ref(false);
@@ -67,8 +67,9 @@ const showingNavigationDropdown = ref(false);
 
             <MobileMenu @showJoin="$emit('showJoin')" @showQuestCheck="$emit('showQuestCheck')"
                 @showTaskCheck="$emit('showTaskCheck')" @isEditing="$emit('isEditing')" @toggleAddButton="toggleAddButton()"
-                :showTaskCheck="showTaskCheck" :showAddJoin="showAddJoin" :isGameQuestDetailsShown="isGameQuestDetailsShown"
-                :isButtonClicked="isButtonClicked" />
+                @toggleQuestAddButton="toggleQuestAddButton()" :showTaskCheck="showTaskCheck" :showAddJoin="showAddJoin"
+                :isGameQuestDetailsShown="isGameQuestDetailsShown" :isButtonClicked="isButtonClicked"
+                :isQuestButtonClicked="isQuestButtonClicked" />
 
 
             <PlayerInformation v-show="showPlayerInfo" />
@@ -86,6 +87,9 @@ export default {
     methods: {
         toggleAddButton() {
             this.$emit('toggleAddButton');
+        },
+        toggleQuestAddButton() {
+            this.$emit('toggleQuestAddButton');
         }
     }
 }
