@@ -22,6 +22,7 @@ const profilePictureUrl = computed(() => {
 const form = useForm({
     name: user.name,
     email: user.email,
+    username: user.username,
     profile_picture: null,
 });
 
@@ -45,6 +46,7 @@ const onSubmit = () => {
     const data = new FormData();
     data.append('name', form.name);
     data.append('email', form.email);
+    data.append('username', form.username)
     if (form.profile_picture) {
         data.append('profile_picture', form.profile_picture);
     }
@@ -75,6 +77,13 @@ const onSubmit = () => {
             </section>
 
             <section>
+                <InputLabel for="username" value="Nickname" />
+                <TextInput class="input" id="username" type="text" v-model="form.username" required autofocus
+                    autocomplete="username" />
+                <InputError :message="form.errors.username" />
+            </section>
+
+            <section>
                 <InputLabel for="name" value="Name" />
                 <TextInput class="input" id="name" type="text" v-model="form.name" required autofocus autocomplete="name" />
                 <InputError :message="form.errors.name" />
@@ -82,7 +91,7 @@ const onSubmit = () => {
 
             <section>
                 <InputLabel for="email" value="Email" />
-                <TextInput class="input" id="email" type="email" v-model="form.email" required autocomplete="username" />
+                <TextInput class="input" id="email" type="email" v-model="form.email" required autocomplete="email" />
                 <InputError :message="form.errors.email" />
             </section>
 
@@ -101,7 +110,7 @@ const onSubmit = () => {
             <section>
                 <PrimaryButton class="save-button" :disabled="form.processing">Save</PrimaryButton>
                 <Transition>
-                    <p v-if="form.recentlySuccessful">Saved.</p>
+                    <p v-if="form.recentlySuccessful">Aanpassingen opgeslagen</p>
                 </Transition>
             </section>
         </form>
