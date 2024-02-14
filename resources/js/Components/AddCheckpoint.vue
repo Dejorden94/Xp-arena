@@ -57,7 +57,7 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    margin-top: 1rem;
+    margin-bottom: 3rem;
 }
 
 .task-input {
