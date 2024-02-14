@@ -42,8 +42,8 @@ const closeModal = () => {
         <header>
             <h2>Delete Account</h2>
             <p>
-                Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting
-                your account, please download any data or information that you wish to retain.
+                Wanneer je je account verwijdert dan worden alle data verwijdert. Denk dus goed na voor da je de knop
+                hieronder drukt!
             </p>
         </header>
 
