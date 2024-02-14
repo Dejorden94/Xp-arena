@@ -104,11 +104,9 @@ export default {
     methods: {
         toggleAddMenu() {
             this.$emit('toggleAddButton');
-            console.log(this.isButtonClicked);
         },
         toggleQuestMenu() {
             this.$emit('toggleQuestAddButton');
-            console.log(this.isQuestButtonClicked);
         },
         toggleCriterionButton() {
             this.isSave = !this.isSave;
