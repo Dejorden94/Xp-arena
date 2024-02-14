@@ -114,7 +114,18 @@ export default {
             isQuestButtonClicked: false
         }
     },
-
+    watch: {
+        createGame(newVal) {
+            if (newVal === false) {
+                this.showAddGame = false;
+            }
+        },
+        showJoin(newVal) {
+            if (newVal === false) {
+                this.showAddGame = false;
+            }
+        }
+    },
     created() {
         this.user = this.$page.props.auth.user;
         this.fetchUnverifiedTasks(); // Haal ongeverifieerde taken op bij het laden van de pagina
