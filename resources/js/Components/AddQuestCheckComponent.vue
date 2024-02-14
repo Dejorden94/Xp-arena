@@ -4,11 +4,13 @@
 
 <template>
     <article class="add-quest-check">
-        <section class="add-quest">
-            <h1 @click="$emit('showQuest')">Quest</h1>
+        <section @click="$emit('showQuest')" class="choise add-quest">
+            <h1>Quest</h1>
+            <img src="../../../public/images/icons/quest.png" alt="Klik hier om een quest aan te maken">
         </section>
-        <section class="add-checkpoint">
-            <h1 @click="$emit('showCheck')">Checkpoint</h1>
+        <section @click="$emit('showCheck')" class="choise add-checkpoint">
+            <h1>Checkpoint</h1>
+            <img src="../../../public/images/icons/checkpoint.png" alt="Klik hier om een checkpoint aan te maken">
         </section>
     </article>
 </template>
@@ -26,6 +28,12 @@ section {
     justify-content: center;
     align-items: center;
     border-radius: 1rem;
+}
+
+.choise {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
 }
 
 .add-quest-check {
