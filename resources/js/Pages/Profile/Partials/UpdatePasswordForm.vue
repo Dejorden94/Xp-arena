@@ -95,5 +95,6 @@ h2 {
 
 .save-button {
     margin-left: auto;
+    width: 10rem;
 }
 </style>
