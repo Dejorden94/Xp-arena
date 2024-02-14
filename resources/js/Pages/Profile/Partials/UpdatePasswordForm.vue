@@ -37,12 +37,11 @@ const updatePassword = () => {
     <article class="player-edit-section">
         <header>
             <h2>Update Password</h2>
-            <p>Ensure your account is using a long, random password to stay secure.</p>
         </header>
 
         <form @submit.prevent="updatePassword">
             <section>
-                <InputLabel for="current_password" value="Current Password" />
+                <InputLabel for="current_password" value="Password" />
                 <TextInput class="input" id="current_password" ref="currentPasswordInput" v-model="form.current_password"
                     type="password" autocomplete="current-password" />
                 <InputError :message="form.errors.current_password" />
@@ -63,7 +62,7 @@ const updatePassword = () => {
             </section>
 
             <section>
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
+                <PrimaryButton class="save-button" :disabled="form.processing">Save</PrimaryButton>
                 <Transition>
                     <p v-if="form.recentlySuccessful">Saved.</p>
                 </Transition>
@@ -71,3 +70,30 @@ const updatePassword = () => {
         </form>
     </article>
 </template>
+
+<style scoped>
+section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 1rem;
+}
+
+h2 {
+    text-align: center;
+}
+
+.input {
+    width: 50%;
+    margin-bottom: 1rem;
+    background: var(--background-lighter);
+    border: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    gap: 1rem;
+}
+
+.save-button {
+    margin-left: auto;
+}
+</style>

@@ -118,7 +118,8 @@ section {
 
 
 input[type=file] {
-    width: 100%;
+    width: 80%;
+    text-align: center;
 }
 
 img {

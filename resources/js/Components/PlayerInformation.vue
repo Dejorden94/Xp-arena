@@ -33,7 +33,7 @@ export default {
 <template>
     <article class="player-info">
         <figure class="profile-pic">
-            <Link :href="route('profile.edit')">
+            <Link class="edit-link" :href="route('profile.edit')">
             <img :src="profilePictureUrl" alt="It's you!">
             </Link>
         </figure>
@@ -82,8 +82,10 @@ export default {
     border-top-left-radius: 1rem;
 }
 
-.profile-pic>img {
-    height: 100%;
+.profile-pic>.edit-link>img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
 }
 
 .player-info-section {
