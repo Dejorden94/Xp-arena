@@ -124,6 +124,16 @@ export default {
             if (newVal === false) {
                 this.showAddGame = false;
             }
+        },
+        showAddQuest(newVal) {
+            if (newVal === false) {
+                this.showAddQuesTaskMenu = false;
+            }
+        },
+        showCheckpoint(newVal) {
+            if (newVal === false) {
+                this.showAddQuesTaskMenu = false;
+            }
         }
     },
     created() {
@@ -142,6 +152,7 @@ export default {
         },
         toggleQuestAddButton() {
             this.isQuestButtonClicked = !this.isQuestButtonClicked;
+            this.showAddQuest = false;
             if (this.isGameQuestDetailsShown === true) {
                 this.showCheckpoint = false;
             }
@@ -321,9 +332,6 @@ export default {
         setFalseQuestCheck() {
             this.showAddQuesTaskMenu = false;
             this.showAddQuest = false;
-
-            // Toevoegen wanneer checkpoint component en functionaliteit is gemaakt
-            // this.showCheckpoint = false;
         },
         hideAll() {
             this.gameDetailsVisible = !this.gameDetailsVisible;
