@@ -154,7 +154,6 @@ body {
     position: absolute;
     left: 50%;
     right: 50%;
-
 }
 
 .info-container {

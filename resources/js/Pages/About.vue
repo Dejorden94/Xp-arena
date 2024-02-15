@@ -25,10 +25,10 @@ defineProps({
     <Head title="Home" />
 
     <div class="home-container">
-        <img class="logo logo-mobile" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
+        <img class="logo-mobile" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
+        <img class="logo" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
         <div v-if="canLogin" class="menu">
             <article class="menu-desktop">
-                <img class="logo" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
                 <Link v-if="$page.props.auth.user" :href="route('dashboard')">
                 Dashboard</Link>
 
@@ -41,9 +41,8 @@ defineProps({
                 </template>
             </article>
 
-            <MobileMenu :canRegister="canRegister" :currentRoute="$page.url" />
         </div>
-
+        <MobileMenu :canRegister="canRegister" :currentRoute="$page.url" />
         <main class="about-container">
             <article class="about-us">
                 <figure>
@@ -97,6 +96,20 @@ defineProps({
 <style>
 body {
     background: var(--background-darker);
+    position: relative;
+}
+
+.home-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 5rem;
+}
+
+.logo {
+    width: 20rem;
+    position: absolute;
+    left: 50%;
+    right: 50%;
 }
 
 .input-container {
@@ -108,45 +121,46 @@ body {
 }
 
 .input-container>input {
-    width: 60%;
+    width: 100;
 }
 
 label {
     width: 10rem;
 }
 
+.menu-desktop {
+    width: 20vw;
+    margin-top: 10rem;
+    padding: 0 2rem;
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+    position: fixed;
+    background-color: var(--background-darker);
+
+    * {
+        font-size: 130%;
+        font-weight: bolder;
+        text-transform: uppercase;
+    }
+}
+
 .logo-mobile {
     display: none;
 }
 
-.menu-desktop {
-    padding: 0 2rem;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 2rem;
-    height: 20vh;
-}
-
-.menu-desktop>img {
-    position: absolute;
-    left: 0;
-    margin-left: 2rem;
-}
-
 .about-container {
-    text-align: center;
-    padding: 0 2.5rem;
-    margin-top: 4rem;
+    margin-top: 10rem;
+    padding: 0 5rem;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
     gap: 1rem;
+    width: 80vw;
 }
 
 .about-us {
-    width: 60%;
+    width: 100%;
     border: 2px solid var(--background-lighter);
     text-align: center;
     border-radius: 3rem;
@@ -161,7 +175,7 @@ label {
 
 .video {
     margin: 2rem 0;
-    width: 60%;
+    width: 100%;
     height: 40rem;
 }
 
@@ -175,7 +189,7 @@ label {
     padding: 2.5rem;
     margin-bottom: 4rem;
     background: var(--background-super-dark);
-    width: 60%;
+    width: 100%;
     display: flex;
     gap: 1rem;
     flex-direction: column;
@@ -210,10 +224,10 @@ label {
         gap: 2.4rem;
     }
 
-    .logo {
+    /* .logo {
         width: 40%;
         margin: 0 auto;
-    }
+    } */
 
     .menu-desktop {
         display: none;
