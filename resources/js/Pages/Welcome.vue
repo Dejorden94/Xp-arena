@@ -50,9 +50,8 @@ defineProps({
                     <Link :href="route('about')">About</Link>
                 </template>
             </article>
-
-            <MobileMenu :canRegister="canRegister" :currentRoute="$page.url" />
         </div>
+        <MobileMenu :canRegister="canRegister" :currentRoute="$page.url" />
 
         <article class="info-container">
             <section class="info-section welcome-info">
@@ -125,6 +124,7 @@ body {
 .home-container {
     display: flex;
     justify-content: space-between;
+    gap: 5rem;
 }
 
 .logo-mobile {
@@ -133,6 +133,7 @@ body {
 
 .menu-desktop {
     width: 20vw;
+    margin-top: 10rem;
     padding: 0 2rem;
     flex-direction: column;
     display: flex;
@@ -142,12 +143,9 @@ body {
     background-color: var(--background-darker);
 
     * {
+        font-size: 130%;
         font-weight: bolder;
         text-transform: uppercase;
-    }
-
-    *:first-child {
-        margin-top: 10rem;
     }
 }
 
@@ -161,12 +159,22 @@ body {
 
 .info-container {
     margin-top: 10rem;
-    padding: 0 2.5rem;
+    padding: 0 5rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
     width: 80vw;
-    height: 80vh;
+}
+
+.info-section {
+    height: 45rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--background-super-dark);
+    border: .2rem solid var(--background-lighter);
+    border-radius: 3rem;
 }
 
 figcaption {
@@ -180,7 +188,7 @@ figcaption {
     align-items: flex-end;
     background: var(--background-lighter);
     border-radius: 2rem 2rem 0 0;
-    height: 100%;
+    height: 75%;
     width: 100%;
 }
 
@@ -188,17 +196,8 @@ figcaption {
     height: 90%;
 }
 
-.info-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: var(--background-super-dark);
-    border: .2rem solid var(--background-lighter);
-    border-radius: 3rem;
-}
-
 .gamification {
+    padding: 5rem;
     display: flex;
     flex-direction: row;
 
@@ -217,10 +216,14 @@ figcaption {
 }
 
 .easy-info {
-    height: 100%;
+    height: 70%;
+    width: 100%;
 }
 
 .easy-info>img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
     border-radius: 3rem 3rem 0 0;
 }
 
@@ -230,16 +233,14 @@ figcaption {
     align-items: center;
     text-align: center;
     flex-direction: column;
-    height: 40%;
+    height: 60%;
 }
 
 .start-now {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    grid-column: 1/4;
-    grid-row: 2/4;
+    height: 20rem;
     border-radius: 3rem;
     background-image: url("/images/info-imgs/levelup-bg1.png");
     background-size: 100%;
@@ -264,7 +265,14 @@ figcaption {
 
 @media screen and (max-width: 1280px) {
 
+    .home-container {
+        margin-top: 10rem;
+        justify-content: center;
+    }
+
     .logo-mobile {
+        top: -8rem;
+        position: absolute;
         display: block;
         margin: 0 auto;
     }
