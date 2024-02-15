@@ -34,10 +34,11 @@ defineProps({
     <Head title="Home" />
 
     <div class="home-container">
-        <img class="logo logo-mobile" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
+        <img class="logo-mobile" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
+        <img class="logo" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
         <div v-if="canLogin" class="menu">
             <article class="menu-desktop">
-                <img class="logo" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
+
                 <Link v-if="$page.props.auth.user" :href="route('dashboard')">
                 Dashboard</Link>
 
@@ -121,32 +122,50 @@ body {
     position: relative;
 }
 
+.home-container {
+    display: flex;
+    justify-content: space-between;
+}
+
 .logo-mobile {
     display: none;
 }
 
 .menu-desktop {
+    width: 20vw;
     padding: 0 2rem;
+    flex-direction: column;
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    justify-content: flex-start;
     gap: 2rem;
-    height: 20vh;
+    position: fixed;
+    background-color: var(--background-darker);
+
+    * {
+        font-weight: bolder;
+        text-transform: uppercase;
+    }
+
+    *:first-child {
+        margin-top: 10rem;
+    }
 }
 
-.menu-desktop>img {
+.logo {
+    width: 20rem;
     position: absolute;
-    left: 0;
-    margin-left: 2rem;
+    left: 50%;
+    right: 50%;
+
 }
 
 .info-container {
+    margin-top: 10rem;
     padding: 0 2.5rem;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
-    width: 100vw;
+    width: 80vw;
     height: 80vh;
 }
 
@@ -247,6 +266,7 @@ figcaption {
 
     .logo-mobile {
         display: block;
+        margin: 0 auto;
     }
 
     .info-container {
@@ -276,7 +296,7 @@ figcaption {
     }
 
     .logo {
-        margin: 0 auto;
+        display: none;
     }
 
     .text-right {
