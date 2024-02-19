@@ -124,7 +124,7 @@ export default {
 }
 
 .player-mobile {
-    /* display: none; */
+    display: none;
 }
 
 .player-desktop {
@@ -160,7 +160,7 @@ export default {
     }
 
     .player-mobile {
-        /* display: block; */
+        display: grid;
     }
 
     .player-desktop {
