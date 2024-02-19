@@ -57,14 +57,15 @@ export default {
 
 <style>
 .player-info {
+    height: 20rem;
     border-radius: 1rem;
     border: 1px solid var(--background-lighter);
     margin: 4rem auto;
-    max-width: 90%;
+    max-width: 80%;
     background: var(--background-lighter);
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(8, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
 }
 
 .player-info p {
@@ -72,19 +73,14 @@ export default {
 }
 
 .profile-pic {
-    padding: 1rem;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    grid-column: 1/3;
-    grid-row: 1/6;
     border-top-left-radius: 1rem;
+    grid-column: 1/3;
+    grid-row: 1/2;
 }
 
 .profile-pic>.edit-link>img {
     width: 100%;
-    aspect-ratio: 1/1;
+    height: 100%;
     object-fit: cover;
 }
 
@@ -92,8 +88,8 @@ export default {
     padding: 1rem;
     background: var(--background-super-dark);
     border-top-right-radius: 1rem;
-    grid-column: 3/9;
-    grid-row: 1/6;
+    grid-column: 3/7;
+    grid-row: 1/2;
 }
 
 .username {
@@ -101,18 +97,24 @@ export default {
 }
 
 .experience-section {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     padding: 0 1rem;
     border-bottom-right-radius: 1rem;
-    grid-column: 3/9;
-    grid-row: 6/9;
+    grid-column: 3/7;
+    grid-row: 2/7;
 }
 
 .level-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     padding: 0 1rem;
     position: relative;
     border-bottom-left-radius: 1rem;
     grid-column: 1/3;
-    grid-row: 6/9;
+    grid-row: 2/7;
 }
 
 .level-section::after {

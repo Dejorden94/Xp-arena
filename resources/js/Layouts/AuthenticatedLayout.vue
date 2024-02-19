@@ -22,6 +22,7 @@ const showingNavigationDropdown = ref(false);
                 <!-- Primary Navigation Menu -->
                 <div>
                     <div class="dashboard-heading">
+                        <PlayerInformation class="player-desktop" v-show="showPlayerInfo" />
                         <!-- Logo -->
                         <ApplicationLogo class="dashboard-logo" />
                         <!-- Navigation Links -->
@@ -72,7 +73,7 @@ const showingNavigationDropdown = ref(false);
                 :isQuestButtonClicked="isQuestButtonClicked" />
 
 
-            <PlayerInformation v-show="showPlayerInfo" />
+            <PlayerInformation class="player-mobile" v-show="showPlayerInfo" />
 
             <!-- Page Content -->
             <main>
@@ -122,6 +123,15 @@ export default {
     color: #eee;
 }
 
+.player-mobile {
+    /* display: none; */
+}
+
+.player-desktop {
+    display: block;
+    width: 10rem;
+}
+
 .dashboard-heading {
     display: flex;
     justify-content: space-around;
@@ -149,8 +159,12 @@ export default {
         display: flex;
     }
 
-    .player-info {
-        height: 20vh;
+    .player-mobile {
+        /* display: block; */
+    }
+
+    .player-desktop {
+        display: none;
     }
 }
 </style>
