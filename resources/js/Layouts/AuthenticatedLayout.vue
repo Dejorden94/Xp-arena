@@ -17,26 +17,22 @@ const showingNavigationDropdown = ref(false);
 
 <template>
     <div>
-        <div>
+        <div class="dashboard-container">
             <nav>
                 <!-- Primary Navigation Menu -->
-                <div>
-                    <div class="dashboard-heading">
-                        <PlayerInformation class="player-desktop" v-show="showPlayerInfo" />
-                        <!-- Logo -->
-                        <ApplicationLogo class="dashboard-logo" />
-                        <!-- Navigation Links -->
-                        <NavLink href="/">
-                            Home
-                        </NavLink>
-                        <NavLink :href="route('dashboard')">
-                            Dashboard
-                        </NavLink>
-                        <NavLink :href="route('profile.edit')">
-                            Profile
-                        </NavLink>
-                        <NavLink :href="route('logout')" method="post" as="button">Log out</NavLink>
-                    </div>
+                <div class="dashboard-heading">
+                    <PlayerInformation class="player-desktop" v-show="showPlayerInfo" />
+                    <!-- Navigation Links -->
+                    <NavLink href="/">
+                        Home
+                    </NavLink>
+                    <NavLink :href="route('dashboard')">
+                        Dashboard
+                    </NavLink>
+                    <NavLink :href="route('profile.edit')">
+                        Profile
+                    </NavLink>
+                    <NavLink :href="route('logout')" method="post" as="button">Log out</NavLink>
                 </div>
 
                 <!-- Responsive Navigation Menu -->
@@ -98,8 +94,20 @@ export default {
 </script>
 
 <style>
+main {
+    width: 80vw;
+}
+
+nav {
+    width: 20vw;
+}
+
+.dashboard-container {
+    display: flex;
+}
+
 .dashboard-hamburger {
-    /* padding: 1rem; */
+    padding: 1rem;
     display: none;
     width: 6rem;
     height: 6rem;
@@ -128,18 +136,32 @@ export default {
 }
 
 .player-desktop {
-    display: block;
-    width: 10rem;
+    display: grid;
+    height: 20rem;
+    width: 100%;
+
 }
 
 .dashboard-heading {
+    width: 25%;
+    height: 100vh;
+    position: fixed;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 2rem;
+    background-color: var(--background-super-dark);
 }
 
-.dashboard-logo {
-    width: 10%;
+.dashboard-heading>a {
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.dashboard-heading>a,
+.dashboard-heading>button {
+    margin-left: 4rem;
 }
 
 .level {
@@ -151,6 +173,14 @@ export default {
 }
 
 @media screen and (max-width: 1280px) {
+    main {
+        width: auto;
+    }
+
+    .dashboard-container {
+        display: block;
+    }
+
     .dashboard-heading {
         display: none;
     }

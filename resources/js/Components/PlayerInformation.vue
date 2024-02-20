@@ -57,10 +57,9 @@ export default {
 
 <style>
 .player-info {
-    height: 20rem;
     border-radius: 1rem;
     border: 1px solid var(--background-lighter);
-    margin: 4rem auto;
+    margin: 5rem auto 0 auto;
     max-width: 80%;
     background: var(--background-lighter);
     display: grid;
@@ -133,5 +132,13 @@ export default {
     -webkit-background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
+}
+
+@media screen and (max-width: 1280px) {
+    .player-info {
+        height: 20rem;
+        margin: 4rem auto;
+    }
+
 }
 </style>

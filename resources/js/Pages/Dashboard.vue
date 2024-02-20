@@ -437,6 +437,10 @@ li:hover {
 
 }
 
+.games-overview:first-child {
+    margin-top: 8rem;
+}
+
 .games-overview:nth-child(2) {
     margin-bottom: 10rem;
 }
@@ -449,6 +453,12 @@ li:hover {
     left: 0;
     background: rgba(0, 0, 0, 0.7);
     z-index: 0;
+}
+
+@media screen and (max-width: 1280px) {
+    .games-overview:first-child {
+        margin-top: 0;
+    }
 }
 </style>
 
