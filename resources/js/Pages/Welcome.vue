@@ -38,9 +38,11 @@ defineProps({
         <img class="logo" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
         <div v-if="canLogin" class="menu">
             <article class="menu-desktop">
-
-                <Link v-if="$page.props.auth.user" :href="route('dashboard')">
-                Dashboard</Link>
+                <template v-if="$page.props.auth.user">
+                    <Link :href="route('dashboard')">
+                    Dashboard</Link>
+                    <Link :href="route('about')">About</Link>
+                </template>
 
                 <template v-else>
                     <Link :href="route('login')">
