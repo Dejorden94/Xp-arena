@@ -94,10 +94,10 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 60%;
-    left: 50%;
+    top: 70%;
+    left: 60%;
     transform: translate(-50%, -50%);
-    width: 80%;
+    width: 50%;
     height: 40rem;
     padding: 0;
 }
@@ -140,6 +140,14 @@ li {
 
 li:hover {
     color: #007BFF;
+}
+
+@media screen and (max-width:1280px) {
+    .create-game {
+        top: 60%;
+        left: 50%;
+        width: 80%;
+    }
 }
 </style>
 
