@@ -30,8 +30,8 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
         <GameTasks ref="gameTaskComponent" v-if="gameQuestVisible && gameData" :initialTasks="tasks" :gameId="gameData.id"
             :user="user" :key="gameData.id" :isUserOwner="gameData.isUserOwner" :isEditing="isEditing" @hideAll="hideAll"
             @togglePlayerInfo="showPlayerInfo = !showPlayerInfo" @gameQuestDetailsShown="handleGameQuestDetailsShown"
-            @reloadGames="loadGameDetails" @reloadCriteria="fetchCriteria(this.tasks)" @hideAddButton="togglAddButton"
-            :criteria="criteria" />
+            @reloadGames="loadGameDetails" @showQuestCheck="toggleQuestCheckMenu"
+            @reloadCriteria="fetchCriteria(this.tasks)" @hideAddButton="togglAddButton" :criteria="criteria" />
 
         <article v-show="showGames" class="games-overview">
             <h2>Mijn games</h2>
@@ -68,17 +68,17 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
         <AddGameComponent class="add-game-component" v-show="showAddGame" @showCreate="handletoggleCreate"
             @showJoin="handleShowJoin" />
 
-        <div v-if="showAddQuesTaskMenu" class="overlay"></div>
+        <div v-if="showAddQuesTaskMenu" class="overlay" @click="setQuestFalse"></div>
         <AddQuestCheckComponent v-show="showAddQuesTaskMenu" @showQuest="toggleAddQuest" @showCheck="toggleCheck" />
 
-        <div v-if="showAddQuest" class="overlay"></div>
+        <div v-if="showAddQuest" class="overlay" @click="setQuestFalse"></div>
         <AddQuest v-show="showAddQuest" :gameData="gameData" @refreshTasks="refreshTasks(); setFalseQuestCheck();" />
 
-        <div v-if="showCheckpoint" class="overlay"></div>
+        <div v-if="showCheckpoint" class="overlay" @click="setQuestFalse"></div>
         <AddCheckpoint v-show="showCheckpoint" :gameData="gameData" @hideAddCheck="showCheckpoint = false"
             @reloadCheck="callCheckpointReload" />
 
-        <div class="game-button-container">
+        <div v-show="showGames" class="game-button-container">
             <button @click="handleJoinGame()">+</button>
         </div>
 
@@ -152,6 +152,11 @@ export default {
         this.levelCheck();
     },
     methods: {
+        setQuestFalse() {
+            this.showAddQuest = false;
+            this.showCheckpoint = false;
+            this.showAddQuesTaskMenu = false;
+        },
         toggleAddButton() {
             this.isButtonClicked = !this.isButtonClicked;
         },
@@ -428,6 +433,8 @@ li:hover {
     border-radius: 1rem;
     position: relative;
 }
+
+
 
 .game-button-container {
     display: flex;

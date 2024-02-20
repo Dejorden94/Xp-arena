@@ -46,6 +46,9 @@
                 </li>
             </ul>
         </article>
+        <div class="quest-button-container">
+            <button @click="$emit('showQuestCheck')">+</button>
+        </div>
     </article>
 
     <GameQuestDetails ref="questDetails" v-if="showQuestDetailsModal" :gameId="gameId" :isUserOwner="isUserOwner"
@@ -378,6 +381,23 @@ export default {
     font-size: 350%;
 }
 
+.quest-button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 3rem;
+
+    button {
+        border: none;
+        background: linear-gradient(90deg, #FDA829, #FF5C00);
+        display: block;
+        font-weight: 100;
+        font-size: 370%;
+        width: 8rem;
+        height: 8rem;
+        border-radius: 50%;
+    }
+}
 
 img {
     cursor: pointer;
