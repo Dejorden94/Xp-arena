@@ -19,23 +19,18 @@ defineProps({
     <Head title="Profile" />
 
     <AuthenticatedLayout>
-        <template #header>
-            <h2>Profile</h2>
-        </template>
 
         <div class="edit-player-form">
             <div>
-                <div>
-                    <UpdateProfileInformationForm :must-verify-email="mustVerifyEmail" :status="status" />
-                </div>
+                <UpdateProfileInformationForm :must-verify-email="mustVerifyEmail" :status="status" />
+            </div>
 
-                <div>
-                    <UpdatePasswordForm />
-                </div>
+            <div>
+                <UpdatePasswordForm />
+            </div>
 
-                <div>
-                    <DeleteUserForm />
-                </div>
+            <div>
+                <DeleteUserForm />
             </div>
         </div>
     </AuthenticatedLayout>
@@ -47,6 +42,17 @@ defineProps({
 }
 
 .edit-player-form {
+    margin-left: auto;
+    margin-right: 1%;
+    width: 90%;
     padding: 0 2rem;
+}
+
+@media screen and (max-width:1280px) {
+    .edit-player-form {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
 </style>

@@ -165,6 +165,10 @@ nav {
     margin-left: 4rem;
 }
 
+.dashboard-heading>a:first-of-type {
+    margin-top: 10rem;
+}
+
 .level {
     background: linear-gradient(90deg, #FDA829, #FF5C00);
     background-clip: text;
