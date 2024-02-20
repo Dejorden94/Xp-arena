@@ -326,8 +326,8 @@ h2 {
 
 article {
     margin-bottom: 10rem;
-    width: 80vw;
-    margin: 0 auto 15rem auto;
+    width: 80%;
+    margin: 0 5% 15rem auto;
 }
 
 input,
@@ -384,5 +384,11 @@ textarea {
 
 .gray-star {
     color: gray;
+}
+
+@media screen and (max-width:1280px) {
+    article {
+        margin: 0 auto 15rem auto;
+    }
 }
 </style>
