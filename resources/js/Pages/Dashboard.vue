@@ -432,7 +432,6 @@ li:hover {
 }
 
 .games-overview {
-    /* background: var(--background-lighter); */
     color: var(--font-color-normal);
 
 }
