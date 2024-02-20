@@ -157,6 +157,7 @@ nav {
 .dashboard-heading>a {
     text-transform: uppercase;
     font-weight: 600;
+    font-size: 130%;
 }
 
 .dashboard-heading>a,
