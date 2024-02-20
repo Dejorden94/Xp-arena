@@ -23,14 +23,20 @@ defineProps({
 
 <template>
     <Head title="Home" />
-
+    <img class="logo" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
     <div class="home-container">
         <img class="logo-mobile" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
-        <img class="logo" src='images/Logo-Xp-Arena.png' alt="Xp arena logo">
+
         <div v-if="canLogin" class="menu">
             <article class="menu-desktop">
-                <Link v-if="$page.props.auth.user" :href="route('dashboard')">
-                Dashboard</Link>
+                <template v-if="$page.props.auth.user">
+                    <Link :href="route('dashboard')">
+                    Dashboard</Link>
+                    <Link href="/">Home</Link>
+                    <Link :href="route('logout')" method="post" as="button">
+                    Log Out
+                    </Link>
+                </template>
 
                 <template v-else>
                     <Link :href="route('login')">
@@ -106,10 +112,10 @@ body {
 }
 
 .logo {
+    left: 60%;
+    margin-bottom: -12rem;
     width: 20rem;
-    position: absolute;
-    left: 50%;
-    right: 50%;
+    position: sticky;
 }
 
 .input-container {
@@ -120,24 +126,21 @@ body {
     gap: 1rem;
 }
 
-.input-container>input {
-    width: 100;
-}
-
 label {
     width: 10rem;
 }
 
 .menu-desktop {
-    width: 20vw;
-    margin-top: 10rem;
+    width: 30%;
+    height: 100vh;
     padding: 0 2rem;
     flex-direction: column;
     display: flex;
     justify-content: flex-start;
     gap: 2rem;
     position: fixed;
-    background-color: var(--background-darker);
+    top: 0;
+    background-color: var(--background-super-dark);
 
     * {
         font-size: 130%;
@@ -146,17 +149,21 @@ label {
     }
 }
 
+.menu-desktop>a:first-child {
+    margin-top: 10rem;
+}
+
 .logo-mobile {
     display: none;
 }
 
 .about-container {
-    margin-top: 10rem;
+    margin: 10rem 0 0 auto;
     padding: 0 5rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    width: 80vw;
+    width: 70%;
 }
 
 .about-us {

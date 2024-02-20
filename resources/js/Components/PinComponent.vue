@@ -55,10 +55,10 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 60%;
+    top: 70%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
+    transform: translate(-30%, -50%);
+    width: 40%;
     padding: 0;
 }
 
@@ -126,5 +126,14 @@ li {
 
 li:hover {
     color: #007BFF;
+}
+
+@media screen and (max-width: 1280px) {
+    .pincode {
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+    }
 }
 </style>

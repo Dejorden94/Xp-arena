@@ -29,6 +29,9 @@ section {
 }
 
 .add-game {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
     border: none;
     background: none;
     height: 25rem;

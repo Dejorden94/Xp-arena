@@ -36,7 +36,8 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
         <article v-show="showGames" class="games-overview">
             <h2>Mijn games</h2>
             <ul>
-                <li class="game" @click="loadGameDetails(game.id); toggleGames();" v-for="game in games" :key="game.id">
+                <li class="game game-owner" @click="loadGameDetails(game.id); toggleGames();" v-for="game in games"
+                    :key="game.id">
                     {{ game.name }}
                     <img class="game-image" :src="getImageUrl(game.image)" alt="Game image">
                 </li>
@@ -57,13 +58,13 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
             </ul>
         </article>
 
-        <div v-if="showJoin" class="overlay"></div>
+        <div v-if="showJoin" class="overlay" @click="setFalse()"></div>
         <PinComponent v-show="showJoin" @reloadJoinedGames="toggleAddButton(); fetchFollowedGames(); setFalse();" />
 
-        <div v-if="createGame" class="overlay"></div>
+        <div v-if="createGame" class="overlay" @click="setFalse()"></div>
         <CreateGameComponent v-show="createGame" @reloadGames="toggleAddButton(); refreshGames(); setFalse();" />
 
-        <div v-if="showAddGame" class="overlay"></div>
+        <div v-if="showAddGame" class="overlay" @click="handleJoinGame()"></div>
         <AddGameComponent class="add-game-component" v-show="showAddGame" @showCreate="handletoggleCreate"
             @showJoin="handleShowJoin" />
 
@@ -76,6 +77,10 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
         <div v-if="showCheckpoint" class="overlay"></div>
         <AddCheckpoint v-show="showCheckpoint" :gameData="gameData" @hideAddCheck="showCheckpoint = false"
             @reloadCheck="callCheckpointReload" />
+
+        <div class="game-button-container">
+            <button @click="handleJoinGame()">+</button>
+        </div>
 
     </AuthenticatedLayout>
 </template>
@@ -350,14 +355,13 @@ export default {
 <style scoped>
 article {
     display: flex;
+    justify-content: flex-end;
     flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 2rem;
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+    flex-wrap: wrap;
 }
-
 
 h2 {
     margin-bottom: 1rem;
@@ -395,6 +399,9 @@ button:hover {
 }
 
 ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
     width: 100%;
     height: 100%;
 }
@@ -413,13 +420,81 @@ li:hover {
     display: flex;
     align-items: center;
     background: linear-gradient(#4DA9FF, #3770A6);
-    width: 100%;
+    width: 49%;
     height: 10rem;
     font-size: 150%;
     font-weight: 700;
     margin-bottom: 2rem;
     border-radius: 1rem;
     position: relative;
+}
+
+.game-button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 3rem;
+
+    button {
+        border: none;
+        background: linear-gradient(90deg, #FDA829, #FF5C00);
+        display: block;
+        font-weight: 100;
+        font-size: 370%;
+        width: 8rem;
+        height: 8rem;
+        border-radius: 50%;
+    }
+}
+
+.join-add-button {
+    border: none;
+    background: linear-gradient(90deg, #FDA829, #FF5C00);
+    display: block;
+    font-weight: 100;
+    font-size: 500%;
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    margin-left: -5rem;
+}
+
+.join-add-button.clicked {
+    background: linear-gradient(90deg, #4DA9FF, #3770A6);
+
+}
+
+.criterion-edit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fa-pen,
+.fa-floppy-disk {
+    font-size: 5rem;
+}
+
+.quest-check-button {
+    border: none;
+    background: linear-gradient(90deg, #FDA829, #FF5C00);
+    display: block;
+    font-weight: 100;
+    font-size: 500%;
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    margin-left: -5rem;
+}
+
+.game-owner {
+    background: var(--background-super-dark);
 }
 
 .game-image {
@@ -433,7 +508,6 @@ li:hover {
 
 .games-overview {
     color: var(--font-color-normal);
-
 }
 
 .games-overview:first-child {
@@ -457,6 +531,23 @@ li:hover {
 @media screen and (max-width: 1280px) {
     .games-overview:first-child {
         margin-top: 0;
+    }
+
+    .game-button-container {
+        display: none;
+    }
+
+    article {
+        margin-bottom: 2rem;
+    }
+
+    .game {
+        width: 100%;
+    }
+
+    ul {
+        display: block;
+        flex-wrap: nowrap;
     }
 }
 </style>

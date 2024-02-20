@@ -40,6 +40,9 @@ defineProps({
                 <Link :href="route('dashboard')">
                 Dashboard</Link>
                 <Link :href="route('about')">About</Link>
+                <Link :href="route('logout')" method="post" as="button">
+                Log Out
+                </Link>
             </template>
 
             <template v-else>
@@ -158,7 +161,6 @@ body {
     margin-bottom: -12rem;
     width: 20rem;
     position: sticky;
-
 }
 
 .info-container {
