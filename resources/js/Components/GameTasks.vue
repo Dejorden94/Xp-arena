@@ -332,6 +332,11 @@ export default {
 </script>
 
 <style scoped>
+.quest-overview {
+    width: 80%;
+    margin: 0 auto 0 auto;
+}
+
 /* Voeg stijlen toe aan de statusindicator */
 .task-status {
     margin-left: 10px;
@@ -450,7 +455,6 @@ li {
     color: grey;
     pointer-events: none;
 }
-
 
 @media screen and (max-width: 900px) {
     .quest-overview {

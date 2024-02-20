@@ -65,13 +65,13 @@ export default {
 
 <style scoped>
 article {
-    width: 100vw;
+    width: 80%;
     padding: 1rem;
     background-color: var(--background-super-dark);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     border: 2px solid var(--background-lighter);
-    margin-bottom: 1rem;
+    margin: 0 auto 1rem auto;
 }
 </style>
 
