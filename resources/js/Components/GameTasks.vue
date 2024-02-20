@@ -456,6 +456,12 @@ li {
     pointer-events: none;
 }
 
+@media screen and (max-width: 1280px) {
+    .quest-button-container {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 900px) {
     .quest-overview {
         margin-bottom: 10rem;

@@ -43,12 +43,10 @@ section {
     border: none;
     background: none;
     height: 25rem;
-    width: 80vw;
+    width: 100%;
     padding: 0;
     position: sticky;
-    bottom: 0;
-    left: 50%;
-    z-index: 1;
+    margin-left: -30rem;
 }
 
 .add-quest {
@@ -62,5 +60,16 @@ section {
     width: 50%;
     height: 50%;
     background: linear-gradient(#4DA9FF, #3770A6);
+}
+
+@media screen and (max-width: 1280px) {
+    .add-quest-check {
+        bottom: 15rem;
+        margin: 0;
+    }
+
+    .add-quest-check>section {
+        margin: 0 auto;
+    }
 }
 </style>
