@@ -61,7 +61,7 @@ export default {
     border: 1px solid var(--background-lighter);
     margin: 5rem auto 0 auto;
     max-width: 80%;
-    height: 20rem;
+    height: 30rem;
     background: var(--background-lighter);
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -76,7 +76,7 @@ export default {
     border-top-left-radius: 1rem;
     grid-column: 1/3;
     grid-row: 1/2;
-    height: 10rem;
+    height: 12.5rem;
 }
 
 .profile-pic>.edit-link>img {
@@ -91,7 +91,7 @@ export default {
     border-top-right-radius: 1rem;
     grid-column: 3/7;
     grid-row: 1/2;
-    height: 10rem;
+    height: 12.5rem;
     width: 100%;
 }
 
@@ -114,7 +114,7 @@ export default {
     border-bottom-right-radius: 1rem;
     grid-column: 3/7;
     grid-row: 2/7;
-    height: 10rem
+    height: 12.5rem
 }
 
 .level-section {
@@ -126,7 +126,7 @@ export default {
     border-bottom-left-radius: 1rem;
     grid-column: 1/3;
     grid-row: 2/7;
-    height: 10rem
+    height: 12.5rem
 }
 
 .level-section::after {

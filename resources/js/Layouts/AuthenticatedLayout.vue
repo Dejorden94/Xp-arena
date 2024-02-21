@@ -137,7 +137,7 @@ nav {
 
 .player-desktop {
     display: grid;
-    height: 20rem;
+    height: 25rem;
     width: 100%;
 
 }
