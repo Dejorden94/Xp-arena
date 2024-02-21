@@ -156,6 +156,7 @@ export default {
             this.showAddQuest = false;
             this.showCheckpoint = false;
             this.showAddQuesTaskMenu = false;
+            this.isQuestButtonClicked = false;
         },
         toggleAddButton() {
             this.isButtonClicked = !this.isButtonClicked;
@@ -312,6 +313,7 @@ export default {
             this.showAddGame = false;
             this.createGame = false;
             this.showAddQuesTaskMenu = false;
+            isButtonClicked = false;
         },
         toggleGames() {
             this.showGames = !this.showGames;
