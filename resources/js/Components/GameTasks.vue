@@ -29,9 +29,9 @@
                         </div>
                     </section>
 
-                    <img v-if="(isUserOwner || (!isUserOwner && !isTaskInLockedCheckpoint(task.id)))"
-                        :class="{ 'inactive-button': task.status === 'completed' }" @click="showQuestDetails(task)"
-                        :src="getQuestImageUrl(task.image)" alt="Quest image">
+                    <img v-if="(isUserOwner || (!isUserOwner || !isTaskInLockedCheckpoint(task.id)))"
+                        :class="{ 'inactive-button': task.status === 'completed' || task.status === 'reviewing' }"
+                        @click="showQuestDetails(task)" :src="getQuestImageUrl(task.image)" alt="Quest image">
 
                     <p v-if="!isUserOwner">{{ task.name }} - {{ task.status }}</p>
                     <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
