@@ -3,9 +3,7 @@
 
         <h3>Quests</h3>
         <section v-if="isUserOwner" v-for="checkpoint in sortedCheckpoints" :key="checkpoint.id">
-            <!-- ... andere details van de checkpoint ... -->
             <p>{{ checkpoint.name }} - {{ checkpoint.order }}</p>
-            <!-- Voeg een numeriek invoerveld toe voor de nieuwe volgorde -->
             <input v-if="isUserOwner" type="number" v-model="checkpoint.new_order" placeholder="Nieuwe Volgorde">
             <button v-if="isUserOwner" @click="updateCheckpointOrder(checkpoint.id, checkpoint.new_order)">
                 Bijwerken Volgorde
@@ -14,34 +12,30 @@
         <article v-for="checkpoint in sortedCheckpoints" :key="checkpoint.id" class="checkpoint-section">
             <h4>{{ checkpoint.name }}</h4>
             <ul>
-                <li v-for="task in accessibleTasks[checkpoint.id]" :key="task.id"
-                    :class="{ 'inactive-task': !task.isAccessible && !isUserOwner }">
+                <li v-for="task in tasksPerCheckpoint[checkpoint.id]" :key="task.id"
+                    :class="{ 'inactive-task': task.status === 'completed' || task.status === 'reviewing' }">
                     <button v-if="isUserOwner" @click="assignTaskToCheckpoint(task.id)">Assign Checkpoint</button>
 
                     <select v-if="isUserOwner" v-model="selectedCheckpointId">
                         <option v-for="checkpoint in checkpoints" :value="checkpoint.id">{{ checkpoint.name }}</option>
                     </select>
-                    <!-- Niet de eigenaar van de game  -->
-                    <section v-if="!isUserOwner">
-                        <div class="star-section">
-                            <span v-for="(starClass, index) in starClasses(task.id)" :key="index" class="star progress-star"
-                                :class="starClass">&#9733;</span>
-                        </div>
-                    </section>
 
-                    <img v-if="(isUserOwner || (!isUserOwner || !isTaskInLockedCheckpoint(task.id)))"
+                    <!-- Sterren voor voortgang -->
+                    <div class="star-section" v-if="!isUserOwner">
+                        <span v-for="(starClass, index) in starClasses(task.id)" :key="index" class="star progress-star"
+                            :class="starClass">&#9733;</span>
+                    </div>
+
+                    <img v-if="isUserOwner || task.status !== 'locked'"
                         :class="{ 'inactive-button': task.status === 'completed' || task.status === 'reviewing' }"
                         @click="showQuestDetails(task)" :src="getQuestImageUrl(task.image)" alt="Quest image">
 
-                    <p v-if="!isUserOwner">{{ task.name }} - {{ task.status }}</p>
+                    <p>{{ task.name }} - {{ task.status }}</p>
                     <span v-if="task.status === 'pending'" class="task-status completed">Pending</span>
                     <span v-if="task.status === 'completed'" class="task-status complete">Completed</span>
                     <span v-if="task.status === 'reviewing'" class="task-status reviewing">Send for review</span>
                     <span v-else-if="task.status === 'rejected'" class="task-status rejected">Afgewezen</span>
 
-                    <!-- Eigenaar van game  -->
-
-                    <p v-if="isUserOwner">{{ task.name }}</p>
                     <button v-if="isUserOwner" @click="deleteTask(task.id)">Verwijderen</button>
                 </li>
             </ul>
@@ -102,63 +96,13 @@ export default {
             type: Boolean,
             default: false
         },
-
     },
     mounted() {
         this.fetchCheckpoints();
-        this.checkCheckpointsStatus();
     },
     computed: {
-        totalGames() {
-            return this.criteria.length;
-        },
-        gamesWithCriteria() {
-            return this.criteria.filter(c => c.hasCriteria).length;
-        },
-        criteriaMetCount() {
-            return this.criteria.filter(criterion => criterion.is_met).length;
-        },
-        starClasses() {
-            return (taskId) => {
-                const taskCriteriaInfo = this.criteria.find(c => c.taskId === taskId);
-                if (!taskCriteriaInfo || taskCriteriaInfo.criteria.length === 0) {
-                    return ['gray-star', 'gray-star', 'gray-star'];
-                }
-                const metCriteriaCount = taskCriteriaInfo.criteria.filter(criterion => criterion.is_met).length;
-                let classes = ['gray-star', 'gray-star', 'gray-star'];
-                for (let i = 0; i < metCriteriaCount; i++) {
-                    classes[i] = 'gold-star'; // Vervang grijze sterren door gouden sterren voor voldane criteria
-                }
-                return classes;
-            };
-        },
-        isCheckpointCompleted() {
-            let checkpointCompletionStatus = {};
-            this.checkpoints.forEach(checkpoint => {
-                const tasks = this.tasksPerCheckpoint[checkpoint.id];
-                checkpointCompletionStatus[checkpoint.id] = tasks.every(task => task.status === 'reviewing' || task.status === 'rejected');
-            });
-            return checkpointCompletionStatus;
-        },
-        accessibleTasks() {
-            const accessibleTasks = {};
-
-            this.sortedCheckpoints.forEach((checkpoint, index) => {
-                const isCurrentCheckpointAccessible = index === 0 || this.isCheckpointCompleted[this.checkpoints[index - 1]?.id];
-                accessibleTasks[checkpoint.id] = this.tasksPerCheckpoint[checkpoint.id].map(task => {
-                    return { ...task, isAccessible: isCurrentCheckpointAccessible };
-                });
-            });
-
-            return accessibleTasks;
-        },
-        sortedTasks() {
-            // Controleer of initialTasks een array is voordat je verder gaat
-            if (!Array.isArray(this.initialTasks)) {
-                return []; // Terugkeer van een lege array als initialTasks geen array is
-            }
-            // Ga verder met de logica als initialTasks wel een array is
-            return this.initialTasks.filter(task => task.checkpoint_id !== null)
+        sortedCheckpoints() {
+            return this.checkpoints.slice().sort((a, b) => a.order - b.order);
         },
         tasksPerCheckpoint() {
             let groupedTasks = {};
@@ -167,41 +111,43 @@ export default {
             });
             return groupedTasks;
         },
-        sortedCheckpoints() {
-            return this.checkpoints.slice().sort((a, b) => a.order - b.order);
-        },
-        checkedCriteriaCount() {
-            return this.criteria.filter(criterion => criterion.is_met).length;
+        starClasses() {
+            return (taskId) => {
+                const task = this.initialTasks.find(t => t.id === taskId);
+                const taskCriteriaInfo = this.criteria.find(c => c.taskId === taskId);
+
+                // Als de taakstatus 'completed' is, geef dan alle sterren een 'gold-star' klasse
+                if (task && task.status === 'completed') {
+                    return ['gold-star', 'gold-star', 'gold-star'];
+                }
+
+                // Als er geen criteria zijn of de taak niet gevonden is, geef dan alle sterren een 'gray-star' klasse
+                if (!taskCriteriaInfo || taskCriteriaInfo.criteria.length === 0) {
+                    return ['gray-star', 'gray-star', 'gray-star'];
+                }
+
+                // Bereken het aantal voldane criteria en pas de sterrenklassen dienovereenkomstig aan
+                const metCriteriaCount = taskCriteriaInfo.criteria.filter(criterion => criterion.is_met).length;
+                let classes = ['gray-star', 'gray-star', 'gray-star'];
+                for (let i = 0; i < metCriteriaCount; i++) {
+                    classes[i] = 'gold-star'; // Vervang grijze sterren door gouden sterren voor voldane criteria
+                }
+                return classes;
+            };
         },
     },
     methods: {
-        updateQuestCriteria(questId, updatedCriteria) {
-            const quest = this.initialTasks.find(task => task.id === questId);
-            if (quest) {
-                quest.criteria = updatedCriteria;
-                this.$forceUpdate();
-            }
-        },
         getQuestImageUrl(imagePath) {
             return imagePath ? `${imagePath}` : '/images/default-game-image/default.webp'
         },
         fetchCheckpoints() {
             axios.get(`/games/${this.gameId}/checkpoints`)
                 .then(response => {
-                    this.checkpoints = response.data.map((checkpoint, index) => ({
-                        ...checkpoint,
-                        isLocked: index !== 0 // De eerste checkpoint is niet vergrendeld, de rest wel
-                    }));
-                    this.checkCheckpointsStatus(); // Controleer en update de status na het ophalen
+                    this.checkpoints = response.data;
                 })
                 .catch(error => {
                     console.error('Error fetching checkpoints:', error);
                 });
-        },
-
-        getCheckpointNameById(checkpointId) {
-            const checkpoint = this.checkpoints.find(c => c.id === checkpointId);
-            return checkpoint ? checkpoint.name : 'Not assigned';
         },
         assignTaskToCheckpoint(taskId) {
             if (!this.selectedCheckpointId) {
@@ -228,40 +174,6 @@ export default {
                     console.error('Error assigning task to checkpoint:', error);
                 });
         },
-        checkCheckpointsStatus() {
-            // Controleer de status van elke checkpoint en update de status
-            this.checkpoints.forEach((checkpoint, index) => {
-                const tasks = this.tasksPerCheckpoint[checkpoint.id];
-                const isCompletedOrReviewing = tasks.every(task => task.status === 'completed' || task.status === 'reviewing');
-                const isRejected = tasks.some(task => task.status === 'rejected');
-
-                checkpoint.isCompleted = isCompletedOrReviewing;
-                checkpoint.isLocked = isRejected;
-
-                // Ontgrendel de volgende checkpoint als de huidige voltooid is en geen afgewezen quests heeft
-                if (checkpoint.isCompleted && !isRejected && this.checkpoints[index + 1]) {
-                    this.checkpoints[index + 1].isLocked = false;
-                }
-            });
-        },
-        isTaskInLockedCheckpoint(taskId) {
-            const task = this.initialTasks.find(t => t.id === taskId);
-            const checkpointIndex = this.checkpoints.findIndex(c => c.id === task.checkpoint_id);
-
-            if (checkpointIndex === -1) return false;
-
-            // Controleer of alle vorige checkpoints zijn voltooid
-            for (let i = 0; i < checkpointIndex; i++) {
-                const isCompleted = this.isCheckpointCompleted[this.checkpoints[i].id];
-                if (!isCompleted) {
-                    return true; // Als een vorig checkpoint niet voltooid is, is dit checkpoint vergrendeld
-                }
-            }
-
-            return this.checkpoints[checkpointIndex].isLocked;
-        },
-
-
         deleteTask(taskId) {
             axios
                 .delete(`/api/games/${this.gameId}/tasks/${taskId}`)
@@ -276,43 +188,12 @@ export default {
                     console.error(error);
                 });
         },
-        onTaskCompletion(taskId) {
-            // Update de taakstatus en controleer de checkpointstatus
-            this.toggleTaskCompletion(taskId);
-            this.checkCheckpointsStatus();
-        },
-        toggleTaskCompletion(taskId) {
-            axios.post(`tasks/${taskId}/completeTask`)
-                .then((response) => {
-                    // Update de voltooide status van de taak in de lijst
-                    const task = this.initialTasks.find((t) => t.id === taskId);
-                    if (task) {
-                        task.status = 'completed'; // Update de status naar 'completed'
-                    }
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        },
-
         showQuestDetails(task) {
             this.selectedQuest = task;
             this.showQuestDetailsModal = true;
-            this.$emit('hideAll');
-            this.$emit('togglePlayerInfo');
-
-            this.$nextTick(() => {
-                this.$refs.questDetails.fetchCriteria();
-            });
         },
         handleHideGameDetails() {
-            this.hideQuestDetails();
-            this.$emit('reloadCriteria');
-        },
-        hideQuestDetails() {
-            this.$emit('hideAll');
             this.showQuestDetailsModal = false;
-            this.$emit('togglePlayerInfo');
         },
         updateCheckpointOrder(checkpointId, nieuweVolgorde) {
             axios.patch(`/checkpoints/${checkpointId}/update-order`, { new_order: nieuweVolgorde }) // Let op de correcte parameter naam
