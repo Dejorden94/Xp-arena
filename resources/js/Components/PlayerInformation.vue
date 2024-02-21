@@ -61,6 +61,7 @@ export default {
     border: 1px solid var(--background-lighter);
     margin: 5rem auto 0 auto;
     max-width: 80%;
+    height: 20rem;
     background: var(--background-lighter);
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -75,6 +76,7 @@ export default {
     border-top-left-radius: 1rem;
     grid-column: 1/3;
     grid-row: 1/2;
+    height: 10rem;
 }
 
 .profile-pic>.edit-link>img {
@@ -89,10 +91,19 @@ export default {
     border-top-right-radius: 1rem;
     grid-column: 3/7;
     grid-row: 1/2;
+    height: 10rem;
+    width: 100%;
 }
 
 .username {
     font-size: 150%;
+}
+
+.real-name {}
+
+.e-mail {
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .experience-section {
@@ -103,6 +114,7 @@ export default {
     border-bottom-right-radius: 1rem;
     grid-column: 3/7;
     grid-row: 2/7;
+    height: 10rem
 }
 
 .level-section {
@@ -114,6 +126,7 @@ export default {
     border-bottom-left-radius: 1rem;
     grid-column: 1/3;
     grid-row: 2/7;
+    height: 10rem
 }
 
 .level-section::after {
@@ -134,10 +147,27 @@ export default {
     -webkit-text-fill-color: transparent;
 }
 
+
 @media screen and (max-width: 1280px) {
     .player-info {
-        height: 20rem;
         margin: 4rem auto;
+        height: 30rem;
+    }
+
+    .profile-pic {
+        height: 15rem;
+    }
+
+    .player-info-section {
+        height: 15rem;
+    }
+
+    .experience-section {
+        height: 15rem;
+    }
+
+    .level-section {
+        height: 15rem;
     }
 
 }
