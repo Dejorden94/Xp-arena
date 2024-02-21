@@ -46,7 +46,7 @@
                 </li>
             </ul>
         </article>
-        <div class="quest-button-container">
+        <div v-show="isUserOwner" class="quest-button-container">
             <button @click="$emit('showQuestCheck')">+</button>
         </div>
     </article>
