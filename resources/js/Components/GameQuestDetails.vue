@@ -9,7 +9,6 @@
             <img src="images/info-imgs/levelup-bg1.png" alt="Quest background chosen by user.">
             <template v-if="isEditing && isUserOwner">
                 <textarea v-if="isEditing" v-model="editedDescription">{{ questDesciption }}</textarea>
-                <textarea>{{ quest.experience }}</textarea>
             </template>
             <template v-else>
                 <p>{{ questDesciption }}</p>
