@@ -16,7 +16,8 @@ class FollowerTask extends Model
         'game_id',
         'follower_id',
         'task_id',
-        'checkpoint_id'
+        'checkpoint_id',
+        'image'
     ];
 
     public function game()
