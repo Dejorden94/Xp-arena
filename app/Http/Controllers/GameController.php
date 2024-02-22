@@ -113,6 +113,7 @@ class GameController extends Controller
                 'experience' => $task->experience,
                 'follower_id' => $userId,
                 'task_id' => $task->id,
+                'image' => $task->image,
                 'game_id' => $game->id,
                 'checkpoint_id' => $task->checkpoint_id,
             ]);

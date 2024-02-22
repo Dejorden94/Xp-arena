@@ -50,9 +50,9 @@
         </button>
 
 
-        <section>
+        <!-- <section>
             <h2>Attachments</h2>
-        </section>
+        </section> -->
     </article>
 </template>
 <script>
@@ -165,6 +165,7 @@ export default {
         },
 
         async fetchCriteria() {
+            console.log('Fetch criteria');
             this.criteria = [];
             if (!this.quest || !this.quest.id) {
                 return;
