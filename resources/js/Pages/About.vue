@@ -54,7 +54,7 @@ defineProps({
                 <figure>
                     <img src="images/info-imgs/info-about-graphic.png" alt="">
                 </figure>
-                <section class="text-section">
+                <section>
                     <h2>About us</h2>
                     <p>XP arena is heavily inspired by the book Reality is Broken by Jane McGonigal.
                         <br>
@@ -77,7 +77,7 @@ defineProps({
             <form class="contact-form" action="">
                 <h2>Contact</h2>
                 <p>Don't hesitate to contact us</p>
-                <section>
+                <section class="form-container">
                     <div class="input-container">
                         <label for="name">Name:</label>
                         <input id="name" type="text">
@@ -88,7 +88,7 @@ defineProps({
                     </div>
                     <div class="input-container">
                         <label for="message">Message:</label>
-                        <textarea rows="4" cols="40" name="message" placeholder="Type your message..."></textarea>
+                        <textarea rows="4" cols="15" name="message" placeholder="Type your message..."></textarea>
                     </div>
                     <input class="send-button contact" type="submit" value="Send">
                 </section>
@@ -174,6 +174,15 @@ label {
     background: var(--background-lighter);
 }
 
+.about-us>section {
+    background-color: var(--background-super-dark);
+    border-radius: 0 0 3rem 3rem;
+}
+
+.about-us>section>p {
+    padding: 1rem;
+}
+
 .text-section {
     background: var(--background-super-dark);
     padding: 2rem;
@@ -198,6 +207,7 @@ label {
     background: var(--background-super-dark);
     width: 100%;
     display: flex;
+    justify-content: flex-start;
     gap: 1rem;
     flex-direction: column;
     border: 2px solid var(--background-lighter);
@@ -220,8 +230,24 @@ label {
 }
 
 @media screen and (max-width: 1280px) {
+    .home-container {
+        flex-direction: column;
+    }
     .logo-mobile {
         display: block;
+        width: 20rem;
+        margin: 0 auto -12rem auto;
+        z-index: 50;
+    }
+
+    .logo {
+        display: none;
+    }
+
+    .about-container {
+        width: 90vw;
+        margin: 0 auto;
+        padding: 0;
     }
 
     .info-container {
@@ -230,11 +256,6 @@ label {
         margin-top: 4rem;
         gap: 2.4rem;
     }
-
-    /* .logo {
-        width: 40%;
-        margin: 0 auto;
-    } */
 
     .menu-desktop {
         display: none;
