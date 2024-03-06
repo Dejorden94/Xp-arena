@@ -272,15 +272,14 @@ figcaption {
 @media screen and (max-width: 1280px) {
 
     .home-container {
-        margin-top: 10rem;
-        justify-content: center;
+        flex-direction: column;
     }
 
     .logo-mobile {
-        top: -8rem;
-        position: absolute;
         display: block;
-        margin: 0 auto;
+        width: 20rem;
+        margin: 0 auto -12rem auto;
+        z-index: 50;
     }
 
     .info-container {
