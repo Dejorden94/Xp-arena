@@ -173,7 +173,7 @@ body {
 }
 
 .info-section {
-    height: 45rem;
+    max-height: 40rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -203,7 +203,7 @@ figcaption {
 }
 
 .gamification {
-    padding: 5rem;
+    padding: 4rem;
     display: flex;
     flex-direction: row;
 
@@ -284,11 +284,11 @@ figcaption {
 
     .info-container {
         width: 100%;
+        height: auto;
         display: flex;
         flex-direction: column;
         margin: 4rem auto 0 auto;
         gap: 2.4rem;
-        height: 140vh;
     }
 
     .badge-container {
@@ -300,13 +300,14 @@ figcaption {
     }
 
     .text-container {
-        padding: 2rem;
+        padding: 0 2rem 2rem 2rem;
     }
 
     .start-now {
         background-size: cover;
         padding: 4rem;
         border-radius: 2rem;
+        margin-bottom: 10rem;
     }
 
     .logo {
