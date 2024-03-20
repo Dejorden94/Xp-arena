@@ -31,35 +31,40 @@ export default {
             this.gameImage = event.target.files[0];
         },
         async createGame() {
-            let formData = new FormData();
-            formData.append('name', this.name);
-            if (this.gameImage) {
-                formData.append('game_image', this.gameImage);
-            }
-            try {
-                const gameResponse = await axios.post('/games', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                });
+    let formData = new FormData();
+    formData.append('name', this.name);
+    if (this.gameImage) {
+        formData.append('game_image', this.gameImage);
+    }
+    try {
+        const gameResponse = await axios.post('/games', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
 
-                // Reset het invoerveld voor de naam van de game
-                this.name = '';
+        // Reset het invoerveld voor de naam van de game
+        this.name = '';
 
-                // Haal de ID van de nieuw aangemaakte game op
-                const gameId = gameResponse.data.id;
+        // Haal de ID van de nieuw aangemaakte game op
+        const gameId = gameResponse.data.id;
 
-                // Maak automatisch een standaard checkpoint aan
-                await this.createDefaultCheckpoint(gameId);
+        // Maak automatisch een standaard checkpoint aan
+        await this.createDefaultCheckpoint(gameId);
 
-                // Herlaad de games en sluit het formulier
-                this.$emit('reloadGames');
-                this.refreshGames();
+        // Herlaad de games en sluit het formulier
+        this.$emit('reloadGames');
+        this.refreshGames();
 
-            } catch (error) {
-                console.error('Fout bij het aanmaken van de game:', error);
-            }
-        },
+    } catch (error) {
+        if (error.response.status === 422 && error.response.data.errors && error.response.data.errors.game_image) {
+            // Toon de foutmelding voor het geval van ongeldig bestandsformaat
+            alert(error.response.data.errors.game_image[0]);
+        } else {
+            console.error('Fout bij het aanmaken van de game:', error);
+        }
+    }
+},
 
         async createDefaultCheckpoint(gameId) {
             try {
