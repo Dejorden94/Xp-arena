@@ -1,11 +1,12 @@
 <template>
     <section>
-        <form @submit.prevent="addTask">
+        <form @submit.prevent="addTask" ref="taskForm">
             <input class="task-input" v-model="newTaskName" type="text" placeholder="Titel" required>
             <textarea class="task-input" v-model="newTaskDescription" placeholder="Beschrijving" required></textarea>
             <input type="file" @change="handleFileUpload" id="quest_image">
 
             <button type="submit" @click="$emit('refreshTasks')">Toevoegen</button>
+            <span v-if="errorMessage" class="error-message">{{ errorMessage }}</span>
         </form>
     </section>
 </template>
@@ -22,20 +23,31 @@ export default {
     },
     data() {
         return {
-            questImage: null
+            questImage: null,
+            errorMessage: ''
         }
     },
     methods: {
         handleFileUpload(event) {
-            this.questImage = event.target.files[0];
+            const file = event.target.files[0];
+            if (!file || !file.type.startsWith('image/')) {
+                this.errorMessage = 'Gelieve een afbeeldingsbestand te selecteren.';
+                // Reset het inputveld voor bestanden
+                this.$refs.taskForm.reset();
+                return;
+            }
+            this.questImage = file;
+            this.errorMessage = '';
         },
         async addTask() {
+            if (!this.questImage) {
+                this.errorMessage = 'Gelieve een afbeelding te selecteren.';
+                return;
+            }
             let formData = new FormData();
             formData.append('name', this.newTaskName);
             formData.append('description', this.newTaskDescription);
-            if (this.questImage) {
-                formData.append('quest_image', this.questImage)
-            }
+            formData.append('quest_image', this.questImage);
             try {
                 const questResponse = await axios.post(`/games/${this.gameData.id}/add-task`, formData, {
                     headers: {
@@ -74,5 +86,10 @@ form {
     border: none;
     padding: 0.5rem;
     border-radius: 5px;
+}
+
+.error-message {
+    color: red;
+    margin-top: 0.5rem;
 }
 </style>

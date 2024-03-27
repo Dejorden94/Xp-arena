@@ -212,6 +212,11 @@ class TaskController extends Controller
             return response()->json(['error' => 'Geen checkpoints gevonden voor deze game'], 404);
         }
 
+        // Valideer of de geüploade quest_image een afbeelding is
+        $request->validate([
+            'quest_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
         // Een nieuwe taak aanmaken voor de maker van het spel
         $task = new Task;
 
