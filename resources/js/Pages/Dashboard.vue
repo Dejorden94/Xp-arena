@@ -25,7 +25,9 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
 
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails"
-            @handleGame="toggleGames" @refreshTasks="refreshTasks" @hideButton="toggleQuestCheck" />
+            @handleGame="toggleGames" @refreshTasks="refreshTasks" @hideButton="toggleQuestCheck" @setUserDetailsFalse="setUserDetailsFalse"
+            @setUserDetailsTrue="setUserDetailsTrue"
+            />
 
         <GameTasks ref="gameTaskComponent" v-if="gameQuestVisible && gameData" :initialTasks="tasks" :gameId="gameData.id"
             :user="user" :key="gameData.id" :isUserOwner="gameData.isUserOwner" :isEditing="isEditing" @hideAll="hideAll"
@@ -152,6 +154,12 @@ export default {
         this.levelCheck();
     },
     methods: {
+        setUserDetailsFalse() {
+            this.showPlayerInfo = false;
+        },
+        setUserDetailsTrue() {
+            this.showPlayerInfo = true;
+        },
         setQuestFalse() {
             this.showAddQuest = false;
             this.showCheckpoint = false;

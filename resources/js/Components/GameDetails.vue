@@ -21,12 +21,12 @@
 import AddQuest from '@/Components/AddQuest.vue';
 export default {
     props: {
-        gameData: {
-            type: Object,
-            required: true
-        }
-    },
-    methods: {
+    gameData: {
+        type: Object,
+        required: true
+    }
+},
+    methods: {  
         fetchTasks() {
             if (this.gameData.id) {
                 axios.get(`/api/games/${this.gameData.id}/tasks`)
@@ -54,10 +54,14 @@ export default {
         handleButtonClick() {
             this.$emit('hide');
             this.$emit('handleGame');
+            this.$emit('setUserDetailsTrue');
         }
     },
     created() {
         this.fetchTasks();
+        if (this.gameData.isUserOwner === true) {
+            this.$emit("setUserDetailsFalse");
+        }
     },
     components: { AddQuest }
 };
