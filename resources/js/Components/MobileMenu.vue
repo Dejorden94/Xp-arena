@@ -9,17 +9,18 @@
 
         <template v-if="$page.props.auth.user">
             <div v-if="showMenu" class="mobile-menu">
-                <Link v-show="$page.component !== 'Dashboard'" class="mobile-link" :href="route('dashboard')">
+                <Link v-show="$page.component !== 'Dashboard'" class="mobile-link" :href="route('dashboard')"><font-awesome-icon :icon="['fas', 'gauge']"/>
                 Dashboard</Link>
-                <Link v-show="$page.component !== 'Profile/Edit'" class="mobile-link" :href="route('profile.edit')">
+                <Link v-show="$page.component !== 'Profile/Edit'" class="mobile-link" :href="route('profile.edit')"><font-awesome-icon :icon="['fas', 'user']"/>
                 Profile</Link>
                 <template v-if="currentRoute !== '/about'">
-                    <Link class="mobile-link" :href="route('about')"><font-awesome-icon :icon="['fas', 'house']" />About</Link>
+                    <Link class="mobile-link" :href="route('about')"><font-awesome-icon :icon="['fas', 'heart']"/>About</Link>
                 </template>
                 <template v-if="currentRoute !== '/'">
-                    <Link class="mobile-link" href="/">Home</Link>
+                    <Link class="mobile-link" href="/"><font-awesome-icon :icon="['fas', 'house']"/>Home</Link>
                 </template>
                 <Link class="mobile-link" :href="route('logout')" method="post">
+                    <font-awesome-icon :icon="['fas', 'right-from-bracket']"/>
                 Log Out
                 </Link>
             </div>
@@ -45,15 +46,15 @@
 
         <template v-else>
             <div v-if="showMenu" class="mobile-menu">
-                <Link class="mobile-link" :href="route('login')">
+                <Link class="mobile-link" :href="route('login')"><font-awesome-icon :icon="['fas', 'right-to-bracket']"/>
                 Log in</Link>
                 <Link class="mobile-link" v-if="canRegister" :href="route('register')">
                 Register</Link>
                 <template v-if="currentRoute !== '/about'">
-                    <Link class="mobile-link" :href="route('about')"><font-awesome-icon :icon="['fas', 'coffee']" />About</Link>
+                    <Link class="mobile-link" :href="route('about')"><font-awesome-icon :icon="['fas', 'heart']"/>About</Link>
                 </template>
                 <template v-else>
-                    <Link class="mobile-link" href="/">Home</Link>
+                    <Link class="mobile-link" href="/"><font-awesome-icon :icon="['fas', 'house']"/>Home</Link>
                 </template>
             </div>
         </template>
