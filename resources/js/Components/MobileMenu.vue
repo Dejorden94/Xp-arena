@@ -14,7 +14,7 @@
                 <Link v-show="$page.component !== 'Profile/Edit'" class="mobile-link" :href="route('profile.edit')">
                 Profile</Link>
                 <template v-if="currentRoute !== '/about'">
-                    <Link class="mobile-link" :href="route('about')">About</Link>
+                    <Link class="mobile-link" :href="route('about')"><font-awesome-icon :icon="['fas', 'house']" />About</Link>
                 </template>
                 <template v-if="currentRoute !== '/'">
                     <Link class="mobile-link" href="/">Home</Link>
@@ -50,7 +50,7 @@
                 <Link class="mobile-link" v-if="canRegister" :href="route('register')">
                 Register</Link>
                 <template v-if="currentRoute !== '/about'">
-                    <Link class="mobile-link" :href="route('about')">About</Link>
+                    <Link class="mobile-link" :href="route('about')"><font-awesome-icon :icon="['fas', 'coffee']" />About</Link>
                 </template>
                 <template v-else>
                     <Link class="mobile-link" href="/">Home</Link>
