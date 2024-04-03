@@ -8,19 +8,22 @@
         </button>
 
         <template v-if="$page.props.auth.user">
-            <div v-if="showMenu" class="mobile-menu">
-                <Link v-show="$page.component !== 'Dashboard'" class="mobile-link" :href="route('dashboard')"><font-awesome-icon :icon="['fas', 'gauge']"/>
+            <div v-if="showMenu" class="mobile-menu" id="js__mobile_menu">
+                <Link v-show="$page.component !== 'Dashboard'" class="mobile-link" :href="route('dashboard')">
+                <font-awesome-icon :icon="['fas', 'gauge']" />
                 Dashboard</Link>
-                <Link v-show="$page.component !== 'Profile/Edit'" class="mobile-link" :href="route('profile.edit')"><font-awesome-icon :icon="['fas', 'user']"/>
+                <Link v-show="$page.component !== 'Profile/Edit'" class="mobile-link" :href="route('profile.edit')">
+                <font-awesome-icon :icon="['fas', 'user']" />
                 Profile</Link>
                 <template v-if="currentRoute !== '/about'">
-                    <Link class="mobile-link" :href="route('about')"><font-awesome-icon :icon="['fas', 'heart']"/>About</Link>
+                    <Link class="mobile-link" :href="route('about')"><font-awesome-icon :icon="['fas', 'heart']" />About
+                    </Link>
                 </template>
                 <template v-if="currentRoute !== '/'">
-                    <Link class="mobile-link" href="/"><font-awesome-icon :icon="['fas', 'house']"/>Home</Link>
+                    <Link class="mobile-link" href="/"><font-awesome-icon :icon="['fas', 'house']" />Home</Link>
                 </template>
                 <Link class="mobile-link" :href="route('logout')" method="post">
-                    <font-awesome-icon :icon="['fas', 'right-from-bracket']"/>
+                <font-awesome-icon :icon="['fas', 'right-from-bracket']" />
                 Log Out
                 </Link>
             </div>
@@ -36,7 +39,8 @@
                 {{ isQuestButtonClicked ? 'x' : '+' }}
             </button>
 
-            <button v-show="isGameQuestDetailsShown" :class="{ 'criterion-edit join-add-button': true, 'clicked': isSave }"
+            <button v-show="isGameQuestDetailsShown"
+                :class="{ 'criterion-edit join-add-button': true, 'clicked': isSave }"
                 @click="toggleCriterionButton();">
                 <span v-show="!isSave"><i class="fa-solid fa-pen"></i></span>
                 <spa v-show="isSave"><i class="fa-regular fa-floppy-disk"></i></spa>
@@ -46,15 +50,17 @@
 
         <template v-else>
             <div v-if="showMenu" class="mobile-menu">
-                <Link class="mobile-link" :href="route('login')"><font-awesome-icon :icon="['fas', 'right-to-bracket']"/>
+                <Link class="mobile-link" :href="route('login')"><font-awesome-icon
+                    :icon="['fas', 'right-to-bracket']" />
                 Log in</Link>
                 <Link class="mobile-link" v-if="canRegister" :href="route('register')">
                 Register</Link>
                 <template v-if="currentRoute !== '/about'">
-                    <Link class="mobile-link" :href="route('about')"><font-awesome-icon :icon="['fas', 'heart']"/>About</Link>
+                    <Link class="mobile-link" :href="route('about')"><font-awesome-icon :icon="['fas', 'heart']" />About
+                    </Link>
                 </template>
                 <template v-else>
-                    <Link class="mobile-link" href="/"><font-awesome-icon :icon="['fas', 'house']"/>Home</Link>
+                    <Link class="mobile-link" href="/"><font-awesome-icon :icon="['fas', 'house']" />Home</Link>
                 </template>
             </div>
         </template>
@@ -64,7 +70,7 @@
 <script>
 import { Link } from '@inertiajs/vue3';
 
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 
 import { defineProps } from 'vue';
 
@@ -95,8 +101,22 @@ export default {
 
         const toggleMenu = () => {
             showMenu.value = !showMenu.value;
+            if (showMenu.value) {
+                // Voeg een korte vertraging toe om de DOM-update te laten voltooien
+                nextTick().then(() => {
+                    const mobileMenu = document.getElementById('js__mobile_menu');
+                    if (mobileMenu) {
+                        // Zorg ervoor dat de element classList de animate classes bevat
+                        mobileMenu.classList.add('animate__animated', 'animate__fadeIn');
+                    }
+                });
+            } else {
+                const mobileMenu = document.getElementById('js__mobile_menu');
+                if (mobileMenu) {
+                    mobileMenu.classList.remove('animate__animated', '');
+                }
+            }
         };
-
         return {
             showMenu,
             toggleMenu
@@ -245,7 +265,6 @@ export default {
     }
 
     .menu-desktop {
-        display: none;
-    }
+        display: none;   }
 }
 </style>

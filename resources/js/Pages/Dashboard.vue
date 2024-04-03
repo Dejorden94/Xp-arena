@@ -16,24 +16,26 @@ import AddQuestCheckComponent from '@/Components/AddQuestCheckComponent.vue'
 
 
 <template>
+
     <Head title="Dashboard" />
 
     <AuthenticatedLayout @showJoin="handleJoinGame" @showTaskCheck="handleQuestCheck" :show-player-info="showPlayerInfo"
         :showTaskCheck="showTaskCheck" @toggleAddButton="toggleAddButton" @toggleQuestAddButton="toggleQuestAddButton"
-        :showAddJoin="showAddJoin" @showQuestCheck="toggleQuestCheckMenu" :isGameQuestDetailsShown="isGameQuestDetailsShown"
-        @isEditing="toggleEdit" :isButtonClicked="isButtonClicked" :isQuestButtonClicked="isQuestButtonClicked">
+        :showAddJoin="showAddJoin" @showQuestCheck="toggleQuestCheckMenu"
+        :isGameQuestDetailsShown="isGameQuestDetailsShown" @isEditing="toggleEdit" :isButtonClicked="isButtonClicked"
+        :isQuestButtonClicked="isQuestButtonClicked">
 
 
         <GameDetails v-if="gameDetailsVisible && gameData" :gameData="gameData" @hide="hideGameDetails"
-            @handleGame="toggleGames" @refreshTasks="refreshTasks" @hideButton="toggleQuestCheck" @setUserDetailsFalse="setUserDetailsFalse"
-            @setUserDetailsTrue="setUserDetailsTrue"
-            />
+            @handleGame="toggleGames" @refreshTasks="refreshTasks" @hideButton="toggleQuestCheck"
+            @setUserDetailsFalse="setUserDetailsFalse" @setUserDetailsTrue="setUserDetailsTrue" />
 
-        <GameTasks ref="gameTaskComponent" v-if="gameQuestVisible && gameData" :initialTasks="tasks" :gameId="gameData.id"
-            :user="user" :key="gameData.id" :isUserOwner="gameData.isUserOwner" :isEditing="isEditing" @hideAll="hideAll"
-            @togglePlayerInfo="showPlayerInfo = !showPlayerInfo" @gameQuestDetailsShown="handleGameQuestDetailsShown"
-            @reloadGames="loadGameDetails" @showQuestCheck="toggleQuestCheckMenu"
-            @reloadCriteria="fetchCriteria(this.tasks)" @hideAddButton="togglAddButton" :criteria="criteria" />
+        <GameTasks ref="gameTaskComponent" v-if="gameQuestVisible && gameData" :initialTasks="tasks"
+            :gameId="gameData.id" :user="user" :key="gameData.id" :isUserOwner="gameData.isUserOwner"
+            :isEditing="isEditing" @hideAll="hideAll" @togglePlayerInfo="showPlayerInfo = !showPlayerInfo"
+            @gameQuestDetailsShown="handleGameQuestDetailsShown" @reloadGames="loadGameDetails"
+            @showQuestCheck="toggleQuestCheckMenu" @reloadCriteria="fetchCriteria(this.tasks)"
+            @hideAddButton="togglAddButton" :criteria="criteria" />
 
         <article v-show="showGames" class="games-overview">
             <h2>Mijn games</h2>
@@ -568,4 +570,3 @@ li:hover {
     }
 }
 </style>
-
