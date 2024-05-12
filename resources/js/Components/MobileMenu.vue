@@ -248,7 +248,7 @@ export default {
         flex-direction: column;
         width: 100vw;
         height: 100vh;
-        background: rgba(27, 23, 32, 0.7);
+        background: rgba(27, 23, 32, 0.9);
         z-index: -10;
         /* Behouden op 10 */
     }
