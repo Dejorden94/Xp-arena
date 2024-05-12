@@ -148,6 +148,7 @@ export default {
 }
 
 @media screen and (max-width: 1280px) {
+
     .join-add-button {
         border: none;
         background: linear-gradient(90deg, #FDA829, #FF5C00);
@@ -253,6 +254,11 @@ export default {
     }
 
     .mobile-link {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: baseline;
+        gap: .5rem;
         opacity: 1;
         margin-bottom: 4rem;
         font-size: 2rem;
@@ -265,6 +271,7 @@ export default {
     }
 
     .menu-desktop {
-        display: none;   }
+        display: none;
+    }
 }
 </style>
