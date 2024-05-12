@@ -1,6 +1,6 @@
 <template>
     <article class="menu-mobile">
-        <button @click="toggleMenu" class="hamburger">
+        <button @click="toggleMenu" :class="['hamburger', { 'active': hamburgerActive }]">
             <span class="hamburger-stroke"></span>
             <span class="hamburger-stroke"></span>
             <span class="hamburger-stroke"></span>
@@ -80,7 +80,9 @@ export default {
     data() {
         return {
             // isQuestButtonClicked: false,
-            isSave: false
+            isSave: false,
+            showMenu: false,
+            hamburgerActive: false,
         }
     },
     components: {
@@ -132,7 +134,24 @@ export default {
         toggleCriterionButton() {
             this.isSave = !this.isSave;
             this.$emit('isEditing');
-        }
+        },
+        toggleMenu() {
+            this.hamburgerActive = !this.hamburgerActive;
+            this.showMenu = !this.showMenu;
+            if (this.showMenu) {
+                nextTick().then(() => {
+                    const mobileMenu = document.getElementById('js__mobile_menu');
+                    if (mobileMenu) {
+                        mobileMenu.classList.add('animate__animated', 'animate__fadeIn');
+                    }
+                });
+            } else {
+                const mobileMenu = document.getElementById('js__mobile_menu');
+                if (mobileMenu) {
+                    mobileMenu.classList.remove('animate__animated', 'animate__fadeIn');
+                }
+            }
+        },
 
     }
 }
@@ -237,6 +256,28 @@ export default {
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        cursor: pointer;
+    }
+
+    .hamburger-stroke {
+        display: block;
+        width: 50px;
+        height: 3px;
+        background-color: white;
+        margin: 7px 0;
+        transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+    }
+
+    .hamburger.active .hamburger-stroke:nth-child(1) {
+        transform: translateY(15px) rotate(45deg);
+    }
+
+    .hamburger.active .hamburger-stroke:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active .hamburger-stroke:nth-child(3) {
+        transform: translateY(-18px) rotate(-45deg);
     }
 
     .mobile-menu {
