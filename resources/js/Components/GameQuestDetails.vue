@@ -6,7 +6,7 @@
         <button @click="showInfo">Terug</button>
 
         <section class="quest-info">
-            <img src="images/info-imgs/levelup-bg1.png" alt="Quest background chosen by user.">
+            <img :src="questImagePath" alt="Quest background chosen by user.">
             <template v-if="isEditing && isUserOwner">
                 <textarea v-if="isEditing" v-model="editedDescription">{{ questDesciption }}</textarea>
             </template>
@@ -108,6 +108,9 @@ export default {
         };
     },
     computed: {
+        questImagePath() {
+            return this.quest && this.quest.image ? this.quest.image : 'images/info-imgs/levelup-bg1.png';
+        },
         allCriteriaMet() {
             return this.criteria.length > 0 && this.criteria.every(criterion => criterion.is_met);
         },
@@ -135,6 +138,7 @@ export default {
         }
     },
     mounted() {
+        console.log(this.quest);
         this.$emit('gameQuestDetailsShown', true);
         this.fetchCriteria();
     },
