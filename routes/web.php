@@ -65,6 +65,7 @@ Route::get('/task/{taskId}/check-criteria', [TaskController::class, 'checkCriter
 // Toggle the is_met value for a criterion
 Route::post('/task/{taskId}/criterion/{criterionId}/toggle-met', [TaskController::class, 'toggleCriterionMet']);
 Route::post('/follower-task/{taskId}/criterion/{criterionId}/toggle-met', [TaskController::class, 'toggleFollowerCriterionMet']);
+Route::post('/task/{taskId}/upload-image', [TaskController::class, 'uploadNewImage']);
 
 
 //Route to get follower_criteria
