@@ -6,7 +6,11 @@
         <button @click="showInfo">Terug</button>
 
         <section class="quest-info">
-            <img :src="questImagePath" alt="Quest background chosen by user.">
+            <img
+                :src="questImagePath"
+                alt="Quest background chosen by user"
+                @click="isEditing && isUserOwner && triggerFileInput()">
+            <input type="file" ref="fileInput" @change="onFileChange" style="display: none;">
             <template v-if="isEditing && isUserOwner">
                 <textarea v-if="isEditing" v-model="editedDescription">{{ questDesciption }}</textarea>
             </template>
@@ -104,7 +108,9 @@ export default {
             newCriterionDescription: '',
             editedDescription: '',
             editedCriterion: '',
-            editedCriteria: []
+            editedCriteria: [],
+            questImage: null,
+            errorMessage: ''
         };
     },
     computed: {
@@ -147,6 +153,36 @@ export default {
         this.$emit('gameQuestDetailsShown', false);
     },
     methods: {
+        triggerFileInput() {
+            this.$refs.fileInput.click();
+        },
+
+        async onFileChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                try {
+                    const formData = new FormData();
+                    formData.append('quest_image', file);
+
+                    // Stuur de afbeelding naar de server
+                    const response = await axios.post(`/task/${this.quest.id}/upload-image`, formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
+
+                    // Update de afbeelding pad in de quest
+                    if (response.data && response.data.imagePath) {
+                        this.quest.image = response.data.imagePath;
+                        console.log(response);
+                        // Eventueel: forceer een herladen van de afbeelding
+                        this.$refs.fileInput.value = null; // Reset de file input
+                    }
+                } catch (error) {
+                    console.error('Er is een fout opgetreden bij het uploaden van de afbeelding:', error);
+                }
+            }
+        },
         startEditing() {
             this.editedCriteria = this.criteria.map(criterion => criterion.description);
         },
@@ -307,7 +343,7 @@ export default {
         },
         saveCriterionChanges(criterion, index) {
             criterion.description = this.editedCriteria[index];
-            // Hier kun je een API-aanroep doen om de wijzigingen op te slaan
+
         },
         setEditedCriterion(criterion) {
             this.editedCriterion = criterion.description;
