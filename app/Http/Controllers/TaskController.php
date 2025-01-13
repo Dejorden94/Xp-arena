@@ -81,6 +81,22 @@ class TaskController extends Controller
         return response()->json(['message' => 'Task marked as complete']);
     }
 
+    public function uploadNewImage($taskId, Request $request)
+    {
+        $task = Task::find($taskId);
+
+        $request->validate([
+            'quest_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $imageName = time() . '.' . $request->quest_image->extension();
+        $request->quest_image->move(public_path('images/quest-images'), $imageName);
+        $task->image = '/images/quest-images/' . $imageName;
+        $task->save($task); // Opslaan van taak voor de make
+
+        return response()->json(['message' => 'Updated quest image']);
+    }
+
     public function updateTaskExperience($taskId, Request $request)
     {
         $task = FollowerTask::find($taskId);
