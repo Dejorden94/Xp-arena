@@ -92,9 +92,41 @@ class TaskController extends Controller
         $imageName = time() . '.' . $request->quest_image->extension();
         $request->quest_image->move(public_path('images/quest-images'), $imageName);
         $task->image = '/images/quest-images/' . $imageName;
-        $task->save($task); // Opslaan van taak voor de make
+        $task->save(); // Fixed the save call - removed the parameter
 
         return response()->json(['message' => 'Updated quest image']);
+    }
+    public function update(Request $request, $taskId)
+    {
+        $task = Task::findOrFail($taskId);
+
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'quest_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // Add other validation rules for your task fields
+        ]);
+
+        // Handle image upload if a new image is provided
+        if ($request->hasFile('quest_image')) {
+            // Remove old image if it exists
+            if ($task->image && file_exists(public_path($task->image))) {
+                unlink(public_path($task->image));
+            }
+
+            $imageName = time() . '.' . $request->quest_image->extension();
+            $request->quest_image->move(public_path('images/quest-images'), $imageName);
+            $task->image = '/images/quest-images/' . $imageName;
+        }
+
+        // Update other task fields
+        $task->title = $validatedData['title'];
+        $task->description = $validatedData['description'];
+        // Update other fields as needed
+
+        $task->save();
+
+        return response()->json(['message' => 'Quest updated successfully']);
     }
 
     public function updateTaskExperience($taskId, Request $request)
@@ -290,7 +322,7 @@ class TaskController extends Controller
         return response()->json($criteria);
     }
 
-    // Criteria functions 
+    // Criteria functions
     public function addCriteria(Request $request, $taskId)
     {
         // Punten voor moeilijkheidsgraden.

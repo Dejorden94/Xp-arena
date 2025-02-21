@@ -57,7 +57,7 @@ Route::get('/users/{userId}', [UserController::class, 'getUserById']);
 
 Route::post('/games/{gameId}/add-task', [TaskController::class, 'addTask'])->middleware('auth');
 
-// Criteria Routes 
+// Criteria Routes
 Route::post('/task/{taskId}/add-criteria', [TaskController::class, 'addCriteria']);
 Route::put('/criteria/{criterionId}/edit', [TaskController::class, 'editCriteria']);
 Route::delete('/criteria/{criterionId}/delete', [TaskController::class, 'deleteCriteria']);
@@ -65,7 +65,7 @@ Route::get('/task/{taskId}/check-criteria', [TaskController::class, 'checkCriter
 // Toggle the is_met value for a criterion
 Route::post('/task/{taskId}/criterion/{criterionId}/toggle-met', [TaskController::class, 'toggleCriterionMet']);
 Route::post('/follower-task/{taskId}/criterion/{criterionId}/toggle-met', [TaskController::class, 'toggleFollowerCriterionMet']);
-Route::post('/task/{taskId}/upload-image', [TaskController::class, 'uploadNewImage']);
+Route::post('/tasks/{taskId}/upload-image', [TaskController::class, 'uploadNewImage']);
 
 
 //Route to get follower_criteria

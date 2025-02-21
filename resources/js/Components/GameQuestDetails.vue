@@ -10,7 +10,12 @@
                 :src="questImagePath"
                 alt="Quest background chosen by user"
                 @click="isEditing && isUserOwner && triggerFileInput()">
-            <input type="file" ref="fileInput" @change="onFileChange" style="display: none;">
+            <input type="file"
+                   ref="fileInput"
+                   @change="onFileChange"
+                   accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml"
+                   style="display: none;">
+            <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
             <template v-if="isEditing && isUserOwner">
                 <textarea v-if="isEditing" v-model="editedDescription">{{ questDesciption }}</textarea>
             </template>
@@ -40,7 +45,7 @@
                     <option value="moeilijk">Moeilijk</option>
                 </select>
                 <span class="star" :class="criterion.is_met ? 'gold-star' : 'gray-star'"
-                    @click="toggleCriterionMet(criterion)">&#9733;</span>
+                      @click="toggleCriterionMet(criterion)">&#9733;</span>
                 <template v-if="isEditing && isUserOwner">
                     <textarea v-model="editedCriteria[index]" placeholder="Bewerk criterium"></textarea>
                 </template>
@@ -60,7 +65,7 @@
     </article>
 </template>
 <script>
-import { onBeforeUnmount } from 'vue';
+import {onBeforeUnmount} from 'vue';
 
 export default {
     props: {
@@ -95,8 +100,7 @@ export default {
             if (newVal === true) { // Als isEditing verandert naar true
                 this.startEditing();
                 this.editedDescription = this.questDesciption;
-            }
-            else {
+            } else {
                 this.updateTask();
             }
         }
@@ -114,8 +118,14 @@ export default {
         };
     },
     computed: {
-        questImagePath() {
-            return this.quest && this.quest.image ? this.quest.image : 'images/info-imgs/levelup-bg1.png';
+        questImagePath: {
+            get() {
+                // Return the temporary URL if we have a new image, otherwise return the existing image path
+                if (this.questImage) {
+                    return URL.createObjectURL(this.questImage);
+                }
+                return this.quest.image || '/default-quest-image.jpg'; // Replace with your default image path
+            }
         },
         allCriteriaMet() {
             return this.criteria.length > 0 && this.criteria.every(criterion => criterion.is_met);
@@ -151,37 +161,39 @@ export default {
 
     beforeUnmount() {
         this.$emit('gameQuestDetailsShown', false);
+
+        if (this.questImagePath && this.questImagePath.startsWith('blob:')) {
+            URL.revokeObjectURL(this.questImagePath);
+        }
+
     },
     methods: {
         triggerFileInput() {
             this.$refs.fileInput.click();
         },
 
-        async onFileChange(event) {
+        onFileChange(event) {
             const file = event.target.files[0];
-            if (file) {
-                try {
-                    const formData = new FormData();
-                    formData.append('quest_image', file);
+            if (!file) return;
 
-                    // Stuur de afbeelding naar de server
-                    const response = await axios.post(`/task/${this.quest.id}/upload-image`, formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    });
+            // Validate file type and size
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
+            const maxSize = 2 * 1024 * 1024; // 2MB
 
-                    // Update de afbeelding pad in de quest
-                    if (response.data && response.data.imagePath) {
-                        this.quest.image = response.data.imagePath;
-                        console.log(response);
-                        // Eventueel: forceer een herladen van de afbeelding
-                        this.$refs.fileInput.value = null; // Reset de file input
-                    }
-                } catch (error) {
-                    console.error('Er is een fout opgetreden bij het uploaden van de afbeelding:', error);
-                }
+            if (!allowedTypes.includes(file.type)) {
+                this.errorMessage = 'Please upload only image files (JPEG, PNG, JPG, GIF, SVG)';
+                return;
             }
+
+            if (file.size > maxSize) {
+                this.errorMessage = 'Image size should not exceed 2MB';
+                return;
+            }
+
+            // Create temporary URL for preview
+            this.questImage = file;
+            // Update the image preview immediately
+            this.questImagePath = URL.createObjectURL(file);
         },
         startEditing() {
             this.editedCriteria = this.criteria.map(criterion => criterion.description);
@@ -224,6 +236,7 @@ export default {
                 console.error("Er is een fout opgetreden bij het ophalen van de criteria:", error);
             }
         },
+
         async toggleCriterionMet(criterion) {
             try {
                 const updatedValue = !criterion.is_met;
@@ -265,34 +278,42 @@ export default {
 
         async updateTask() {
             try {
-                const taskId = this.quest.id;
-                const updatedTaskData = {
-                    name: this.quest.name,
+                // First handle the image upload if there's a new image
+                if (this.questImage) {
+                    const imageFormData = new FormData();
+                    imageFormData.append('quest_image', this.questImage);
+
+                    // Call the existing uploadNewImage endpoint
+                    await axios.post(`/tasks/${this.quest.id}/upload-image`, imageFormData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
+                }
+
+                // Continue with other updates if needed
+                const updatedData = {
                     description: this.editedDescription,
-                    experience: this.quest.experience,
-                    criteria: this.criteria.map(criterion => ({
-                        id: criterion.id,
-                        description: criterion.description,
-                        difficulty: criterion.difficulty,
-                        is_met: criterion.is_met
-                    }))
+                    // Add other fields that need updating
                 };
 
-                const response = await axios.put(`/task/${taskId}`, updatedTaskData);
+                // Update other task data
+                await axios.put(`/task/${this.quest.id}`, updatedData);
 
-                if (response.data.message === 'Task and associated criteria updated successfully') {
-                    console.log('Taak en bijbehorende criteria succesvol bijgewerkt!');
+                // Reset the questImage after successful upload
+                this.questImage = null;
+                this.errorMessage = '';
 
-                    // Haal de bijgewerkte gegevens opnieuw op
-                    this.fetchCriteria();
-                    this.fetchQuestDescription();
-                } else {
-                    console.log('Er is een fout opgetreden bij het bijwerken van de taak.');
-                }
+                // Emit an event to notify parent component of the update
+                this.$emit('task-updated');
+
             } catch (error) {
-                console.error("Er is een fout opgetreden bij het bijwerken van de taak:", error);
+                this.errorMessage = 'Failed to update the quest';
+                console.error('Error updating task:', error);
             }
-        },
+        }
+,
+
         async fetchQuestDescription() {
             try {
                 const response = await axios.get(`/task/${this.quest.id}`);
@@ -392,12 +413,12 @@ textarea {
     border-radius: 1rem;
 }
 
-.quest-info>img {
+.quest-info > img {
     height: 80%;
     width: 100%;
 }
 
-.quest-info>p {
+.quest-info > p {
     margin: 1rem;
 }
 
@@ -408,6 +429,16 @@ textarea {
     background: var(--background-super-dark);
     border: 2px solid var(--background-lighter);
     border-radius: 1rem;
+}
+
+ .error-message {
+     color: red;
+     font-size: 0.875rem;
+     margin-top: 0.5rem;
+ }
+
+.quest-info img {
+    cursor: pointer;
 }
 
 .gold-background {
@@ -426,7 +457,7 @@ textarea {
     color: gray;
 }
 
-@media screen and (max-width:1280px) {
+@media screen and (max-width: 1280px) {
     article {
         margin: 0 auto 15rem auto;
     }
